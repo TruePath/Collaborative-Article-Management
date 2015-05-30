@@ -1,0 +1,333 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 147.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"mendel",
+				"Set Syntax: Sublime Text Syntax Def (YAML)"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"i",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: annote"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"update",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"pack",
+				"Package Control: Discover Packages"
+			],
+			[
+				"xml",
+				"Snippet: XML Processing Instruction"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"pa",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"",
+				"Package Control: Discover Packages"
+			],
+			[
+				"perl",
+				"perldoc -lm"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Add Repository"
+			]
+		],
+		"width": 584.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/TruePath/Projects/bibmanage"
+	],
+	"file_history":
+	[
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/usr/local/stow/bib-scripts/bin/cleanrefs",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/adult-family-fued.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/no-wammie.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/amy-tied-in-friends-dorm.txt",
+		"/Users/TruePath/Google Drive/Managed Papers/Docear/cs.bib",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/shar/shar-present.txt",
+		"/Users/TruePath/Confs/inputrc",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/Wife gameshows/you-bet-wife-2.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/Wife gameshows/transformed-wives.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/Teacher/taking-the-fall-for-teacher.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/shar/shars-slave.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/anchor-screwed.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/degrade-your-friends.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/auction-for-art.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/depraved-fantasies.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/Teacher/teacher-bets-it-all.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/Teacher/math-team-bet.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/newlyweds-compete-for-huge-cash.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/russian-roulette.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/Finishedish/boxing.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/amy-owned-by-morgan.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/owning-sasha-europe.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/teacher-sports.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/hunt-girls.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/shar/film-shar.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/shar/selling sharon.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/Finishedish/teacher-poker.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/Finishedish/you-bet-your-wife.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/hotel-strip-poker.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/boat-bet.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/Proving-Conjecture.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/roomate-bets.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/million-dollar-whore.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/condemned-game-show.txr",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/Owned/biz-takeover.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/Owned/experimental-drug.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/abduction-club.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/roomate-screw-bet.txt",
+		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/betyourass.txt",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/TruePath/Google Drive/Sharon/companions.tex",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/bh_core.sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/BracketHighlighter/bh_core.sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/LaTeXing/LaTeXing.sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/LaTeX Extended.sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/LaTeX-Plus/LaTeX-Plus.sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/LaTeX-Plus/README.md",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/LaTeX-Plus.sublime-settings",
+		"/Users/TruePath/Google Drive/Managed Papers/papers.dtBase2/Files.noindex/html/3/Stefan A. Burr - SOME UNDECIDABLE PROBLEMS INVOLVING THE EDGE-COLORENfG AND VERTEX-COLORING OF GRAPHS. — 1984.html",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/Distraction Free.sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/Shell-Unix-Generic.sublime-settings",
+		"/usr/local/stow/bashlibs/bin/mv-dotfile-to-conf",
+		"/Users/TruePath/Projects/build/iulib/imglib/imgops.cc",
+		"/usr/local/stow/bashlibs/bin/",
+		"/Users/TruePath/Projects/build/iulib/imglib/imgops.h",
+		"/Users/TruePath/Google Drive/Dropbox Sync/Alfred Sync/Alfred.alfredpreferences/workflows/user.workflow.3BA5D6F0-E53A-4A83-988E-5580FC063AD4/info.plist",
+		"/opt/local/etc/macports/variants.conf",
+		"/etc/profile",
+		"/Users/TruePath/Downloads/feedly.opml",
+		"/Users/TruePath/Confs/profile",
+		"/opt/local/etc/macports/macports.conf",
+		"/Users/TruePath/Desktop/shar-edit.tex",
+		"/Users/TruePath/Google Drive/Managed Papers/zoteroxfered/zoteroxfered.bib",
+		"/Users/TruePath/Google Drive/Managed Papers/cs/cs.bib",
+		"/opt/local/etc/macports/archive_sites.conf",
+		"/opt/local/etc/macports/sources.conf",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/AutoBackups/AutoBackups (OSX).sublime-settings",
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/AutoBackups (OSX).sublime-settings",
+		"/Users/TruePath/Documents/Eros/Stories/shar-ideas",
+		"/Users/pgerdes/Library/Application Support/Google/Chrome/Default/Preferences",
+		"/Users/pgerdes/Library/Application Support/Google/Chrome/Default/Extensions/aglhbmlhdpjlmpnnbkicmgohoejlcfnl/1.5.1_0/manifest.json",
+		"/Users/pgerdes/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/pgerdes/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/pgerdes/Library/Application Support/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"connect",
+			"Amy",
+			"indepen",
+			":",
+			"argpath",
+			"addscaled",
+			"Fortress Boo",
+			"register-delivered-command-set-logical-register",
+			"ctrl+f"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"Daphne",
+			"\\n"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "bibmanage.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"Package Control Messages"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 288.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
