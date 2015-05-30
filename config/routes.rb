@@ -1,5 +1,26 @@
 Rails.application.routes.draw do
+  devise_for :users
   get 'libraries/index'
+
+  get 'libraries/edit'
+
+  get 'libraries/show'
+
+  get 'libraries/destroy'
+
+  get 'libraries/new'
+
+  get 'libraries/index'
+
+  get 'libraries/edit'
+
+  get 'libraries/show'
+
+  get 'libraries/destroy'
+
+  # get 'libraries/index'
+  resources :libraries
+  root 'libraries#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
