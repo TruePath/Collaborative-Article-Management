@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :references
+  resources :libraries
   devise_for :users
   get 'libraries/index'
 
@@ -19,7 +21,7 @@ Rails.application.routes.draw do
   get 'libraries/destroy'
 
   # get 'libraries/index'
-  resources :libraries
+  # resources :libraries
   root 'libraries#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
