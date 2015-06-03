@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/index'
+
   resources :references
   resources :libraries
   devise_for :users
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
 
   # get 'libraries/index'
   # resources :libraries
-  root 'libraries#index'
+  root 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

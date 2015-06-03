@@ -1,10 +1,11 @@
 class LibrariesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_library, only: [:show, :edit, :update, :destroy]
 
   # GET /libraries
   # GET /libraries.json
   def index
-    @libraries = Library.all
+    @libraries = current_user.libraries
   end
 
   # GET /libraries/1

@@ -24,6 +24,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # gem to install bootstrap css and js
 gem 'bootstrap-sass'
+# gem to use bootstrap forms
+gem 'bootstrap_form'
 #gem to handle user registration and stuff
 gem 'devise'
 #gem to use nested set model
