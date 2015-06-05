@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603145257) do
+ActiveRecord::Schema.define(version: 20150604155254) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -45,9 +45,11 @@ ActiveRecord::Schema.define(version: 20150603145257) do
 
   create_table "libraries", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "user_id"
+    t.string   "description"
+    t.integer  "references_count", default: 0
   end
 
   add_index "libraries", ["user_id"], name: "index_libraries_on_user_id"

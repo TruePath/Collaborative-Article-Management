@@ -4,10 +4,36 @@
 
 <div class="list-group">
       <% @libraries.each do |library| %>
-      <a href="<%= url_for(library_path(library)) %>" class="list-group-item" %>" <%= library.name %> <span class="badge"><%= library.size %></a>
+      <a href="<%= url_for(library_path(library)) %>" class="list-group-item" %> <%= library.name %> <span class="badge"><%= library.size %></a>
       <% end %>
 </div>
 
 <br>
 
-<%= link_to 'New Library', new_library_path %>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#new-library">
+  New Library
+</button>
+
+<div class="modal fade" id="new-library" tabindex="-1" role="dialog" aria-labelledby="new-library-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="new-library-label">New Library</h4>
+      </div>
+      <%= bootstrap_form_for(:library, url: url_for(:action => 'create'), remote: true, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4") do |f| %>
+        <div class="modal-body">
+          <%= f.text_field :name %>
+
+          <%= f.text_area :description %>
+
+        </div>
+        <div class="modal-footer">
+          <input type="submit" name="commit" value="Update" class="btn btn-default"  />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

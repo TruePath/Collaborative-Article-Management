@@ -32,6 +32,8 @@ gem 'devise'
 gem 'awesome_nested_set'
 #gem to let us view collections as a list
 gem 'acts_as_list'
+#gem to handle paginations
+gem 'kaminari'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -1,6 +1,8 @@
 class LibrariesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_library, only: [:show, :edit, :update, :destroy]
+  before_action :check_authorization, only: [:show, :edit, :update, :destroy]
+  # respond_to :html, :js
 
   # GET /libraries
   # GET /libraries.json
@@ -26,14 +28,17 @@ class LibrariesController < ApplicationController
   # POST /libraries.json
   def create
     @library = Library.new(library_params)
+    @library.user = current_user
 
     respond_to do |format|
       if @library.save
-        format.html { redirect_to @library, notice: 'Library was successfully created.' }
-        format.json { render :show, status: :created, location: @library }
+        flash.notice = 'Library was successfully created.'
+        format.html { redirect_to libraries_path}
+        format.js
       else
-        format.html { render :new }
-        format.json { render json: @library.errors, status: :unprocessable_entity }
+        flash.error = 'Error Creating Library.'
+        format.html { redirect_to libraries_path }
+        format.js
       end
     end
   end
@@ -66,6 +71,10 @@ class LibrariesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_library
       @library = Library.find(params[:id])
+    end
+
+    def check_authorization
+      raise User::NotAuthorized unless @library.user == current_user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

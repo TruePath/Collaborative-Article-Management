@@ -25,8 +25,17 @@
 	<% end %>
 </ul>
 
-<div id="alert" class="container">
+<div id="flash-message" class="container">
 	<% flash.each do |name, msg| %>
-		<%= content_tag(:div, msg, class: "alert alert-info") %>
+		<% case name %>
+		<% when :error %>
+			<%= content_tag(:div, msg, id: "flash_error", class: "alert alert-danger")%>
+		<% when :alert %>
+			<%= content_tag(:div, msg, id: "flash_alert", class: "alert alert-warning") %>
+		<% when :notice %>
+			<%= content_tag(:div, msg, id: "flash_notice", class: "alert alert-info") %>
+		<% else %>
+			<%= content_tag(:div, msg, id: "flash_success", class: "alert alert-success") %>
+		<% end %>
 	<% end %>
 </div>

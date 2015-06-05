@@ -4,12 +4,43 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
 	before_filter :configure_permitted_parameters, if: :devise_controller?
+	after_filter :flash_to_headers
+
+  add_flash_types :error, :success
+
+
+  def flash_to_headers
+      return unless request.xhr?
+      if flash_message
+        response.headers['X-Message'] = flash_message
+        response.headers["X-Message-Type"] = flash_type.to_s
+
+        flash.discard # don't want the flash to appear when you reload page
+      end
+  end
+
 
   protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
     devise_parameter_sanitizer.for(:account_update) << :name << :description
+  end
+
+
+  private
+
+  def flash_message
+      [:error, :alert, :notice, :success].each do |type|
+          return flash[type] unless flash[type].blank?
+      end
+      return false
+  end
+
+  def flash_type
+      [:error, :alert, :notice, :success].each do |type|
+          return type unless flash[type].blank?
+      end
   end
 
 end
