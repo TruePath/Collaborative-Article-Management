@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150604155254) do
+ActiveRecord::Schema.define(version: 20150606052443) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -54,20 +54,47 @@ ActiveRecord::Schema.define(version: 20150604155254) do
 
   add_index "libraries", ["user_id"], name: "index_libraries_on_user_id"
 
+  create_table "links", force: :cascade do |t|
+    t.integer  "reference_id"
+    t.string   "kind"
+    t.string   "uri"
+    t.integer  "position"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "links", ["reference_id"], name: "index_links_on_reference_id"
+
   create_table "people", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "raw_bibtex_entries", force: :cascade do |t|
+    t.integer  "library_id"
+    t.text     "content"
+    t.integer  "position"
+    t.integer  "reference_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "raw_bibtex_entries", ["library_id"], name: "index_raw_bibtex_entries_on_library_id"
+  add_index "raw_bibtex_entries", ["reference_id"], name: "index_raw_bibtex_entries_on_reference_id"
+
   create_table "references", force: :cascade do |t|
     t.string   "key"
     t.string   "title"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "library_id"
     t.string   "authorship_type"
     t.integer  "parent_id"
+    t.string   "bibtex_type"
+    t.integer  "year"
+    t.integer  "resources_count", default: 0
+    t.integer  "links_count",     default: 0
   end
 
   add_index "references", ["library_id"], name: "index_references_on_library_id"

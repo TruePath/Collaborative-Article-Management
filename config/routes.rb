@@ -1,26 +1,12 @@
 Rails.application.routes.draw do
   get 'home/index'
 
-  resources :references
-  resources :libraries
+
+  resources :libraries, shallow: true do
+    resources :references
+  end
   devise_for :users
-  get 'libraries/index'
 
-  get 'libraries/edit'
-
-  get 'libraries/show'
-
-  get 'libraries/destroy'
-
-  get 'libraries/new'
-
-  get 'libraries/index'
-
-  get 'libraries/edit'
-
-  get 'libraries/show'
-
-  get 'libraries/destroy'
 
   # get 'libraries/index'
   # resources :libraries

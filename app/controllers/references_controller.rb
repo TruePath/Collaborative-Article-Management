@@ -1,30 +1,38 @@
 class ReferencesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_reference, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_library, only: [:create, :new, :index]
+  before_action :check_view_authorization, only: [:show]
+  before_action :check_edit_authorization, only: [:edit, :update, :destroy]
+  before_action :check_create_authorization, only: [:create, :new]
   # GET /references
   # GET /references.json
   def index
-    @references = Reference.all
+    redirect_to @library
   end
 
-  # GET /references/1
-  # GET /references/1.json
-  def show
-  end
 
   # GET /references/new
   def new
     @reference = Reference.new
+    @editable = true
+    respond_to do |format|
+      format.html {render "form"}
+    end
   end
 
   # GET /references/1/edit
   def edit
+    respond_to do |format|
+      format.html {render "form"}
+    end
   end
 
   # POST /references
   # POST /references.json
   def create
     @reference = Reference.new(reference_params)
+    @reference.library = @library
 
     respond_to do |format|
       if @reference.save
@@ -67,8 +75,26 @@ class ReferencesController < ApplicationController
       @reference = Reference.find(params[:id])
     end
 
+    def set_library
+      @library = Library.find(params[:library_id])
+    end
+
+    def check_edit_authorization
+      raise User::NotAuthorized unless @reference.can_edit?(current_user)
+      @editable = true
+    end
+
+    def check_view_authorization
+      raise User::NotAuthorized unless @reference.can_view?(current_user)
+      @editable = @reference.can_edit?(current_user)
+    end
+
+    def check_create_authorization
+      raise User::NotAuthorized unless @library.can_edit?(current_user)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def reference_params
-      params.require(:reference).permit(:key, :title)
+      params.require(:reference).permit(:key, :title, :bibtex_type, :year, :author_names, :month, fields_attributes: {:name, :value, :id, '_destroy'})
     end
 end

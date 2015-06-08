@@ -34,6 +34,12 @@ gem 'awesome_nested_set'
 gem 'acts_as_list'
 #gem to handle paginations
 gem 'kaminari'
+#gem to do cookies in jquery
+gem 'jquery-cookie-rails'
+#gem to handle yaml config
+gem 'rails_config'
+#gem to manage nice nested forms
+gem 'nested_form'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

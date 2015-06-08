@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
 	before_filter :configure_permitted_parameters, if: :devise_controller?
 	after_filter :flash_to_headers
+  rescue_from User::NotAuthorized, with: :user_not_authorized
 
   add_flash_types :error, :success
 
@@ -29,6 +30,15 @@ class ApplicationController < ActionController::Base
 
 
   private
+
+  def user_not_authorized
+    flash[:error] = "You don't have access to this section."
+    if request.xhr?
+      render nothing: true
+    else
+      redirect_to :back
+    end
+  end
 
   def flash_message
       [:error, :alert, :notice, :success].each do |type|

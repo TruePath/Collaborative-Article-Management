@@ -1,0 +1,12 @@
+bibtex_types: [ article, book, manual, mastersthesis, phdthesis, proceedings, techreport, unpublished, misc]
+parent_types: [book, collection, proceedings]
+default_fields:
+  article: [journal, volume, pages]
+  book: [publisher, isbn]
+  manual: [organization, edition]
+  mastersthesis: [school, advisor]
+  phdthesis: [school, advisor]
+  proceedings: [organization, isbn]
+  techreport: [institution]
+  unpublished: [note]
+  misc: [howpublished]

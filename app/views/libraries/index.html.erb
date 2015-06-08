@@ -1,12 +1,14 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Libraries</h1>
-
-<div class="list-group">
-      <% @libraries.each do |library| %>
-      <a href="<%= url_for(library_path(library)) %>" class="list-group-item" %> <%= library.name %> <span class="badge"><%= library.size %></a>
-      <% end %>
+<div id="paginator">
+  <%= paginate @libraries, :remote => true %>
 </div>
+
+<div class="list-group" id="libraries">
+      <%= render @libraries %>
+</div>
+
 
 <br>
 
@@ -14,6 +16,59 @@
 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#new-library">
   New Library
 </button>
+<button type="button" class="btn btn-default" id="delete">
+  Delete Libraries
+</button>
+
+<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirm-delete-label">Confirm Delete</h4>
+      </div>
+      Do you wish to delete Library: <span color="blue" id="delete-library-name"></span>?<br />
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" id="confirm-delete">Delete</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+var DeletedLibrary = null;
+
+var DoDelete = function() {
+  $('#delete').html("Finish Deleting");
+  $('#delete').click(DontDelete);
+  $('.delete-indicator').css("visibility","visible");
+  $('.library').click( function(e) {
+    e.preventDefault();
+    $('#delete-library-name').text($(this).children("span:first").text());
+    $('#confirm-delete-modal').modal('show');
+    url = this.href;
+    DeletedLibrary = $(this);
+    $('#confirm-delete').click(function() {
+      $.ajax({
+        url: url,
+        dataType: "script",
+        type: 'DELETE'
+      });
+    });
+
+  });
+}
+
+var DontDelete = function() {
+  $('#delete').html("Delete Libraries");
+  $('#delete').click(DoDelete);
+  $('.delete-indicator').css("visibility","hidden");
+  $('.library').off("click");
+}
+
+DontDelete();
+</script>
 
 <div class="modal fade" id="new-library" tabindex="-1" role="dialog" aria-labelledby="new-library-label" aria-hidden="true">
   <div class="modal-dialog">
@@ -21,7 +76,7 @@
       <div class="modal-header">
         <h4 class="modal-title" id="new-library-label">New Library</h4>
       </div>
-      <%= bootstrap_form_for(:library, url: url_for(:action => 'create'), remote: true, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4") do |f| %>
+      <%= bootstrap_form_for(:library, url: url_for(libraries_path), remote: true, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4") do |f| %>
         <div class="modal-body">
           <%= f.text_field :name %>
 

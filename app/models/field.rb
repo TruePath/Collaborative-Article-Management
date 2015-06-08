@@ -1,3 +1,4 @@
 class Field < ActiveRecord::Base
-  belongs_to :reference
+	#name:string, value:string
+  belongs_to :reference, :inverse_of => :fields
 end

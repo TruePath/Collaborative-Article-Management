@@ -1,13 +1,14 @@
 class LibrariesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_library, only: [:show, :edit, :update, :destroy]
-  before_action :check_authorization, only: [:show, :edit, :update, :destroy]
-  # respond_to :html, :js
+  before_action :check_view_authorization, only: [:show]
+  before_action :check_edit_authorization, only: [:edit, :update, :destroy]
+
 
   # GET /libraries
   # GET /libraries.json
   def index
-    @libraries = current_user.libraries
+    @libraries = current_user.libraries.page params[:page]
   end
 
   # GET /libraries/1
@@ -61,9 +62,10 @@ class LibrariesController < ApplicationController
   # DELETE /libraries/1.json
   def destroy
     @library.destroy
+    flash.notice = 'Library was successfully deleted.'
     respond_to do |format|
       format.html { redirect_to libraries_url, notice: 'Library was successfully destroyed.' }
-      format.json { head :no_content }
+      format.js
     end
   end
 
@@ -73,12 +75,16 @@ class LibrariesController < ApplicationController
       @library = Library.find(params[:id])
     end
 
-    def check_authorization
-      raise User::NotAuthorized unless @library.user == current_user
+    def check_view_authorization
+      raise User::NotAuthorized unless @library.can_view?(current_user)
+    end
+
+    def check_edit_authorization
+      raise User::NotAuthorized unless @library.can_edit?(current_user)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def library_params
-      params.require(:library).permit(:name)
+      params.require(:library).permit(:name, :description)
     end
 end

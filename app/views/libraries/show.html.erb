@@ -1,9 +1,14 @@
-<p id="notice"><%= notice %></p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+  	<h3 class="panel-title"><%= @library.name %></h3>
+  </div>
+  <div class="panel-body">
+    <span class="text-muted"><%= truncate(@library.description, length: 80, omission: '...') %></span>
+  </div>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @library.name %>
-</p>
+
+
 
 <%= link_to 'Edit', edit_library_path(@library) %> |
 <%= link_to 'Back', libraries_path %>
