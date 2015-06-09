@@ -5,9 +5,13 @@ class ApplicationController < ActionController::Base
 
 	before_filter :configure_permitted_parameters, if: :devise_controller?
 	after_filter :flash_to_headers
-  rescue_from User::NotAuthorized, with: :user_not_authorized
+  rescue_from NotAuthorized, with: :user_not_authorized
 
   add_flash_types :error, :success
+
+  # Make sure we don't render a layout if xhr
+
+  layout proc { false if request.xhr? }
 
 
   def flash_to_headers

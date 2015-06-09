@@ -7,8 +7,35 @@
   </div>
 </div>
 
+<div role="tabpanel">
+
+  <!-- Tabs for each kind of content a library can have -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#references" aria-controls="references" role="tab" data-toggle="tab">References</a></li>
+    <li role="presentation"><a href="#raw_bibtex" aria-controls="raw_bibtex" role="tab" data-toggle="tab">Raw Bibtex</a></li>
+    <li role="presentation"><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Files</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="references">
 
 
 
-<%= link_to 'Edit', edit_library_path(@library) %> |
-<%= link_to 'Back', libraries_path %>
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="raw_bibtex">...</div>
+    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+  </div>
+
+</div>
+
+
+<script>
+	$(document).ready(function() {
+		$('#references').load("<%= url_for(library_references_path(@library)) %>");
+	});
+	$("a[href='#references']").on('show.bs.tab', function(e) {
+    $('#references').load("<%= url_for(library_references_path(@library)) %>");
+ 	});
+</script>

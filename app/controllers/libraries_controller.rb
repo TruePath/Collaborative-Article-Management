@@ -6,9 +6,11 @@ class LibrariesController < ApplicationController
 
 
   # GET /libraries
-  # GET /libraries.json
+  # GET /libraries.js
+
   def index
     @libraries = current_user.libraries.page params[:page]
+    respond_to :html, :js
   end
 
   # GET /libraries/1
@@ -76,11 +78,11 @@ class LibrariesController < ApplicationController
     end
 
     def check_view_authorization
-      raise User::NotAuthorized unless @library.can_view?(current_user)
+      raise NotAuthorized unless @library.can_view?(current_user)
     end
 
     def check_edit_authorization
-      raise User::NotAuthorized unless @library.can_edit?(current_user)
+      raise NotAuthorized unless @library.can_edit?(current_user)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150606052443) do
+ActiveRecord::Schema.define(version: 20150607201039) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150606052443) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "aliases", ["name"], name: "index_aliases_on_name"
   add_index "aliases", ["person_id"], name: "index_aliases_on_person_id"
 
   create_table "authorship_records", force: :cascade do |t|
@@ -67,9 +68,12 @@ ActiveRecord::Schema.define(version: 20150606052443) do
 
   create_table "people", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "description"
   end
+
+  add_index "people", ["description"], name: "index_people_on_description"
 
   create_table "raw_bibtex_entries", force: :cascade do |t|
     t.integer  "library_id"
@@ -95,8 +99,11 @@ ActiveRecord::Schema.define(version: 20150606052443) do
     t.integer  "year"
     t.integer  "resources_count", default: 0
     t.integer  "links_count",     default: 0
+    t.string   "author_names"
+    t.string   "month"
   end
 
+  add_index "references", ["author_names"], name: "index_references_on_author_names"
   add_index "references", ["library_id"], name: "index_references_on_library_id"
   add_index "references", ["parent_id"], name: "index_references_on_parent_id"
 

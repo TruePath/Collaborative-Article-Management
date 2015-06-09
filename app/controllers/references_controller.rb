@@ -8,7 +8,8 @@ class ReferencesController < ApplicationController
   # GET /references
   # GET /references.json
   def index
-    redirect_to @library
+    @references = @library.references.page params[:page]
+    respond_to :html, :js
   end
 
 
@@ -85,12 +86,12 @@ class ReferencesController < ApplicationController
     end
 
     def check_view_authorization
-      raise User::NotAuthorized unless @reference.can_view?(current_user)
+      raise NotAuthorized unless @reference.can_view?(current_user)
       @editable = @reference.can_edit?(current_user)
     end
 
     def check_create_authorization
-      raise User::NotAuthorized unless @library.can_edit?(current_user)
+      raise NotAuthorized unless @library.can_edit?(current_user)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

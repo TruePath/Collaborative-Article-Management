@@ -1,0 +1,6 @@
+<% if @reference.errors.any? %>
+  $('#save_reference_error').html('<%= escape_javascript render "save_errors" %>');
+<% else %>
+  $('#save_reference_error').html('');
+  $('#reference-form').modal('hide');
+<% end %>

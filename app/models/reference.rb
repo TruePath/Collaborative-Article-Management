@@ -1,6 +1,5 @@
 class Reference < ActiveRecord::Base
 	#title:string, key:string, bibtex_type:string, year:integer, author_names:string, month:string
-	accepts_nested_attributes_for :fields, reject_if: => :reject_field, :allow_destroy => true
 	has_many :fields, :inverse_of => :reference
 	has_many :authorship_records,  -> { order 'authorship_records.position' }, :inverse_of => :reference, :dependent => :destroy
 	has_many :persons, -> { order 'authorship_records.position' }, :through => :authorship_records
@@ -10,6 +9,8 @@ class Reference < ActiveRecord::Base
 	has_one :raw_bibtex_entry, :inverse_of => :reference
 	belongs_to :parent, class_name: "Reference"
 	belongs_to :library, counter_cache: true, :inverse_of => :references
+
+	accepts_nested_attributes_for :fields, allow_destroy: true, reject_if:  :reject_field
 
 	def reject_field(attributes)
 		exists = attributes['id'].present?

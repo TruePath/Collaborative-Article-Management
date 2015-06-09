@@ -1,29 +1,22 @@
-<div class="modal" id="reference-form"  role="dialog" aria-labelledby="reference-form-label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="reference-form-label">Edit Reference</h4>
+        <h4 class="modal-title" id="reference-form-label">
+          <%  if @reference.new_record? %>
+            Create Reference
+          <% else %>
+            Edit Reference
+          <% end %>
+        </h4>
       </div>
 
       <%= bootstrap_nested_form_for(@reference, remote: true, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4") do |f| %>
         <div class="modal-body">
-          <% if @reference.errors.any? %>
-            <div id="error_explanation" class="alert alert-danger" role="alert">
-              <h2><%= pluralize(@reference.errors.count, "error") %> prohibited this reference from being saved:</h2>
-
-              <ul>
-              <% @reference.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
+          <div id="save_reference_error"></div>
           <%= f.text_field :name %>
 
           <%= f.text_area :description %>
           <%= f.fields_for :fields do |field_form| %>
             <%= field_form.hidden_field :name %>
-            <%= field_form.text_field :value %>
+            <%= field_form.text_field :value, label: field_form.object.name, label_class: "field_name_label", class: "field_value" %>
               <%= field_form.link_to_remove '<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>' %>
             <% end %>
           <p><%= f.link_to_add "Add a Field", :tasks, id: 'add-field-link' %></p>
@@ -34,30 +27,3 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
       <% end %>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="myModal3">
-  <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title">Modal 3</h4>
-        </div><div class="container"></div>
-        <div class="modal-body">
-          Content for the dialog / modal goes here.
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <a data-toggle="modal" href="#myModal4" class="btn btn-primary">Launch modal</a>
-        </div>
-        <div class="modal-footer">
-          <a href="#" data-dismiss="modal" class="btn">Close</a>
-          <a href="#" class="btn btn-primary">Save changes</a>
-        </div>
-      </div>
-    </div>
-</div>

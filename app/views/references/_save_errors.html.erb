@@ -1,0 +1,9 @@
+<div class="alert alert-danger" role="alert">
+  <h2><%= pluralize(@reference.errors.count, "error") %> prohibited this reference from being saved:</h2>
+
+  <ul>
+  <% @reference.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
