@@ -1,0 +1,17 @@
+<%= form_for(@raw_bibtex_entry) do |f| %>
+  <% if @raw_bibtex_entry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@raw_bibtex_entry.errors.count, "error") %> prohibited this raw_bibtex_entry from being saved:</h2>
+
+      <ul>
+      <% @raw_bibtex_entry.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

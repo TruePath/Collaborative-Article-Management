@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :resources
+  resources :raw_bibtex_entries
   get 'home/index'
 
 
