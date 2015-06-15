@@ -1,0 +1,32 @@
+<div class="modal" id="upload-bibtex-file">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Upload Bibtex File</h4>
+        </div>
+        <%= bootstrap_form_tag url: url_for(upload_raw_bibtex_entry_path(@library)), :html => { :multipart => true }, remote: true  do |f| %>
+        <div class="modal-body">
+          <div id="failed_upload" class="alert alert-danger" role="alert" style="display: none">
+            Failed Upload
+          </div>
+          <%= f.file_field :bibtex_file, hide_label: :true %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <%= f.submit %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#upload-bibtex').click(function(e) {
+      e.preventDefault();
+      $('#upload-bibtex-file').modal('show');
+    });
+
+});
+
+</script>

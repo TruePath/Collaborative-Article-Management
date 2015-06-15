@@ -13,10 +13,93 @@
 //= require jquery
 //= require jquery.cookie
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require turbolinks
 //= require bootstrap
 //= require jquery_nested_form
 //= require_tree .
+
+(function($) {
+    if (!$.outerHTML) {
+        $.extend({
+            outerHTML: function(ele) {
+                var $return;
+                if (ele.length === 1) {
+                    $return = ele[0].outerHTML;
+                }
+                else if (ele.length > 1) {
+                    $return = {};
+                    ele.each(function(i) {
+                        $return[i] = $(this)[0].outerHTML;
+                    });
+                }
+                return $return;
+            }
+        });
+        $.fn.extend({
+            outerHTML: function() {
+                return $.outerHTML($(this));
+            }
+        });
+    }
+})(jQuery);
+
+function ListDeleteController(container) {
+  this.container = container;
+  this.container.find('.delete-indicator').hide();
+  this.DeletedItem = null;
+  this.modal = container.find('.confirm-delete-modal').first();
+  this.enable_button = this.container.find('.enable-delete-button').first();
+  this.enable_button.click($.proxy(this.enable_delete, this));
+  this.disable_button = this.container.find('.finish-delete-button').first();
+  this.disable_button.click($.proxy(this.disable_delete, this));
+  this.confirm_button = this.modal.find('.confirm-delete-button');
+  this.disable_delete();
+}
+
+ListDeleteController.prototype.enable_delete = function() {
+  this.container.find('.delete-indicator').show();
+  this.enable_button.hide();
+  this.disable_button.show();
+  modal = this.modal;
+  container = this.container;
+  deletecontroller = this;
+  this.container.find('.deleteable-element').off("click");
+  this.container.find('.deleteable-element').click( function(e) {
+    e.preventDefault();
+    content = "";
+    if ($(this).is('.deleteable-identifier')) {
+      content = $(this).html();
+    } else {
+      content = $(this).find('.deleteable-identifier').first().html();
+    }
+    modal.find('.confirm-delete-content').html(content);
+    modal.modal('show');
+    url = $(this).is('.deleteable-href') ? this.href : $(this).find('.deleteable-href').attr("href");
+    deletecontroller.DeletedItem = $(this);
+    modal.find('.confirm-delete-button').first().click(function() {
+      $.ajax({
+        url: url,
+        dataType: "script",
+        type: 'DELETE'
+      });
+    });
+  });
+};
+
+ListDeleteController.prototype.disable_delete = function() {
+  this.container.find('.delete-indicator').hide();
+  this.container.find('.deleteable-element').off("click");
+  this.enable_button.show();
+  this.disable_button.hide();
+  modal = this.modal;
+  container = this.container;
+  this.container.find('.deleteable-element').click( function(e) {
+    e.preventDefault();
+    url = $(this).is('.deleteable-href') ? this.href : $(this).find('.deleteable-href').attr("href");
+    $.getScript(url);
+  });
+};
 
 $.cookie.json = true; // use json to store cookie information
 // FLASH NOTICE ANIMATION

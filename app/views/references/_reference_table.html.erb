@@ -1,0 +1,76 @@
+<div id="reference-container">
+<div class="panel panel-default">
+  <div class="panel-heading" id="reference-paginator">
+  </div>
+      <table class="table table-hover" id="reference-table">
+        <thead>
+          <tr>
+            <th class="column column1">Key</th>
+            <th class="column column2">Title</th>
+            <th class="column column3">Type</th>
+            <th class="column column4">Authors</th>
+            <th class="column column5">Year</th>
+            <th class="column column6">Links</th>
+            <th class="column column7">Files</th>
+          </tr>
+        </thead>
+        <tbody id="reference-table-body">
+        </tbody>
+      </table>
+
+  <div class="panel-footer">
+    <%= link_to 'New Reference', new_library_reference_path(@library), remote: true, class: "btn btn-default" %>
+    <button type="button" class="btn btn-default enable-delete-button">
+      Delete References
+    </button>
+    <button type="button" class="btn btn-default finish-delete-button" style="display:none">
+      Finish Deleting
+    </button>
+  </div>
+</div>
+<div class="modal fade confirm-delete-modal" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirm-delete-label">Confirm Delete</h4>
+      </div>
+      Do you wish to delete This Reference:
+      <table class="table">
+      <thead>
+        <tr>
+          <th class="column column1">Key</th>
+          <th class="column column2">Title</th>
+          <th class="column column3">Type</th>
+          <th class="column column4">Authors</th>
+          <th class="column column5">Year</th>
+          <th class="column column6">Links</th>
+          <th class="column column7">Files</th>
+        </tr>
+      </thead>
+      <tbody id="delete-reference-table">
+        <tr class="reference-row confirm-delete-content">
+        </tr>
+      </tbody>
+      </table>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default confirm-delete-button">Delete</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+
+
+var ReferenceDeleteController = null;
+$(document).ready(function() {
+    ReferenceDeleteController = new ListDeleteController($('#reference-container'));
+});
+
+
+
+</script>
+
+<%= render 'references/form_container' %>

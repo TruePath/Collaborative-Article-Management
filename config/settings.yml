@@ -1,4 +1,4 @@
-bibtex_types: [ article, book, manual, mastersthesis, phdthesis, proceedings, techreport, unpublished, misc]
+bibtex_types: [article, book, manual, mastersthesis, phdthesis, proceedings, techreport, unpublished, misc, inbook, incollection, inproceedings]
 parent_types: [book, collection, proceedings]
 default_fields:
   article: [journal, volume, pages]

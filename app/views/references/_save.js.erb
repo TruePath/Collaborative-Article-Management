@@ -2,5 +2,6 @@
   $('#save_reference_error').html('<%= escape_javascript render "save_errors" %>');
 <% else %>
   $('#save_reference_error').html('');
-  $('#reference-form').modal('hide');
+  $('#reference-form-modal').modal('hide');
+  $.getScript("<%= url_for(library_references_path(@library)) %>");
 <% end %>

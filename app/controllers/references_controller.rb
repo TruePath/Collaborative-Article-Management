@@ -1,15 +1,16 @@
 class ReferencesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_reference, only: [:show, :edit, :update, :destroy]
+  before_action :set_reference, only: [:show, :update, :destroy]
   before_action :set_library, only: [:create, :new, :index]
   before_action :check_view_authorization, only: [:show]
-  before_action :check_edit_authorization, only: [:edit, :update, :destroy]
+  before_action :check_edit_authorization, only: [:update, :destroy]
   before_action :check_create_authorization, only: [:create, :new]
   # GET /references
   # GET /references.json
   def index
-    @references = @library.references.page params[:page]
-    respond_to :html, :js
+    @page = params[:page] || 0
+    @references = @library.references.page @page
+    respond_to :js
   end
 
 
@@ -17,15 +18,19 @@ class ReferencesController < ApplicationController
   def new
     @reference = Reference.new
     @editable = true
+    @library_reference = [@library, @reference] #stupid hack because of shallow routes
     respond_to do |format|
-      format.html {render "form"}
+      format.js {render "edit"}
+      format.html {render "_form"}
     end
   end
 
   # GET /references/1/edit
-  def edit
+  def show
+    @library_reference = @reference
     respond_to do |format|
-      format.html {render "form"}
+      format.js {render "edit"}
+      format.html {render "_form"}
     end
   end
 
@@ -37,11 +42,9 @@ class ReferencesController < ApplicationController
 
     respond_to do |format|
       if @reference.save
-        format.html { redirect_to @reference, notice: 'Reference was successfully created.' }
-        format.json { render :show, status: :created, location: @reference }
+        format.js { render "_save" }
       else
-        format.html { render :new }
-        format.json { render json: @reference.errors, status: :unprocessable_entity }
+        format.js { render "_save" }
       end
     end
   end
@@ -49,13 +52,12 @@ class ReferencesController < ApplicationController
   # PATCH/PUT /references/1
   # PATCH/PUT /references/1.json
   def update
+    @library=@reference.library
     respond_to do |format|
       if @reference.update(reference_params)
-        format.html { redirect_to @reference, notice: 'Reference was successfully updated.' }
-        format.json { render :show, status: :ok, location: @reference }
+        format.js { render "_save" }
       else
-        format.html { render :edit }
-        format.json { render json: @reference.errors, status: :unprocessable_entity }
+        format.js { render "_save" }
       end
     end
   end
@@ -64,10 +66,7 @@ class ReferencesController < ApplicationController
   # DELETE /references/1.json
   def destroy
     @reference.destroy
-    respond_to do |format|
-      format.html { redirect_to references_url, notice: 'Reference was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    respond_to :js
   end
 
   private
@@ -81,7 +80,7 @@ class ReferencesController < ApplicationController
     end
 
     def check_edit_authorization
-      raise User::NotAuthorized unless @reference.can_edit?(current_user)
+      raise NotAuthorized unless @reference.can_edit?(current_user)
       @editable = true
     end
 
@@ -96,6 +95,6 @@ class ReferencesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reference_params
-      params.require(:reference).permit(:key, :title, :bibtex_type, :year, :author_names, :month, fields_attributes: {:name, :value, :id, '_destroy'})
+      params.require(:reference).permit(:key, :title, :bibtex_type, :year, :author_names, :month, fields_attributes: [:name, :value, :id, '_destroy'])
     end
 end

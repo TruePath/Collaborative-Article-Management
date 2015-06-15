@@ -24,7 +24,7 @@
         </div>
         <div class="modal-footer">
           <a href="#" class="btn" id="cancel-new-field">Cancel</a>
-          <a href="#" class="btn btn-primary">Save changes</a>
+          <input class="btn btn-default" type="submit" value="Submit">
         </div>
         </form>
       </div>
@@ -40,6 +40,7 @@ $(document).ready(function() {
     field = fieldset.find('.field_name').first();
     $('#new-field-modal').modal('show');
     $('#cancel-new-field').click(function(event) {
+      $('#new-field-name').val('');
       $('#new-field-modal').modal('hide');
       fieldset.remove();
       $('#cancel-new-field').off();
@@ -58,6 +59,7 @@ $(document).ready(function() {
         label.text(fieldname);
         $('#cancel-new-field').off();
         $('#new-field-name-form').off();
+        $('#new-field-name').val('');
         $('#new-field-modal').modal('hide');
       }
       event.preventDefault();

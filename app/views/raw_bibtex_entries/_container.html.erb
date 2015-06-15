@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+	  <div class="panel-heading">
+	  	<nav class="navbar navbar-default">
+  			<div class="container-fluid">
+  				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  				<button type="button" class="btn btn-default navbar-btn" id="upload-bibtex">Upload Bibtex</button>
+	  				<div class="btn-group">
+	  					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+	    					Show <span class="caret"></span></button>
+	    				<ul class="dropdown-menu" role="menu">
+	    					<li><a href="#" id="show-all">All</a></li>
+	    					<li><a href="#" id="show-errors">Errors</a></li>
+	    					<li><a href="#" id="show-warnings">Warnings</a></li>
+	    					<li><a href="#" id="show-warnings-and-errors">Warnings & Errors</a></li>
+	    				</ul>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </nav>
+		</div>
+	  <div class="panel-body">
+	  	<div id="raw-bibtex-entries-paginator"></div>
+			<ul class="list-group" id="raw-bibtex-entries-list">
+			</ul>
+		</div>
+	<div class="panel-footer">
+	</div>
+</div>
+
+<%= render 'raw_bibtex_entries/file_upload' %>

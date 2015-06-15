@@ -1,4 +1,154 @@
+class Message
+	include Comparable
+
+	attr_accessor :line, :char, :type, :text
+	alias :line_number :line
+  alias :char_number :line
+
+	def initialize(text, line_num, char_num)
+    @char = char_num
+		@line = line_num
+		@text = text
+	end
+
+	def <=>(anOther)
+    if self.line == anOther.line
+      self.char <=> anOther.char
+    else
+		  self.line <=> anOther.line
+    end
+	end
+
+  def is_error?
+    false
+  end
+
+  def is_warning?
+    false
+  end
+
+end
+
+class ErrorMessage < Message
+  def initialize(text, line_num, char_num)
+    super(text, line_num, char_num)
+  end
+end
+
+class WarningMessage < Message
+  def initialize(text, line_num, char_num)
+    super(text, line_num, char_num)
+  end
+end
+
+class Messages
+	include Enumerable
+	extend Forwardable
+
+  attr_accessor :num_errors, :num_warnings
+
+	def initialize(line_breaks, author_pos) #line_breaks are the charachter positions the lines end at
+    @line_breaks=line_breaks.to_a
+    @author_pos = author_pos
+		@msg_set = SortedSet.new()
+    @num_errors = 0
+    @num_warnings = 0
+	end
+
+  def add_error(text, char_position)
+    @num_errors += 1
+    line, offset = line_and_offset(char_position)
+    ErrorMessage.new(text, line, offset)
+  end
+
+  def add_warning(text, char_position)
+    @num_warnings += 1
+    line, offset = line_and_offset(char_position)
+    WarningMessage.new(text, line, offset)
+  end
+
+  def line_and_offset(char_pos)
+    return -1, -1 if char_pos == 0
+    line = @line_breaks.find_index {|line_start| line_start >= char_pos }
+    offset = line == 0 ? char_pos : char_pos - @link_breaks[line - 1 ]
+    return line, offset
+  end
+
+	def_delegators :@msg_set, :<<, :each, :add, :to_a, :[], :empty?, :size, :length
+
+end
+
+class LogToMessages
+
+  def initialize(msgs)
+    @msgs=msgs
+  end
+
+  def warn(text)
+    @msgs.add_msg("Warning", clean(text), position(text))
+  end
+
+  def error(text)
+    @msgs.add_msg("Error", clean(text), position(text))
+  end
+
+  def debug(text)
+  end
+
+  def warn(text)
+  end
+
+  def position(error_string)
+    /(?<=at[ ])(?<=position[ ])?\d*/i =~ error_string
+    $&.to_i
+  end
+
+  def clean(error_string)
+    error_string.sub(/at[ ](position[ ])?\d*[;]?/i)
+  end
+
+
+end
+
+
 class RawBibtexEntry < ActiveRecord::Base
+	#error:boolean, warning:boolean, messages:text, crossref_failure:boolean, key:string, converted:boolean
   belongs_to :library
   belongs_to :reference
+  belongs_to :parent_record, :polymorphic => true
+  has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
+  serialize :messages, Messages #format array of Message
+  acts_as_list :scope => :library
+
+
+  def num_errors
+  	self.messages.inject(0) {|count, msg| count + msg.type == "error" ? 1 : 0 }
+  end
+
+  def num_warnings
+  	self.messages.inject(0) {|count, msg| count + msg.type == "warning" ? 1 : 0 }
+  end
+
+  def error?
+  	return self.error
+  end
+
+  def warning?
+  	return self.warning
+  end
+
+  def can_edit?(user)
+  	return self.library.user == user
+  end
+
+  def can_view?(user)
+  	return self.library.user == user
+  end
+
+  def self.build_from_bibtex(entry)
+    sum_chars = 0
+    msgs = Messages.new(entry.lines.map {|line| sum_chars += line.size }, entry.index(/^[ \t]*author[ \t]*=/i))
+
+  end
+
 end

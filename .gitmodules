@@ -1,0 +1,3 @@
+[submodule "gems/rails-bootstrap-forms"]
+	path = gems/rails-bootstrap-forms
+	url = https://github.com/bootstrap-ruby/rails-bootstrap-forms.git

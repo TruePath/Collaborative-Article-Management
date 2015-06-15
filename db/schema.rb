@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150607201039) do
+ActiveRecord::Schema.define(version: 20150612043304) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -80,12 +80,24 @@ ActiveRecord::Schema.define(version: 20150607201039) do
     t.text     "content"
     t.integer  "position"
     t.integer  "reference_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.boolean  "error"
+    t.boolean  "warning"
+    t.text     "messages"
+    t.integer  "parent_record_id"
+    t.string   "parent_record_type"
+    t.boolean  "crossref_failure"
+    t.string   "key"
   end
 
+  add_index "raw_bibtex_entries", ["crossref_failure"], name: "index_raw_bibtex_entries_on_crossref_failure"
+  add_index "raw_bibtex_entries", ["error"], name: "index_raw_bibtex_entries_on_error"
+  add_index "raw_bibtex_entries", ["key"], name: "index_raw_bibtex_entries_on_key"
   add_index "raw_bibtex_entries", ["library_id"], name: "index_raw_bibtex_entries_on_library_id"
+  add_index "raw_bibtex_entries", ["parent_record_id"], name: "index_raw_bibtex_entries_on_parent_record_id"
   add_index "raw_bibtex_entries", ["reference_id"], name: "index_raw_bibtex_entries_on_reference_id"
+  add_index "raw_bibtex_entries", ["warning"], name: "index_raw_bibtex_entries_on_warning"
 
   create_table "references", force: :cascade do |t|
     t.string   "key"

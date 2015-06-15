@@ -6,6 +6,7 @@ class Reference < ActiveRecord::Base
 	has_many :resources, -> { order 'resources.position' }
 	has_many :links, -> { order 'links.position' }, :inverse_of => :reference
 	has_many :children, class_name: "Reference", foreign_key: "parent_id"
+	has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
 	has_one :raw_bibtex_entry, :inverse_of => :reference
 	belongs_to :parent, class_name: "Reference"
 	belongs_to :library, counter_cache: true, :inverse_of => :references

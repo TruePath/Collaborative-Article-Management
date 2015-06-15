@@ -1,3 +1,5 @@
+<div class="container" id="library-container">
+
 <p id="notice"><%= notice %></p>
 
 <h1>Libraries</h1>
@@ -16,19 +18,20 @@
 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#new-library">
   New Library
 </button>
-<button type="button" class="btn btn-default" id="delete">
+<button type="button" class="btn btn-default enable-delete-button" id="delete">
   Delete Libraries
 </button>
+<button type="button" class="btn btn-default finish-delete-button" style="display:none">Finish Deleting</button>
 
-<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-label" aria-hidden="true">
+<div class="modal fade confirm-delete-modal" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="confirm-delete-label">Confirm Delete</h4>
       </div>
-      Do you wish to delete Library: <span color="blue" id="delete-library-name"></span>?<br />
+      Do you wish to delete Library: <span color="blue" class="confirm-delete-content"></span>?<br />
       <div class="modal-footer">
-      <button type="button" class="btn btn-default" id="confirm-delete">Delete</button>
+      <button type="button" class="btn btn-default confirm-delete-button">Delete</button>
       <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
@@ -37,37 +40,12 @@
 
 <script>
 
-var DeletedLibrary = null;
+var LibraryDeleteController = null;
+$(document).ready(function() {
+    LibraryDeleteController = new ListDeleteController($('#library-container'));
+});
 
-var DoDelete = function() {
-  $('#delete').html("Finish Deleting");
-  $('#delete').click(DontDelete);
-  $('.delete-indicator').css("visibility","visible");
-  $('.library').click( function(e) {
-    e.preventDefault();
-    $('#delete-library-name').text($(this).children("span:first").text());
-    $('#confirm-delete-modal').modal('show');
-    url = this.href;
-    DeletedLibrary = $(this);
-    $('#confirm-delete').click(function() {
-      $.ajax({
-        url: url,
-        dataType: "script",
-        type: 'DELETE'
-      });
-    });
 
-  });
-}
-
-var DontDelete = function() {
-  $('#delete').html("Delete Libraries");
-  $('#delete').click(DoDelete);
-  $('.delete-indicator').css("visibility","hidden");
-  $('.library').off("click");
-}
-
-DontDelete();
 </script>
 
 <div class="modal fade" id="new-library" tabindex="-1" role="dialog" aria-labelledby="new-library-label" aria-hidden="true">
@@ -92,3 +70,4 @@ DontDelete();
   </div>
 </div>
 
+</div>

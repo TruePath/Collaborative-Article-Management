@@ -19,13 +19,12 @@
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="references">
-
-
-
-
+          <%= render "references/reference_table" %>
     </div>
-    <div role="tabpanel" class="tab-pane" id="raw_bibtex">...</div>
-    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+    <div role="tabpanel" class="tab-pane" id="raw_bibtex">
+      <%= render "raw_bibtex_entries/container" %>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="messages"></div>
   </div>
 
 </div>
@@ -33,9 +32,17 @@
 
 <script>
 	$(document).ready(function() {
-		$('#references').load("<%= url_for(library_references_path(@library)) %>");
+		$.getScript("<%= url_for(library_references_path(@library)) %>");
+		$("a[href='#references']").on('show.bs.tab', function(e) {
+	    $.getScript("<%= url_for(library_references_path(@library)) %>");
+	 	});
+	 	$("a[href='#raw_bibtex']").on('show.bs.tab', function(e) {
+	    $.getScript("<%= url_for(library_raw_bibtex_entries_path(@library)) %>");
+	 	});
+	 	$("a[href='#files']").on('show.bs.tab', function(e) {
+	    $('#files').load("<%= url_for(library_resources_path(@library)) %>");
+	 	});
 	});
-	$("a[href='#references']").on('show.bs.tab', function(e) {
-    $('#references').load("<%= url_for(library_references_path(@library)) %>");
- 	});
 </script>
+
+

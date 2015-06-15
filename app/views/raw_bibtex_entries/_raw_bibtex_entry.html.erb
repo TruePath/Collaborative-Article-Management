@@ -1,0 +1,21 @@
+<li class="list-group-item raw-bibtex-li" >
+<div class="row">
+<span
+	<% if raw_bibtex_entry.error? %>
+		class="text-danger"
+	<% elsif raw_bibtex_entry.warning? %>
+		<span class="text-warning"
+	<% end %>
+	>
+
+			<span class="caret"></span>
+			<%= raw_bibtex_entry.key %>
+
+			<span class="badge" class="text-danger">raw_bibtex_entry.num_errors</span>
+			<span class="badge" class="text-warning">raw_bibtex_entry.num_warnings</span>
+	</span>
+</div>
+<div class="well well-lg hidden raw-bibtex-content">
+	raw_bibtex_entry.content
+</div>
+</li>

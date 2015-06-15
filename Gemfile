@@ -24,8 +24,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # gem to install bootstrap css and js
 gem 'bootstrap-sass'
-# gem to use bootstrap forms
-gem 'bootstrap_form'
 #gem to handle user registration and stuff
 gem 'devise'
 #gem to use nested set model
@@ -38,8 +36,15 @@ gem 'kaminari'
 gem 'jquery-cookie-rails'
 #gem to handle yaml config
 gem 'rails_config'
+	# gem to use bootstrap forms
+gem 'bootstrap_form', :path => 'gems/rails-bootstrap-forms/'
+
 #gem to manage nice nested forms
 gem 'nested_form'
+#handle ajax file uploads
+gem 'remotipart'
+#bibtex support
+gem 'bibtex-ruby'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -49,6 +54,8 @@ gem 'nested_form'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

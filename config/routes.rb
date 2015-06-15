@@ -6,7 +6,12 @@ Rails.application.routes.draw do
 
   resources :libraries, shallow: true do
     resources :references
+    resources :resources
+    resources :raw_bibtex_entries
   end
+
+  post 'libraries/:library_id/raw_bibtex_entries/upload' => 'raw_bibtex_entries#upload', as: :upload_raw_bibtex_entry
+
   devise_for :users
 
 
