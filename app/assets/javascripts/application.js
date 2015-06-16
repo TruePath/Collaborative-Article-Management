@@ -44,6 +44,51 @@
     }
 })(jQuery);
 
+function addParameter(url, parameterName, parameterValue, atStart/*Add param before others*/){
+    if (typeof(atStart)==='undefined') atStart = false;
+    replaceDuplicates = true;
+    var cl;
+    var urlhash;
+    if(url.indexOf('#') > 0){
+        cl = url.indexOf('#');
+        urlhash = url.substring(url.indexOf('#'),url.length);
+    } else {
+        urlhash = '';
+        cl = url.length;
+    }
+    sourceUrl = url.substring(0,cl);
+
+    var urlParts = sourceUrl.split("?");
+    var newQueryString = "";
+
+    if (urlParts.length > 1)
+    {
+        var parameters = urlParts[1].split("&");
+        for (var i=0; (i < parameters.length); i++)
+        {
+            var parameterParts = parameters[i].split("=");
+            if (!(replaceDuplicates && parameterParts[0] == parameterName))
+            {
+                if (newQueryString === "")
+                    newQueryString = "?";
+                else
+                    newQueryString += "&";
+                newQueryString += parameterParts[0] + "=" + (parameterParts[1]?parameterParts[1]:'');
+            }
+        }
+    }
+    if (newQueryString === "")
+        newQueryString = "?";
+
+    if(atStart){
+        newQueryString = '?'+ parameterName + "=" + parameterValue + (newQueryString.length>1?'&'+newQueryString.substring(1):'');
+    } else {
+        if (newQueryString !== "" && newQueryString != '?') newQueryString += "&";
+        newQueryString += parameterName + "=" + ( (typeof(parameterValue) === 'undefined') ? '' : parameterValue);
+    }
+    return urlParts[0] + newQueryString + urlhash;
+}
+
 function ListDeleteController(container) {
   this.container = container;
   this.container.find('.delete-indicator').hide();
@@ -54,10 +99,12 @@ function ListDeleteController(container) {
   this.disable_button = this.container.find('.finish-delete-button').first();
   this.disable_button.click($.proxy(this.disable_delete, this));
   this.confirm_button = this.modal.find('.confirm-delete-button');
+  this.refresh = this.disable_delete;
   this.disable_delete();
 }
 
 ListDeleteController.prototype.enable_delete = function() {
+  this.refresh = this.enable_delete;
   this.container.find('.delete-indicator').show();
   this.enable_button.hide();
   this.disable_button.show();
@@ -88,6 +135,7 @@ ListDeleteController.prototype.enable_delete = function() {
 };
 
 ListDeleteController.prototype.disable_delete = function() {
+  this.refresh = this.disable_delete;
   this.container.find('.delete-indicator').hide();
   this.container.find('.deleteable-element').off("click");
   this.enable_button.show();

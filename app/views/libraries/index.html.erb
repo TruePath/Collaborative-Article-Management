@@ -40,10 +40,17 @@
 
 <script>
 
+LibraryPage = <%= @page %>;
+
 var LibraryDeleteController = null;
 $(document).ready(function() {
     LibraryDeleteController = new ListDeleteController($('#library-container'));
 });
+
+function RefreshLibraryPage() {
+  $.getScript(addParameter("<%= url_for(libraries_path) %>", "page", LibraryPage));
+}
+
 
 
 </script>

@@ -1,3 +1,4 @@
 $('#reference-table-body').html('<%= escape_javascript render(@references) %>');
 $('#reference-paginator').html('<%= escape_javascript(paginate(@references, :remote => true).to_s) %>');
-DontDelete();
+ReferencePage = <%= @page %>;
+ReferenceDeleteController.refresh();

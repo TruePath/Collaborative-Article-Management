@@ -1,21 +1,26 @@
 class RawBibtexEntriesController < ApplicationController
   before_action :set_raw_bibtex_entry, only: [:show, :edit, :update, :destroy]
   before_action :set_library, only: [:index, :create, :new, :upload]
-  before_action :check_edit_authorization [:edit, :update, :destroy]
-  before_action :check_create_authorization [:create, :new, :upload]
-  before_action :check_view_authorization [:index, :show]
+  before_action :check_edit_authorization, only:  [:edit, :update, :destroy]
+  before_action :check_create_authorization, only:  [:create, :new, :upload]
+  before_action :check_view_authorization, only:  [:index, :show]
 
   # GET /raw_bibtex_entries
   # GET /raw_bibtex_entries.json
   def index
-    @raw_bibtex_entries = RawBibtexEntry.all
+    @raw_bibtex_entries = @library.raw_bibtex_entries.page params[:page]
   end
 
   def upload
-   count = @library.raw_bibtex_entries.size
+   # count = @library.raw_bibtex_entries.size
    # bib = BibTex.parse(params[:bibtex_file].read, :filter => :latex,  :parse_names => false, :include => [:errors])
-   params[:bibtex_file].read.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).each { [entry]
-
+   params[:bibtex_file].read.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).each { |bibtex|
+    count += 1
+    entry = RawBibtexEntry.new
+    entry.library = @library
+    # entry.position = count
+    entry.build_from_bibtex(bibtex.force_encoding("UTF-8"))
+    entry.save
    }
   end
 

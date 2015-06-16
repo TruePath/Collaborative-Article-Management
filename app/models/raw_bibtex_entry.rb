@@ -1,3 +1,6 @@
+require 'forwardable'
+require "set"
+
 class Message
 	include Comparable
 
@@ -117,16 +120,16 @@ class RawBibtexEntry < ActiveRecord::Base
   belongs_to :reference
   belongs_to :parent_record, :polymorphic => true
   has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
-  serialize :messages, Messages #format array of Message
+  serialize :messages #, Messages #format array of Message
   acts_as_list :scope => :library
 
 
   def num_errors
-  	self.messages.inject(0) {|count, msg| count + msg.type == "error" ? 1 : 0 }
+  	self.messages.num_errors
   end
 
   def num_warnings
-  	self.messages.inject(0) {|count, msg| count + msg.type == "warning" ? 1 : 0 }
+  	self.messages.num_warnings
   end
 
   def error?
@@ -145,10 +148,14 @@ class RawBibtexEntry < ActiveRecord::Base
   	return self.library.user == user
   end
 
-  def self.build_from_bibtex(entry)
+  def build_from_bibtex(entry)
     sum_chars = 0
-    msgs = Messages.new(entry.lines.map {|line| sum_chars += line.size }, entry.index(/^[ \t]*author[ \t]*=/i))
-
+    line_starts = entry.lines.map {|line| sum_chars += line.size }
+    author_pos = entry.index(/^[ \t]*author[ \t]*=/i)
+    m = Messages.new(line_starts, author_pos)
+    self.messages = m
+    BibTeX.log = LogToMessages.new(self.messages)
+    BibTeX.parse entry,  :filter => :latex,  :parse_names => false, :include => [:errors]
   end
 
 end

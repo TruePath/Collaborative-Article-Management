@@ -9,7 +9,8 @@ class LibrariesController < ApplicationController
   # GET /libraries.js
 
   def index
-    @libraries = current_user.libraries.page params[:page]
+    @page = params[:page] || 0
+    @libraries = current_user.libraries.page @page
     respond_to :html, :js
   end
 

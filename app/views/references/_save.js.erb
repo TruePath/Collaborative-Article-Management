@@ -3,5 +3,5 @@
 <% else %>
   $('#save_reference_error').html('');
   $('#reference-form-modal').modal('hide');
-  $.getScript("<%= url_for(library_references_path(@library)) %>");
+  RefreshReferencePage();
 <% end %>

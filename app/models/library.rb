@@ -4,7 +4,7 @@ class Library < ActiveRecord::Base
 	belongs_to :user, :inverse_of => :libraries
 	has_many :references, dependent: :destroy, :inverse_of => :library
 	has_many :resources, dependent: :destroy, :inverse_of => :library
-	has_many :raw_bibtex_entries, -> { order(position: :asc) },  dependent: :destroy, :inverse_of => :library
+	has_many :raw_bibtex_entries, -> { order(position: :asc) },  dependent: :delete_all, :inverse_of => :library
 # name: string
 # description: string
 

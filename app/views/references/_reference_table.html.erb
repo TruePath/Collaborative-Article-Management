@@ -63,11 +63,18 @@
 
 <script>
 
+var ReferencePage;
 
 var ReferenceDeleteController = null;
 $(document).ready(function() {
     ReferenceDeleteController = new ListDeleteController($('#reference-container'));
 });
+
+function RefreshReferencePage() {
+  url = "<%= url_for(library_references_path(@library)) %>";
+  url = addParameter(url, "page", ReferencePage);
+  $.getScript(url);
+}
 
 
 
