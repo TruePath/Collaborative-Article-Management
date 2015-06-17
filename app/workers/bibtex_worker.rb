@@ -1,12 +1,12 @@
 class BibtexWorker
-  include Sidekiq::Worker
-  # include SidekiqStatus::Worker
-  sidekiq_options :retry => false # job will be discarded immediately if failed
+	@queue = :parse
 
 
-  def perform(bibtex_file, library) #upload may be a tempfile or stringio
+  def self.perform(bibtex_file_id, library_id) #upload may be a tempfile or stringio
   	# ActiveRecord::Base.transaction do
-	  	Paperclip.io_adapters.for(bfile.references_source).read,.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).each { |bibtex|
+  		bibtex_file = BibtexFile.find(bibtex_file_id)
+  		library = Library.find(library_id)
+	  	Paperclip.io_adapters.for(bibtex_file.references_source).read.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).each { |bibtex|
 	    entry = RawBibtexEntry.new
 	    entry.library = library
 	    entry.bibfile = bibtex_file

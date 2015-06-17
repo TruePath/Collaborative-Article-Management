@@ -46,9 +46,9 @@ gem 'remotipart'
 #bibtex support
 gem 'bibtex-ruby'
 #async processing
-gem 'sidekiq'
+gem 'resque'
 #status for sidekiq
-gem 'sidekiq_status'
+gem 'resque-status'
 #do mass active record inserts
 gem 'activerecord-import'
 #paperclip

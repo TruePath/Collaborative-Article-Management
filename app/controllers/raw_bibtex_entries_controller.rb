@@ -8,7 +8,7 @@ class RawBibtexEntriesController < ApplicationController
   # GET /raw_bibtex_entries
   # GET /raw_bibtex_entries.json
   def index
-    @page = params[:page]
+    @page = params[:page] || 0
     @raw_bibtex_entries = @library.raw_bibtex_entries.page @page
   end
 
@@ -18,16 +18,7 @@ class RawBibtexEntriesController < ApplicationController
    bfile.library = @library
    bfile.references_source = params[:bibtex_file]
    bfile.save
-   @jid = BibtexWorker.perform_async(bfile, params[:bibtex_file],  @library)
-   # ActiveRecord::Base.transaction do
-   #   Paperclip.io_adapters.for(bfile.references_source).read.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).each { |bibtex|
-   #      entry = RawBibtexEntry.new
-   #      entry.library = @library
-   #      entry.bibfile = bfile
-   #      entry.build_from_bibtex(bibtex.force_encoding("UTF-8"))
-   #      entry.save
-   #     }
-   #  end
+   Resque.enqueue(BibtexWorker, bfile.id, @library.id)
   end
 
   # GET /raw_bibtex_entries/1

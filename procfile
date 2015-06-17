@@ -1,2 +1,2 @@
-sidekiq: bundle exec sidekiq
+resque: rake resque:work QUEUE=*
 web: bundle exec rails server
