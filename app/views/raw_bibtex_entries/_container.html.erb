@@ -28,3 +28,15 @@
 </div>
 
 <%= render 'raw_bibtex_entries/file_upload' %>
+
+<script>
+
+var RawBibtexPage = 0;
+var BibtexUploadProgressBar = null;
+function RefreshRawBibtexPage() {
+  url = "<%= url_for(library_raw_bibtex_entries_path(@library)) %>";
+  url = addParameter(url, "page", RawBibtexPage);
+  $.getScript(url);
+}
+
+</script>

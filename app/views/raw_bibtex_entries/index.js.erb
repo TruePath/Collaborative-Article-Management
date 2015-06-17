@@ -1,2 +1,3 @@
 $('#raw-bibtex-entries-paginator').html('<%= escape_javascript render(@raw_bibtex_entries) %>');
 $('#raw-bibtex-entries-list').html('<%= escape_javascript(paginate(@raw_bibtex_entries, :remote => true).to_s) %>');
+RawBibtexPage = <%= @page %>;

@@ -1,0 +1,2 @@
+class BibtexFile < Bibfile
+end

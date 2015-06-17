@@ -8,20 +8,26 @@ class RawBibtexEntriesController < ApplicationController
   # GET /raw_bibtex_entries
   # GET /raw_bibtex_entries.json
   def index
-    @raw_bibtex_entries = @library.raw_bibtex_entries.page params[:page]
+    @page = params[:page]
+    @raw_bibtex_entries = @library.raw_bibtex_entries.page @page
   end
 
   def upload
-   # count = @library.raw_bibtex_entries.size
-   # bib = BibTex.parse(params[:bibtex_file].read, :filter => :latex,  :parse_names => false, :include => [:errors])
-   params[:bibtex_file].read.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).each { |bibtex|
-    count += 1
-    entry = RawBibtexEntry.new
-    entry.library = @library
-    # entry.position = count
-    entry.build_from_bibtex(bibtex.force_encoding("UTF-8"))
-    entry.save
-   }
+   raise NotAuthorized unless @library
+   bfile = BibtexFile.new
+   bfile.library = @library
+   bfile.references_source = params[:bibtex_file]
+   bfile.save
+   @jid = BibtexWorker.perform_async(bfile, params[:bibtex_file],  @library)
+   # ActiveRecord::Base.transaction do
+   #   Paperclip.io_adapters.for(bfile.references_source).read.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).each { |bibtex|
+   #      entry = RawBibtexEntry.new
+   #      entry.library = @library
+   #      entry.bibfile = bfile
+   #      entry.build_from_bibtex(bibtex.force_encoding("UTF-8"))
+   #      entry.save
+   #     }
+   #  end
   end
 
   # GET /raw_bibtex_entries/1

@@ -115,13 +115,14 @@ end
 
 
 class RawBibtexEntry < ActiveRecord::Base
-	#error:boolean, warning:boolean, messages:text, crossref_failure:boolean, key:string, converted:boolean
+	#error:boolean, warning:boolean, messages:text, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean
   belongs_to :library
   belongs_to :reference
+  belongs_to :bibfile
   belongs_to :parent_record, :polymorphic => true
   has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
   serialize :messages #, Messages #format array of Message
-  acts_as_list :scope => :library
+  # acts_as_list :scope => :library
 
 
   def num_errors
@@ -149,13 +150,21 @@ class RawBibtexEntry < ActiveRecord::Base
   end
 
   def build_from_bibtex(entry)
+    self.content = entry
     sum_chars = 0
     line_starts = entry.lines.map {|line| sum_chars += line.size }
     author_pos = entry.index(/^[ \t]*author[ \t]*=/i)
-    m = Messages.new(line_starts, author_pos)
-    self.messages = m
-    BibTeX.log = LogToMessages.new(self.messages)
-    BibTeX.parse entry,  :filter => :latex,  :parse_names => false, :include => [:errors]
+    msgs = Messages.new(line_starts, author_pos)
+    BibTeX.log = LogToMessages.new(msgs)
+    bib = BibTeX.parse entry,  :filter => :latex,  :parse_names => false, :include => [:errors]
+    if bib[0]
+      bib_entry=bib[0]
+      self.key = bib_entry.key if bib_entry.respond_to? :key
+      self.crossrefkey = bib_entry.crossreference if bib_entry.respond_to? :crossreference
+    end
+    self.error = (msgs.num_errors > 0)
+    self.warning = (msgs.num_warnings > 0)
+    self.messages = msgs
   end
 
 end

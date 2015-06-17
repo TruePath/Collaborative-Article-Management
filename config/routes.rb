@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'worker/status'
+
   resources :resources
   resources :raw_bibtex_entries
   get 'home/index'

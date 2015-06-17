@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150612043304) do
+ActiveRecord::Schema.define(version: 20150616141853) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -33,6 +33,21 @@ ActiveRecord::Schema.define(version: 20150612043304) do
 
   add_index "authorship_records", ["person_id"], name: "index_authorship_records_on_person_id"
   add_index "authorship_records", ["reference_id"], name: "index_authorship_records_on_reference_id"
+
+  create_table "bibfiles", force: :cascade do |t|
+    t.string   "type"
+    t.integer  "library_id"
+    t.boolean  "import",                         default: true
+    t.boolean  "processed",                      default: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.string   "references_source_file_name"
+    t.string   "references_source_content_type"
+    t.integer  "references_source_file_size"
+    t.datetime "references_source_updated_at"
+  end
+
+  add_index "bibfiles", ["library_id"], name: "index_bibfiles_on_library_id"
 
   create_table "fields", force: :cascade do |t|
     t.string   "name"
@@ -89,8 +104,11 @@ ActiveRecord::Schema.define(version: 20150612043304) do
     t.string   "parent_record_type"
     t.boolean  "crossref_failure"
     t.string   "key"
+    t.string   "crossrefkey"
+    t.integer  "bibfile_id"
   end
 
+  add_index "raw_bibtex_entries", ["bibfile_id"], name: "index_raw_bibtex_entries_on_bibfile_id"
   add_index "raw_bibtex_entries", ["crossref_failure"], name: "index_raw_bibtex_entries_on_crossref_failure"
   add_index "raw_bibtex_entries", ["error"], name: "index_raw_bibtex_entries_on_error"
   add_index "raw_bibtex_entries", ["key"], name: "index_raw_bibtex_entries_on_key"

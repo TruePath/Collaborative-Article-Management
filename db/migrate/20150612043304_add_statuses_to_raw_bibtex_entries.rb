@@ -10,6 +10,7 @@ class AddStatusesToRawBibtexEntries < ActiveRecord::Migration
     add_column :raw_bibtex_entries, :crossref_failure, :boolean
     add_index :raw_bibtex_entries, :crossref_failure
     add_column :raw_bibtex_entries, :key, :string
+    add_column :raw_bibtex_entries, :crossrefkey, :string
     add_index :raw_bibtex_entries, :key
   end
 end
