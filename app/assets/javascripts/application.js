@@ -89,6 +89,78 @@ function addParameter(url, parameterName, parameterValue, atStart/*Add param bef
     return urlParts[0] + newQueryString + urlhash;
 }
 
+function ResultsController(per_page) {
+  if (typeof(per_page)==='undefined') per_page = 50;
+  this.current_page = 0;
+  this.num_pages = 0;
+  this.num_items = 0;
+  this.items_per_page = per_page;
+  this.on_refresh_list = [];
+}
+
+ResultsController.prototype.refresh = function() {
+  for (var i=0; i<this.on_refresh_list.length; i++) {
+    this.on_refresh_list[i]();
+  }
+};
+
+ResultsController.prototype.on_refresh = function(fun) {
+  this.on_refresh_list.push(fun);
+};
+
+function SelectController(container, rcontrol) {
+  this.rcontrol = rcontrol;
+  this.container = container;
+  this.rcontrol.on_refresh($.proxy(this.refresh, this));
+  this.container.find('.select-page-link').click($.proxy(this.select_page, this));
+  this.container.find('.select-all-link').click($.proxy(this.select_all, this));
+  this.container.find('.select-none-link').click($.proxy(this.select_none, this));
+  this.container.find('.select-check-box').click($.proxy(this.select_some, this));
+}
+
+SelectController.prototype.refresh = function() {
+  this.select_none();
+  this.container.find('.select-check-box').click($.proxy(this.select_some, this));
+};
+
+SelectController.prototype.update_num_items= function() {
+  num_items = this.rcontrol.num_items;
+  this.container.find('.select-total-num-items').text(num_items);
+};
+
+SelectController.prototype.select_page = function() {
+  this.container.find('.select-check-box').prop('checked', true);
+  this.container.find('.select-page-link').hide();
+  this.update_num_items();
+  this.container.find('.select-all-link').show();
+  this.container.find('.hidden-select-all').val(0);
+};
+
+SelectController.prototype.select_none = function() {
+  this.container.find('.select-check-box').prop('checked', false);
+  this.container.find('.some-selected-links').show();
+  this.container.find('.all-selected-links').hide();
+  this.container.find('.select-page-link').show();
+  this.container.find('.select-all-link').hide();
+  this.container.find('.hidden-select-all').val(0);
+};
+
+SelectController.prototype.select_some = function() {
+  this.container.find('.some-selected-links').show();
+  this.container.find('.all-selected-links').hide();
+  this.container.find('.select-page-link').show();
+  this.container.find('.select-all-link').hide();
+  this.container.find('.hidden-select-all').val(0);
+};
+
+SelectController.prototype.select_all = function() {
+  this.container.find('.select-check-box').prop('checked', true);
+  this.container.find('.some-selected-links').hide();
+  this.update_num_items();
+  this.container.find('.all-selected-links').show();
+  this.container.find('.hidden-select-all').val(1);
+};
+
 function ListDeleteController(container) {
   this.container = container;
   this.container.find('.delete-indicator').hide();

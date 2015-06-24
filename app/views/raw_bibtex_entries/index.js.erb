@@ -1,3 +1,5 @@
-$('#raw-bibtex-entries-paginator').html('<%= escape_javascript render(@raw_bibtex_entries) %>');
-$('#raw-bibtex-entries-list').html('<%= escape_javascript(paginate(@raw_bibtex_entries, :remote => true).to_s) %>');
+$('#raw-bibtex-entries-table').html('<%= escape_javascript (render('raw_bibtex_entries/thead') + render(@raw_bibtex_entries)) %>');
+$('#raw-bibtex-entries-paginator').html('<%= escape_javascript(paginate(@raw_bibtex_entries, params: { sort_by: params[:sort_by], sort_direction: params[:sort_direction] }, :remote => true).to_s) %>');
 RawBibtexPage = <%= @page %>;
+<%= update_results_controller("RawBibtexResultsController", @raw_bibtex_entries) %>
+InitRawBibtexList($('#raw-bibtex-entries-table'));

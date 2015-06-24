@@ -122,23 +122,15 @@ class RawBibtexEntry < ActiveRecord::Base
   belongs_to :parent_record, :polymorphic => true
   has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
   serialize :messages #, Messages #format array of Message
-  # acts_as_list :scope => :library
+  paginates_per 50
 
-
-  def num_errors
-  	self.messages.num_errors
-  end
-
-  def num_warnings
-  	self.messages.num_warnings
-  end
 
   def error?
-  	return self.error
+  	return self.num_errors && self.num_errors > 0
   end
 
   def warning?
-  	return self.warning
+  	return self.num_warnings && self.num_warnings > 0
   end
 
   def can_edit?(user)
@@ -162,8 +154,8 @@ class RawBibtexEntry < ActiveRecord::Base
       self.key = bib_entry.key if bib_entry.respond_to? :key
       self.crossrefkey = bib_entry.crossreference if bib_entry.respond_to? :crossreference
     end
-    self.error = (msgs.num_errors > 0)
-    self.warning = (msgs.num_warnings > 0)
+    self.num_errors = msgs.num_errors
+    self.num_warnings = msgs.num_warnings
     self.messages = msgs
   end
 

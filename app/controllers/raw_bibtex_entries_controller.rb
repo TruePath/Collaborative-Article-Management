@@ -4,12 +4,14 @@ class RawBibtexEntriesController < ApplicationController
   before_action :check_edit_authorization, only:  [:edit, :update, :destroy]
   before_action :check_create_authorization, only:  [:create, :new, :upload]
   before_action :check_view_authorization, only:  [:index, :show]
+  helper_method :sort_by, :sort_direction
 
   # GET /raw_bibtex_entries
   # GET /raw_bibtex_entries.json
   def index
     @page = params[:page] || 0
-    @raw_bibtex_entries = @library.raw_bibtex_entries.page @page
+    @raw_bibtex_entries = RawBibtexEntry.where(library: @library).order(sort_by + " " + sort_direction).page @page
+    @sort_column = sort_by
   end
 
   def upload
@@ -18,7 +20,7 @@ class RawBibtexEntriesController < ApplicationController
    bfile.library = @library
    bfile.references_source = params[:bibtex_file]
    bfile.save
-   Resque.enqueue(BibtexWorker, bfile.id, @library.id)
+   @jid = BibtexWorker.create(bibtex_file_id: bfile.id, library_id: @library.id)
   end
 
   # GET /raw_bibtex_entries/1
@@ -76,6 +78,16 @@ class RawBibtexEntriesController < ApplicationController
   end
 
   private
+
+    def sort_by
+      RawBibtexEntry.column_names.include?(params[:sort_by]) ? params[:sort_by] : "created_at"
+    end
+
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_raw_bibtex_entry
       @raw_bibtex_entry = RawBibtexEntry.find(params[:id])

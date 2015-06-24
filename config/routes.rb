@@ -1,15 +1,30 @@
+class ParamsConstraint
+
+  def initialize(key, value)
+    @key = key
+    @value = value
+  end
+
+   def matches?(request)
+     request.query_parameters[@key] == @value
+   end
+end
+
+
 Rails.application.routes.draw do
   get 'worker/status'
 
-  resources :resources
-  resources :raw_bibtex_entries
+
   get 'home/index'
 
 
   resources :libraries, shallow: true do
     resources :references
     resources :resources
-    resources :raw_bibtex_entries
+    resources :raw_bibtex_entries, except: [:destroy] do
+        post :selection, constraints: ParamsConstraint.new('action', 'Delete'), action: :delete, on: :collection
+        post :selection, constraints: ParamsConstraint.new('action', 'Import'), action: :import, on: :collection
+    end
   end
 
   post 'libraries/:library_id/raw_bibtex_entries/upload' => 'raw_bibtex_entries#upload', as: :upload_raw_bibtex_entry

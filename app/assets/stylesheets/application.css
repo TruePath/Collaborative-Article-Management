@@ -14,3 +14,72 @@
  *= require_self
  *= require rails_bootstrap_forms
  */
+
+.caret-right {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-left: 4px solid;
+  border-bottom: 4px solid transparent;
+  border-top: 4px solid transparent;
+}
+
+.caret-up {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+
+	border-bottom: 4px solid black;
+}
+
+
+th.caret-column, td.caret-column {
+	width: 4px;
+}
+
+th.select-column, td.select-column {
+	width: 8px;
+}
+
+
+th .asc {
+  display: inline-block;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 4px solid black;
+}
+
+th .desc {
+  display: inline-block;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 4px solid black;
+}
+
+.panel-heading {
+	height: auto !important;
+}
+
+.pagination {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.select-control a {
+	text-decoration: underline;
+	color:#62ABFF;
+}

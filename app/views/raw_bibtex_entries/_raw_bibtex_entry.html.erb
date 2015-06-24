@@ -1,21 +1,16 @@
-<li class="list-group-item raw-bibtex-li" >
-<div class="row">
-<span
-	<% if raw_bibtex_entry.error? %>
-		class="text-danger"
-	<% elsif raw_bibtex_entry.warning? %>
-		<span class="text-warning"
-	<% end %>
-	>
-
-			<span class="caret"></span>
-			<%= raw_bibtex_entry.key %>
-
-			<span class="badge" class="text-danger"><%= raw_bibtex_entry.num_errors %></span>
-			<span class="badge" class="text-warning"><%= raw_bibtex_entry.num_warnings %></span>
-	</span>
-</div>
-<div class="well well-lg raw-bibtex-content" style="display:none">
-	<%= raw_bibtex_entry.content %>
-</div>
-</li>
+<tbody class="raw-bibtex-entry" >
+<tr class="header-row <%= entry_list_class(raw_bibtex_entry) %>">
+			<td class="column caret-column"><span class="caret-right caret-element"></span></td>
+			<td class="column column1"><%= raw_bibtex_entry.key %></td>
+			<td class="column column2"><span class="badge" class="text-warning"><%= raw_bibtex_entry.num_warnings %></span></td>
+			<td class="column column2"><span class="badge" class="text-danger"><%= raw_bibtex_entry.num_errors %></span></td>
+			<td class="column select-column"><%= check_box_tag "raw_bibtex_entry_ids[]", raw_bibtex_entry.id, false, class: "select-check-box" %></td>
+</tr>
+<tr class="display-row raw-bibtex-content" style="display:none">
+	<td colspan="5">
+		<div class="well well-lg" >
+			<%= raw_bibtex_entry.content %>
+		</div>
+	</td>
+</tr>
+</tbody>

@@ -1,9 +1,6 @@
-$('#upload-bibtex-file').modal('hide');
-RefreshRawBibtexPage();
-
-// $('#bibtex-upload-progress-bar').show();
-// BibtexUploadProgressBar = WorkerProgressBar(<%= @jid %>, $('#bibtex-upload-job-progress'), function (status) {
-// 	$('#upload-bibtex-file').modal('hide');
-// 	BibtexUploadProgressBar = null;
-// 	RefreshRawBibtexPage();
-// });
+$('#bibtex-upload-progress-bar').show();
+BibtexUploadProgressBar = WorkerProgressBar("<%= @jid.to_s %>", $('#bibtex-upload-job-progress'), function (status) {
+	$('#upload-bibtex-file').modal('hide');
+	BibtexUploadProgressBar = null;
+	RefreshRawBibtexPage();
+});
