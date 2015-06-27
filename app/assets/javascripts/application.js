@@ -17,6 +17,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require jquery_nested_form
+//= require underscore
 //= require_tree .
 
 (function($) {
@@ -43,6 +44,35 @@
         });
     }
 })(jQuery);
+
+
+// Code to deal with data-form-remote elements
+// causes them to submit the form with id from data-form-remote
+// to the url specificed by data-action or defaults to form action
+// with the method data-method or defaults to form data-method or defaults to post
+$(document).on("click", "button[data-form-remote]", function(e) {
+  e.preventDefault();
+  target = $(this);
+  var form = $('#' + target.attr("data-form-remote"));
+  var url = target.attr("data-action");
+  if (typeof url === undefined || (! url)) {
+    url = form.attr('action');
+  }
+  var method = target.attr("data-method");
+  if (typeof method === undefined || (! method)) {
+    method = form.attr('data-method');
+  }
+  if(typeof method === undefined || (! method)) {
+    method = 'POST';
+  }
+  method=method.toUpperCase();
+  $.ajax({
+    url: url,
+    dataType: "script",
+    type: method,
+    data: form.serialize()
+  });
+});
 
 function addParameter(url, parameterName, parameterValue, atStart/*Add param before others*/){
     if (typeof(atStart)==='undefined') atStart = false;
@@ -89,6 +119,14 @@ function addParameter(url, parameterName, parameterValue, atStart/*Add param bef
     return urlParts[0] + newQueryString + urlhash;
 }
 
+function addParameters(init_url, hash) {
+  var url = init_url;
+  for(var key in hash) {
+    url = addParameter(url, key, hash[key]);
+  }
+  return url;
+}
+
 function ResultsController(per_page) {
   if (typeof(per_page)==='undefined') per_page = 50;
   this.current_page = 0;
@@ -96,21 +134,93 @@ function ResultsController(per_page) {
   this.num_items = 0;
   this.items_per_page = per_page;
   this.on_refresh_list = [];
+  this._base_url = "";
+  this._params = {};
 }
 
-ResultsController.prototype.refresh = function() {
+
+Object.defineProperty(ResultsController.prototype, "params", {
+  get: function() {return this._params;},
+  set: function(p) {this._params = p;
+                    delete this._params['_'];}
+});
+
+Object.defineProperty(ResultsController.prototype, "base_url", {
+  get: function() {return this._base_url;},
+  set: function(url) {this._base_url = url.split("?")[0];}
+});
+
+
+ResultsController.prototype.did_refresh = function() {
   for (var i=0; i<this.on_refresh_list.length; i++) {
     this.on_refresh_list[i]();
   }
+};
+
+ResultsController.prototype.refresh = function() {
+  url = addParameters(this._base_url, this._params);
+  $.getScript(url);
+};
+
+ResultsController.prototype.set_param = function(key, val) {
+  this._params[key] = val;
+};
+
+ResultsController.prototype.delete_param = function(key, val) {
+  delete this._params[key];
 };
 
 ResultsController.prototype.on_refresh = function(fun) {
   this.on_refresh_list.push(fun);
 };
 
-function SelectController(container, rcontrol) {
+function SearchController(rcontrol, notification_container, template) {
+  this.rcontrol = rcontrol;
+  this.container = notification_container;
+  this.template = _.template(template);
+  this.params = {};
+}
+
+SearchController.prototype.cancel_search = function(scope, arg) {
+  this.rcontrol.delete_param(scope, arg);
+  delete this.params[scope];
+  this.rcontrol.refresh();
+};
+
+SearchController.prototype.add_notification = function(scope, arg) {
+  var el = $(this.template({scope: scope, arg: arg}));
+  var sc = this;
+  el.find('.search-cancel').click(function() {
+    e.preventDefault();
+    $(this).remove();
+    sc.cancel_search(scope, arg);
+  });
+  this.container.append(el);
+};
+
+SearchController.prototype.search = function(scope, arg) {
+  this.add_notification(scope, arg);
+  this.rcontrol.set_param(scope, arg);
+  this.params[scope] = arg;
+  this.rcontrol.refresh();
+};
+
+SearchController.prototype.hidden_fields = function() {
+  str="";
+  for (var scope in this.params) {
+    str += '<input type="hidden" name="' + scope + '" value="'+ this.params[scope] + '">';
+  }
+  return str;
+};
+
+function SelectController(container, rcontrol, scontrol) {
   this.rcontrol = rcontrol;
   this.container = container;
+  if (typeof(scontrol)==='undefined') {
+    this.scontrol = { hidden_fields: function() {return "";} };
+  } else {
+    this.scontrol = scontrol;
+  }
   this.rcontrol.on_refresh($.proxy(this.refresh, this));
   this.container.find('.select-page-link').click($.proxy(this.select_page, this));
   this.container.find('.select-all-link').click($.proxy(this.select_all, this));
@@ -133,7 +243,7 @@ SelectController.prototype.select_page = function() {
   this.container.find('.select-page-link').hide();
   this.update_num_items();
   this.container.find('.select-all-link').show();
-  this.container.find('.hidden-select-all').val(0);
+  this.container.find('.select-hidden-inputs').html('<input type="hidden" name="select_all" value="false">');
 };
 
 SelectController.prototype.select_none = function() {
@@ -142,7 +252,7 @@ SelectController.prototype.select_none = function() {
   this.container.find('.all-selected-links').hide();
   this.container.find('.select-page-link').show();
   this.container.find('.select-all-link').hide();
-  this.container.find('.hidden-select-all').val(0);
+  this.container.find('.select-hidden-inputs').html('<input type="hidden" name="select_all" value="false">');
 };
 
 SelectController.prototype.select_some = function() {
@@ -150,7 +260,7 @@ SelectController.prototype.select_some = function() {
   this.container.find('.all-selected-links').hide();
   this.container.find('.select-page-link').show();
   this.container.find('.select-all-link').hide();
-  this.container.find('.hidden-select-all').val(0);
+  this.container.find('.select-hidden-inputs').html('<input type="hidden" name="select_all" value="false">');
 };
 
 SelectController.prototype.select_all = function() {
@@ -158,7 +268,7 @@ SelectController.prototype.select_all = function() {
   this.container.find('.some-selected-links').hide();
   this.update_num_items();
   this.container.find('.all-selected-links').show();
-  this.container.find('.hidden-select-all').val(1);
+  this.container.find('.select-hidden-inputs').html(this.scontrol.hidden_fields() + '<input type="hidden" name="select_all" value="true">');
 };
 
 function ListDeleteController(container) {

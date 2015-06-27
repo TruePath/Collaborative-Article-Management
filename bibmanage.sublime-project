@@ -2,7 +2,9 @@
 	"folders":
 	[
 		{
-			"path": "."
+			"path": ".",
+			"folder_exclude_patterns": [".bundle", "log", "public", "bundle", "bin", "tmp", "gems", "vendor"],
+      "file_exclude_patterns": [".keep", "*.sublime-*", "*.git*"]
 		}
 	]
 }

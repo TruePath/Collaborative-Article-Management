@@ -22,8 +22,8 @@ Rails.application.routes.draw do
     resources :references
     resources :resources
     resources :raw_bibtex_entries, except: [:destroy] do
-        post :selection, constraints: ParamsConstraint.new('action', 'Delete'), action: :delete, on: :collection
-        post :selection, constraints: ParamsConstraint.new('action', 'Import'), action: :import, on: :collection
+        post :delete, action: :delete, on: :collection
+        post :import, action: :import, on: :collection
     end
   end
 

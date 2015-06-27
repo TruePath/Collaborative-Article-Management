@@ -115,7 +115,18 @@ end
 
 
 class RawBibtexEntry < ActiveRecord::Base
-	#error:boolean, warning:boolean, messages:text, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean
+  include Filterable
+	#num_errors, num_warnings, messages:text, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean
+  scope :has_errors, -> (pos) { if pos.present?
+                                  where( "num_errors " + (pos.to_bool ? ">" : "=") + "0")
+                                end }
+  scope :has_warnings, -> (pos) { if pos.present?
+                                    where( "num_warnings " + (pos.to_bool ? ">" : "=") + "0")
+                                  end }
+  scope :converted, -> (conv) {where converted: conv.to_bool if conv.present?}
+  scope :contains, -> (str) {where("content LIKE ?", "%#{str.to_s}%") if str.present?}
+
+
   belongs_to :library
   belongs_to :reference
   belongs_to :bibfile
