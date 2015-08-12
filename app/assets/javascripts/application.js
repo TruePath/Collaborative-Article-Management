@@ -174,11 +174,21 @@ ResultsController.prototype.on_refresh = function(fun) {
   this.on_refresh_list.push(fun);
 };
 
-function SearchController(rcontrol, notification_container, template) {
+function SearchController(rcontrol, notification_container, template, search_action_container) {
   this.rcontrol = rcontrol;
-  this.container = notification_container;
+  this.ncontainer = notification_container;
   this.template = _.template(template);
   this.params = {};
+  sc = this;
+  var cont = search_action_container;
+  $(cont).on("click", "[data-search-scope]", function(e) {
+  var scope = $(this).attr("data-search-scope");
+  var arg = $(this).attr("data-search-arg");
+  if (typeof arg === undefined || (! arg)) {
+    arg = $('#' + $(this).attr("data-search-input")).val();
+  }
+  sc.search(scope,arg);
+  });
 }
 
 SearchController.prototype.cancel_search = function(scope, arg) {
@@ -189,13 +199,15 @@ SearchController.prototype.cancel_search = function(scope, arg) {
 
 SearchController.prototype.add_notification = function(scope, arg) {
   var el = $(this.template({scope: scope, arg: arg}));
+  var id = "my-id-" + (Math.floor(Math.random() * 26) + Date.now()).toString();
+  el.attr("id", id);
+  this.ncontainer.append(el);
   var sc = this;
-  el.find('.search-cancel').click(function() {
+  $('#' + id).find('.search-cancel').click(function(e) {
     e.preventDefault();
-    $(this).remove();
     sc.cancel_search(scope, arg);
+    $('#' + id).remove();
   });
-  this.container.append(el);
 };
 
 SearchController.prototype.search = function(scope, arg) {

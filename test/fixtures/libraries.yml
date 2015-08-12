@@ -1,7 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+default:
+  name: Default Library
+  description: Default Test Library
+  user: default
 
 two:
-  name: MyString
+  name: Second Test Library
+  description: Second Test Library
+  user: default

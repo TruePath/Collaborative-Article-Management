@@ -1,3 +1,9 @@
 // Place all the styles related to the raw_bibtex_entries controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.search-breadcrumbs > li + li:before {
+    color: black !important;
+    content: "> " !important;
+    padding: 0 5px;
+}

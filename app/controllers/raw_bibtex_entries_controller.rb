@@ -23,11 +23,12 @@ class RawBibtexEntriesController < ApplicationController
    bfile.library = @library
    bfile.references_source = params[:bibtex_file]
    bfile.save
-   @jid = BibtexWorker.create(bibtex_file_id: bfile.id, library_id: @library.id)
+   @jid = BibtexUploadWorker.create(bibtex_file_id: bfile.id, library_id: @library.id)
   end
 
   def delete
-    @raw_bibtex_entries.each {|entry| entry.destroy}
+    @raw_bibtex_entries.delete_all
+    # @raw_bibtex_entries.each {|entry| entry.destroy}
     respond_to do |format|
       format.js { render 'refresh', notice: 'Entries Deleted'}
     end

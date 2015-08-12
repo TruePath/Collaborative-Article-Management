@@ -1,5 +1,8 @@
 $('#bibtex-upload-progress-bar').show();
+$('#upload-bibtex-file .modal-footer').hide();
 BibtexUploadProgressBar = WorkerProgressBar("<%= @jid.to_s %>", $('#bibtex-upload-job-progress'), function (status) {
+	$('#bibtex-upload-progress-bar').hide();
+	$('#upload-bibtex-file .modal-footer').show();
 	$('#upload-bibtex-file').modal('hide');
 	BibtexUploadProgressBar = null;
 	RawBibtexResultsController.refresh();

@@ -1,32 +1,44 @@
 <div class="panel panel-default" id="raw-bibtex-panel">
-	  <div class="panel-body">
-  			<div class="container-fluid well">
-  				<div class="btn-group">
-  					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show <span class="caret"></span></button>
-	    				<ul class="dropdown-menu" role="menu">
-	    					<li><a href="#" id="show-all">All</a></li>
-	    					<li><a href="#" id="show-errors">Errors</a></li>
-	    					<li><a href="#" id="show-warnings">Warnings</a></li>
-	    					<li><a href="#" id="show-warnings-and-errors">Warnings & Errors</a></li>
-	    				</ul>
-	    					    		</div>
-	    			<button type="button" data-form-remote="raw-bibtex-select-form" data-action="<%= delete_library_raw_bibtex_entries_path(@library) %>" class="btn btn-default navbar-btn" id="delete-selection">Delete</button>
-	    			<button type="button" data-form-remote="raw-bibtex-select-form" data-action="<%= import_library_raw_bibtex_entries_path(@library) %>" class="btn btn-default navbar-btn" id="import-selection">Import</button>
+	<div class="panel-body">
+		<div class="container-fluid well well-sm">
+			<div class="row">
+				<div class="col-md-7 vcenter">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show <span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" id="show-errors" data-search-scope="has_errors" data-search-arg="true">Errors</a></li>
+							<li><a href="#" id="show-warnings" data-search-scope="has_warnings" data-search-arg="true">Warnings</a></li>
+						</ul>
+											<div class="input-group">
+						<input type="text" class="form-control" id="raw-bibtex-content-search" placeholder="Search for...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" data-search-scope="contains" data-search-input="raw-bibtex-content-search">Go!</button>
+						</span>
+					</div><!-- /input-group -->
+					</div>
 
-	    	</div>
-	    <form id="raw-bibtex-select-form" class="select-form" action="/test">
-	    		<div id="raw-bibtex-search-notifications"></div>
-					<div id="raw-bibtex-entries-controls" class="well well-sm">
-			  		<div id="raw-bibtex-entries-paginator" class="vcenter col-md-9"></div><div class="col-md-3 vcenter select-container"><%= multiple_select_control %></div>
-			  	</div>
-
-		  	<table class="table table-hover table-condensed" id="raw-bibtex-entries-table">
-				</table>
-			</form>
+				</div>
+			<div class="col-md-4 vcenter">
+			<div class="btn-group">
+				<button type="button" data-form-remote="raw-bibtex-select-form" data-action="<%= delete_library_raw_bibtex_entries_path(@library) %>" class="btn btn-default navbar-btn" id="delete-selection">Delete</button>
+				<button type="button" data-form-remote="raw-bibtex-select-form" data-action="<%= import_library_raw_bibtex_entries_path(@library) %>" class="btn btn-default navbar-btn" id="import-selection">Import</button>
+			</div>
+			</div>
 		</div>
-	<div class="panel-footer">
-		<button type="button" class="btn btn-default navbar-btn" id="upload-bibtex">Upload Bibtex</button>
 	</div>
+	<form id="raw-bibtex-select-form" class="select-form" action="#">
+		<ol class="breadcrumb search-breadcrumbs" id="raw-bibtex-search-notifications"></ol>
+		<div id="raw-bibtex-entries-controls" class="well well-sm">
+			<div id="raw-bibtex-entries-paginator" class="vcenter col-md-9"></div><div class="col-md-3 vcenter select-container"><%= multiple_select_control %></div>
+		</div>
+
+		<table class="table table-hover table-condensed" id="raw-bibtex-entries-table">
+		</table>
+	</form>
+</div>
+<div class="panel-footer">
+	<button type="button" class="btn btn-default navbar-btn" id="upload-bibtex">Upload Bibtex</button>
+</div>
 </div>
 
 <%= render 'raw_bibtex_entries/file_upload' %>
@@ -36,7 +48,7 @@
 
 var RawBibtexPage = 0;
 var RawBibtexResultsController = new ResultsController(50);
-var RawBibtexSearchController = new SearchController(RawBibtexResultsController, $('#raw-bibtex-search-notifications'), bibtex_search_template);
+var RawBibtexSearchController = new SearchController(RawBibtexResultsController, $('#raw-bibtex-search-notifications'), bibtex_search_template, $('#raw-bibtex-panel') );
 var RawBibtexSelectController = new SelectController($('#raw-bibtex-panel'), RawBibtexResultsController, RawBibtexSearchController);
 $('#raw-bibtex-entries-table').on("click", '.header-row' , function(e) {
 			target = $(this);

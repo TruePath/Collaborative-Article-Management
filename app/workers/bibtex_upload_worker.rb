@@ -1,4 +1,4 @@
-class BibtexWorker
+class BibtexUploadWorker
 	include Resque::Plugins::Status
 
 
@@ -6,7 +6,7 @@ class BibtexWorker
   	# ActiveRecord::Base.transaction do
   		bibtex_file = BibtexFile.find(options['bibtex_file_id'])
   		library = Library.find(options['library_id'])
-	  	raw_entries = Paperclip.io_adapters.for(bibtex_file.references_source).read.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm)
+	  	raw_entries = BibtexFile.split_entries(Paperclip.io_adapters.for(bibtex_file.references_source).read)
 	  	total = raw_entries.length
 	  	num = 0
 	  	raw_entries.each { |bibtex|
@@ -15,8 +15,11 @@ class BibtexWorker
 		    entry = RawBibtexEntry.new
 		    entry.library = library
 		    entry.bibfile = bibtex_file
-		    entry.build_from_bibtex(bibtex.force_encoding("UTF-8"))
-		    entry.save
+		    if (RawBibtexEntry.exists?(digest: entry.digest))
+		    	entry.destroy
+		    else
+		    	entry.save
+		    end
 		   }
 	  # end
   end

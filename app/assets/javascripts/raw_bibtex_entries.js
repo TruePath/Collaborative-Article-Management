@@ -6,7 +6,7 @@ function InitRawBibtexList(container) {
 		});
 }
 
-var bibtex_search_template = "<div class='search-notification'>" +
+var bibtex_search_template = "<li class='search-notification'>" +
 "<% switch(scope) {  " +
 "case 'has_errors': %>" +
 "<%= (arg ? 'Has' : 'No' )  %> Errors" +
@@ -17,8 +17,8 @@ var bibtex_search_template = "<div class='search-notification'>" +
 "case 'converted': %>" +
 "<%= (arg ? 'Is' : 'Is Not' )  %> Converted" +
 "<% break; " +
-"case 'content': %>" +
+"case 'contains': %>" +
 "Content Contains <%= arg %>" +
 "<% break; } %>" +
-'<button type="button" class="search-cancel"><span aria-hidden="true">&times;</span></button>' +
-"</div>";
+'<button type="button" class="close search-cancel" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+"</li>";

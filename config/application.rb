@@ -21,6 +21,10 @@ module Bibmanage
     # config.i18n.default_locale = :de
     # config.action_controller.include_all_helpers = false #make helpers local
 
+    config.before_initialize do |app|
+        app.config.paths.add 'app/models', :eager_load => true
+    end
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.encoding = "utf-8"
