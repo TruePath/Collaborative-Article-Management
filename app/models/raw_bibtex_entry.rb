@@ -94,47 +94,14 @@ class Messages
     self.select {|msg|  msg.is_a?(WarningMessage) }
   end
 
-	def_delegators :@msg_set, :<<, :each, :add, :to_a, :[], :empty?, :size, :length, :add, :add?
-
-end
-
-class LogToMessages
-
-  def initialize(msgs)
-    super
-    @msgs=msgs
-  end
-
-  def warn(text)
-    @msgs.add_warning(clean(text), position(text))
-  end
-
-  def error(text)
-    @msgs.add_error(clean(text), position(text))
-  end
-
-  def debug(text)
-  end
-
-  def warn(text)
-  end
-
-  def position(error_string)
-    /(?<=at[ ])(?<=position[ ])?\d*/i =~ error_string
-    $&.to_i
-  end
-
-  def clean(error_string)
-    error_string.sub(/at[ ](position[ ])?\d*[;]?/i)
-  end
-
+	def_delegators :@msg_set, :<<, :each, :add, :to_a, :[], :empty?, :size, :length, :add?
 
 end
 
 
 class RawBibtexEntry < ActiveRecord::Base
   include Filterable
-	#num_errors, num_warnings, messages:text, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean
+	#num_errors, num_warnings, messages:text, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean, authorship_type:string
   before_update :set_digest
   scope :has_errors, -> (pos) { if pos.present?
                                   where( "num_errors " + (pos.to_bool ? ">" : "=") + "0")
@@ -152,7 +119,10 @@ class RawBibtexEntry < ActiveRecord::Base
   belongs_to :parent_record, :polymorphic => true
   has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
   serialize :messages #, Messages #format array of Message
-  serialize :fields #, Hash #of field values
+  serialize :fields, Hash #of field values
+  serialize :filenames, Array
+  serialize :links, Array
+  serialize :authors, Array
   paginates_per 50
 
 
@@ -184,6 +154,10 @@ class RawBibtexEntry < ActiveRecord::Base
                         [}]   ) )*+\z /xm
   FIELD = /[\n\r \t]*(?<fieldname>[[:alpha:]]*+)[ \t]*=[ \t]*/xm
   PARSE_FIELD = /(?:(?:\A|\G)|(?<=[}][,])|(?<=[}][\n\r]))#{FIELD}[{](?<interior>#{INTERIOR_BALANCED_BRACES}|.*?)[}][\,]?(?=[ \n\r\t]*(?:[[:alpha:]]*+[ \t]*=|[}]?[\n\r\t ]*\z))/xm
+  ENTRY_HEAD = /\A[\n\r\t ]*[@][[:alpha:]]+[{] # @blah{ part
+      [^[:space:]\,{}]* #key
+      [ \t]*[,\n\r][ \n]* /xm
+
 
   def self.split_entries(file_contents)
     return file_contents.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).drop(1)
@@ -216,12 +190,41 @@ class RawBibtexEntry < ActiveRecord::Base
   end
 
   def process_wrapper #We leave the final } in the interior
-    head_match = /\A[\n\r\t ]*[@][[:alpha:]]+[{] # @blah{ part
-      [^[:space:],{}]* #key
-      [ \t]*[,\n\r][ \n]* /xm.match(self.content)
-    @interior_start = head_match.end(0)
-    @interior=self.content[head_match.end(0)..-0].strip
-    return @interior
+    head_match = ENTRY_HEAD.match(self.content)
+    if head_match
+      @interior_start = head_match.end(0)
+      @interior=self.content[head_match.end(0)..self.content.length].strip
+      return @interior
+    end
+  end
+
+  def parse_files(field, pos)
+    field.strip.split(/(?<![\\])\;/).each {|entry|
+      m = entry.match(/\A[\:]?((?:[^\:\;\n\r]|#{ESC}[\:\;])*)[\:]([[:alpha:]\-_]*)\Z/)
+      if m
+        self.filenames.push(m[1])
+      else
+        add_error("Failed to parse file", pos)
+      end
+    }
+  end
+
+  def parse_urls(field, pos)
+    field.strip.split(/[ \t\n]/).each {|entry|
+      if ! entry.empty?
+        self.links.push(entry)
+      else
+        add_error("Failed to parse url", pos)
+      end
+    }
+  end
+
+  def parse_authors(field, pos)
+    field.strip.split(/([ ]and[ ])|\;/).each {|entry|
+      if ! entry.empty?
+        self.authors << entry.strip
+      end
+    }
   end
 
   def parse_fields
@@ -229,10 +232,18 @@ class RawBibtexEntry < ActiveRecord::Base
     while (match = @interior.match(PARSE_FIELD, offset) )
       key = match[1]
       content = match[2]
-      if (key == "crossref")
+      case key
+      when "crossref"
         self.crossrefkey = content
+      when "file"
+        parse_files(content, @interior_start + offset)
+      when "url"
+        parse_urls(content, @interior_start + offset)
+      when "author", "editor"
+        self.authorship_type = key
+        parse_authors(content, @interior_start + offset)
       else
-        self.fields[key] = content
+        self.fields[key] = content.strip
       end
       if (match.begin(0) > offset + 1)
         add_error("Could not parse", @interior_start + offset  )
@@ -246,12 +257,12 @@ class RawBibtexEntry < ActiveRecord::Base
     end
   end
 
-  def is_entry?
-    return true  if /\A[\n\r\t ]*[@][[:alpha:]]+[{]/.match(self.content)
-    return false
-  end
 
   def extract_key
+    unless ENTRY_HEAD.match(self.content)
+      add_error("No Entry Head", 0)
+      throw :entry_parse_fail
+    end
     match = /(?: \A[\n\r\t ]*[@][[:alpha:]]+[{][ \t]*) #End ungrouped match
         ([^[:space:]\,{}]+) #actual capture...everything without comma, whitespace or {}
        (?=[ \t]*\,[\n\r])/x.match(self.content)
@@ -294,6 +305,9 @@ class RawBibtexEntry < ActiveRecord::Base
     set_digest
     init_fields
     init_messages
+    self.filenames = Array.new
+    self.links = Array.new
+    self.authors = Array.new
     self.num_warnings = 0
     self.num_errors = 0
   end
@@ -306,27 +320,11 @@ class RawBibtexEntry < ActiveRecord::Base
 
   def parse #Returns true if successful...even with substantial errors
     reset
-    if (! self.is_entry?)
-      add_error("No Entry", 0)
-      return false
+    catch :entry_parse_fail do
+      extract_key
+      process_wrapper
+      parse_fields
     end
-    extract_key
-    process_wrapper
-    parse_fields
-    # author_pos = self.content.index(/^[ \t]*author[ \t]*=/i)
-    # BibTeX.log = LogToMessages.new(self.messages)
-    # bib = BibTeX.parse entry,  :filter => :latex,  :parse_names => false, :include => [:errors]
-    # if bib[0]
-    #   bib_entry=bib[0]
-    #   # if (bib_entry.respond_to? :key && ! bid_entry.key.empty?)
-    #   #   self.key = bib_entry.key
-    #   # else
-    #   #   self.key = parse_key
-    #   # end
-    #   self.crossrefkey = bib_entry.crossreference if bib_entry.respond_to? :crossreference
-    # end
-    self.num_errors = msgs.num_errors
-    self.num_warnings = msgs.num_warnings
     return true
   end
 

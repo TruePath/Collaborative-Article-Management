@@ -1,3 +1,6 @@
 [submodule "gems/rails-bootstrap-forms"]
 	path = gems/rails-bootstrap-forms
 	url = https://github.com/bootstrap-ruby/rails-bootstrap-forms.git
+[submodule "gems/paperclip-googledrive"]
+	path = gems/paperclip-googledrive
+	url = https://github.com/evinsou/paperclip-googledrive.git

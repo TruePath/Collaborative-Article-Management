@@ -55,8 +55,15 @@ gem 'activerecord-import'
 gem 'paperclip'
 #delayed paperclip
 gem 'delayed_paperclip'
+#paperclip with google drive
+gem 'paperclip-googledrive', :path => "gems/paperclip-googledrive/"
 #underscore js
 gem 'underscore-rails'
+
+gem "omniauth-google-oauth2"
+
+gem "acts-as-taggable-on"
+gem "closure_tree"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

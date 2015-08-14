@@ -17,6 +17,9 @@
 		</li>
 	<% else %>
 		<li role="presentation">
+			<%= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
+		</li>
+		<li role="presentation">
 			<%= link_to 'Log In', new_user_session_path %>
 		</li>
 		<li role="presentation">

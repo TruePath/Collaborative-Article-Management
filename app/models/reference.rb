@@ -1,5 +1,7 @@
 class Reference < ActiveRecord::Base
-	#title:string, key:string, bibtex_type:string, year:integer, author_names:string, month:string
+	#title:string, key:string, bibtex_type:string, year:integer, authors:text, month:string, doi:string
+	acts_as_taggable # Alias for acts_as_taggable_on :tags
+	acts_as_taggable_on :subjects, :keywords
 	has_many :fields, :inverse_of => :reference
 	has_many :authorship_records,  -> { order 'authorship_records.position' }, :inverse_of => :reference, :dependent => :destroy
 	has_many :persons, -> { order 'authorship_records.position' }, :through => :authorship_records
@@ -10,6 +12,8 @@ class Reference < ActiveRecord::Base
 	has_one :raw_bibtex_entry, :inverse_of => :reference
 	belongs_to :parent, class_name: "Reference"
 	belongs_to :library, counter_cache: true, :inverse_of => :references
+	has_and_belongs_to_many :labels, counter_cache: true
+	serialize :authors, Array
 
 	accepts_nested_attributes_for :fields, allow_destroy: true, reject_if:  :reject_field
 

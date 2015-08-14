@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629130848) do
+ActiveRecord::Schema.define(version: 20150813220922) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -58,6 +58,33 @@ ActiveRecord::Schema.define(version: 20150629130848) do
   end
 
   add_index "fields", ["reference_id"], name: "index_fields_on_reference_id"
+
+  create_table "label_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id",   null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations",   null: false
+  end
+
+  add_index "label_hierarchies", ["ancestor_id", "descendant_id", "generations"], name: "label_anc_desc_idx", unique: true
+  add_index "label_hierarchies", ["descendant_id"], name: "label_desc_idx"
+
+  create_table "labels", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.integer  "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "library_id"
+  end
+
+  add_index "labels", ["library_id"], name: "index_labels_on_library_id"
+  add_index "labels", ["name"], name: "index_labels_on_name"
+  add_index "labels", ["parent_id"], name: "index_labels_on_parent_id"
+
+  create_table "labels_references", id: false, force: :cascade do |t|
+    t.integer "label_id",     null: false
+    t.integer "reference_id", null: false
+  end
 
   create_table "libraries", force: :cascade do |t|
     t.string   "name"
@@ -107,6 +134,10 @@ ActiveRecord::Schema.define(version: 20150629130848) do
     t.integer  "num_errors"
     t.string   "digest"
     t.text     "fields"
+    t.text     "links"
+    t.text     "filenames"
+    t.text     "authors"
+    t.string   "authorship_type"
   end
 
   add_index "raw_bibtex_entries", ["bibfile_id"], name: "index_raw_bibtex_entries_on_bibfile_id"
@@ -129,11 +160,12 @@ ActiveRecord::Schema.define(version: 20150629130848) do
     t.integer  "year"
     t.integer  "resources_count", default: 0
     t.integer  "links_count",     default: 0
-    t.string   "author_names"
     t.string   "month"
+    t.string   "doi"
+    t.text     "authors"
   end
 
-  add_index "references", ["author_names"], name: "index_references_on_author_names"
+  add_index "references", ["doi"], name: "index_references_on_doi"
   add_index "references", ["library_id"], name: "index_references_on_library_id"
   add_index "references", ["parent_id"], name: "index_references_on_parent_id"
 
@@ -151,6 +183,26 @@ ActiveRecord::Schema.define(version: 20150629130848) do
   add_index "resources", ["library_id"], name: "index_resources_on_library_id"
   add_index "resources", ["reference_id"], name: "index_resources_on_reference_id"
 
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", force: :cascade do |t|
+    t.string  "name"
+    t.integer "taggings_count", default: 0
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -166,9 +218,14 @@ ActiveRecord::Schema.define(version: 20150629130848) do
     t.datetime "updated_at",                          null: false
     t.string   "description"
     t.string   "name"
+    t.string   "provider"
+    t.string   "uid"
+    t.text     "google_credentials"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["provider"], name: "index_users_on_provider"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["uid"], name: "index_users_on_uid"
 
 end

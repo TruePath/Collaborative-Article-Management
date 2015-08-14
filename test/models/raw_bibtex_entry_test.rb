@@ -104,4 +104,63 @@ END_STRING
   end
 
 
+  test "parse_files" do
+    single_file = ":Users/TruePath/Library/Application Support/Mendeley Desktop/Downloaded/Bobba et al. - Unknown - PERFORMANCE PATHOLOGIES IN HARDWARE TRANSACTIONAL MEMORY(2).pdf:pdf"
+    double_file = ":Users/TruePath/Google Drive/Managed Papers/Mendeley/Variable-Arity Polymorphism - Strickland, Tobin-Hochstadt, Felleisen - 2008.bib:bib;:Users/TruePath/Google Drive/Managed Papers/Mendeley//Practical variable-arity polymorphism - Strickland, Tobin-Hochstadt, Felleisen - 2009.pdf:pdf"
+    @basic.parse_files(single_file, 0)
+    assert_equal(1, @basic.filenames.length)
+    assert_equal("Users/TruePath/Library/Application Support/Mendeley Desktop/Downloaded/Bobba et al. - Unknown - PERFORMANCE PATHOLOGIES IN HARDWARE TRANSACTIONAL MEMORY(2).pdf", @basic.filenames[0])
+    @junk.parse_files(double_file, 0)
+    assert_equal(2, @junk.filenames.length)
+    assert_equal("Users/TruePath/Google Drive/Managed Papers/Mendeley//Practical variable-arity polymorphism - Strickland, Tobin-Hochstadt, Felleisen - 2009.pdf", @junk.filenames[1])
+    assert_equal("Users/TruePath/Google Drive/Managed Papers/Mendeley/Variable-Arity Polymorphism - Strickland, Tobin-Hochstadt, Felleisen - 2008.bib", @junk.filenames[0])
+  end
+
+  test "parse_urls" do
+    single_url = "http://slashdot.org "
+    double_url = "http://slashdot.org http://arstechnica.com"
+    @basic.parse_urls(single_url, 0)
+    assert_equal(1, @basic.links.length)
+    assert_equal("http://slashdot.org", @basic.links[0])
+    @junk.parse_urls(double_url, 0)
+    assert_equal(2, @junk.links.length)
+    assert_equal("http://arstechnica.com", @junk.links[1])
+    assert_equal("http://slashdot.org", @junk.links[0])
+  end
+
+  test "parse_authors" do
+    @basic.parse_authors("Mathiske, B and Matthes, F and Schmidt, J W", 0)
+    assert_equal(3, @basic.authors.length)
+    assert_equal("Mathiske, B", @basic.authors[0])
+    assert_equal("Matthes, F", @basic.authors[1])
+    assert_equal("Schmidt, J W", @basic.authors[2])
+    @basic.reset
+    @basic.parse_authors("Mathiske, B; Matthes, F; Schmidt, J W", 0)
+    assert_equal(3, @basic.authors.length)
+    assert_equal("Mathiske, B", @basic.authors[0])
+    assert_equal("Matthes, F", @basic.authors[1])
+    assert_equal("Schmidt, J W", @basic.authors[2])
+  end
+
+  test "parse_fields" do
+    @crossref.parse_fields
+    assert_equal(6, @crossref.fields.length)
+    assert_equal("We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications.",
+                  @crossref.fields["abstract"])
+    assert_equal(3, @crossref.authors.length)
+    assert_equal("Mathiske, B", @crossref.authors[0])
+    assert_equal("Matthes, F", @crossref.authors[1])
+    assert_equal("Schmidt, J W", @crossref.authors[2])
+    assert_equal("In Proceedings of the Fifth International Workshop on Database Programming Languages",
+                  @crossref.fields["booktitle"])
+    assert_equal(1, @crossref.filenames.length)
+    assert_equal("Users/TruePath/Google Drive/Managed Papers/Mendeley/Scaling Database Languages to Higher-Order Distributed Programming - Mathiske, Matthes, Schmidt - 1995.pdf", @crossref.filenames[0])
+          keywords = {RPC;Remote Procedure Call;Remote Execution},
+          publisher = {Springer-Verlag},
+          title = {{Scaling Database Languages to Higher-Order Distributed Programming}},
+          year = {1995}
+    assert_equal()
+
+  end
+
 end

@@ -1,3 +1,10 @@
+PATH
+  remote: gems/paperclip-googledrive/
+  specs:
+    paperclip-googledrive (0.1.4)
+      google-api-client (~> 0.5)
+      paperclip (>= 3.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -38,9 +45,16 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    acts-as-taggable-on (3.5.0)
+      activerecord (>= 3.2, < 5)
     acts_as_list (0.7.2)
       activerecord (>= 3.0)
+    addressable (2.3.8)
     arel (6.0.0)
+    autoparse (0.3.3)
+      addressable (>= 2.3.1)
+      extlib (>= 0.9.15)
+      multi_json (>= 1.0.0)
     autoprefixer-rails (5.2.0.1)
       execjs
       json
@@ -60,6 +74,9 @@ GEM
       columnize (= 0.9.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    closure_tree (5.2.0)
+      activerecord (>= 3.2.0)
+      with_advisory_lock (>= 3.0.0)
     cocaine (0.5.7)
       climate_control (>= 0.0.3, < 1.0)
     coffee-rails (4.1.0)
@@ -82,8 +99,30 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.5.2)
+    extlib (0.9.16)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    google-api-client (0.8.6)
+      activesupport (>= 3.2)
+      addressable (~> 2.3)
+      autoparse (~> 0.3)
+      extlib (~> 0.9)
+      faraday (~> 0.9)
+      googleauth (~> 0.3)
+      launchy (~> 2.4)
+      multi_json (~> 1.10)
+      retriable (~> 1.4)
+      signet (~> 0.6)
+    googleauth (0.4.2)
+      faraday (~> 0.9)
+      jwt (~> 1.4)
+      logging (~> 2.0)
+      memoist (~> 0.12)
+      multi_json (~> 1.11)
+      signet (~> 0.6)
+    hashie (3.4.2)
     i18n (0.7.0)
     jbuilder (2.3.0)
       activesupport (>= 3.0.0, < 5)
@@ -95,23 +134,48 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    jwt (1.5.1)
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     latex-decode (0.2.2)
       unicode (~> 0.4)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    little-plugger (1.1.3)
+    logging (2.0.0)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.10)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    memoist (0.12.0)
     mime-types (2.6.1)
     mini_portile (0.6.2)
     minitest (5.7.0)
     mono_logger (1.1.0)
     multi_json (1.11.1)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
     nested_form (0.3.2)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
+    oauth2 (1.0.0)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
+    omniauth (1.2.2)
+      hashie (>= 1.2, < 4)
+      rack (~> 1.0)
+    omniauth-google-oauth2 (0.2.6)
+      omniauth (> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-oauth2 (1.3.1)
+      oauth2 (~> 1.0)
+      omniauth (~> 1.2)
     orm_adapter (0.5.0)
     paperclip (4.2.2)
       activemodel (>= 3.0.0)
@@ -165,6 +229,7 @@ GEM
       vegas (~> 0.1.2)
     resque-status (0.5.0)
       resque (~> 1.19)
+    retriable (1.4.1)
     sass (3.4.14)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -175,6 +240,12 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    signet (0.6.1)
+      addressable (~> 2.3)
+      extlib (~> 0.9)
+      faraday (~> 0.9)
+      jwt (~> 1.5)
+      multi_json (~> 1.10)
     sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -208,18 +279,23 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    with_advisory_lock (3.0.0)
+      activerecord (>= 3.2)
+      thread_safe
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activerecord-import
+  acts-as-taggable-on
   acts_as_list
   awesome_nested_set
   bibtex-ruby
   bootstrap-sass
   bootstrap_form
   byebug
+  closure_tree
   coffee-rails
   delayed_paperclip
   devise
@@ -228,7 +304,9 @@ DEPENDENCIES
   jquery-rails
   kaminari
   nested_form
+  omniauth-google-oauth2
   paperclip
+  paperclip-googledrive!
   rails
   rails_config
   remotipart

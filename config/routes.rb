@@ -29,7 +29,8 @@ Rails.application.routes.draw do
 
   post 'libraries/:library_id/raw_bibtex_entries/upload' => 'raw_bibtex_entries#upload', as: :upload_raw_bibtex_entry
 
-  devise_for :users
+  # devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
 
   # get 'libraries/index'
