@@ -18,9 +18,19 @@ class User < ActiveRecord::Base
            password: Devise.friendly_token[0,20]
         )
     end
+    user.provider = access_token.provider
+    user.uid = access_token.uid
     user.google_credentials = user.google_credentials.merge(access_token.credentials)
     user.save
     user
+  end
+
+  def self.new_with_session(params, session) #may or may not be needed
+    super.tap do |user|
+      if info = session["devise.google_data"].info #&& session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = info["email"] if user.email.blank?
+      end
+    end
   end
 
 end

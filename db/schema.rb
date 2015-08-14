@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813220922) do
+ActiveRecord::Schema.define(version: 20150814050803) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 20150813220922) do
     t.text     "filenames"
     t.text     "authors"
     t.string   "authorship_type"
+    t.string   "bibtex_type"
   end
 
   add_index "raw_bibtex_entries", ["bibfile_id"], name: "index_raw_bibtex_entries_on_bibfile_id"

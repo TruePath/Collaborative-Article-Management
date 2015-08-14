@@ -142,7 +142,7 @@ class RawBibtexEntriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def raw_bibtex_entry_params
-      params[:raw_bibtex_entry]
+      params.require(:content).permit(:converted, :subject_list => [], :keyword_list => [])
     end
 
     def preserve_params

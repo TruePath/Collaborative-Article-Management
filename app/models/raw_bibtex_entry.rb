@@ -101,7 +101,7 @@ end
 
 class RawBibtexEntry < ActiveRecord::Base
   include Filterable
-	#num_errors, num_warnings, messages:text, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean, authorship_type:string
+	#num_errors, num_warnings, messages:text, bibtex_type:string, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean, authorship_type:string
   before_update :set_digest
   scope :has_errors, -> (pos) { if pos.present?
                                   where( "num_errors " + (pos.to_bool ? ">" : "=") + "0")
@@ -112,7 +112,7 @@ class RawBibtexEntry < ActiveRecord::Base
   scope :converted, -> (conv) {where converted: conv.to_bool if conv.present?}
   scope :contains, -> (str) {where("content LIKE ?", "%#{str.to_s}%") if str.present?}
 
-
+  acts_as_taggable_on :subjects, :keywords
   belongs_to :library
   belongs_to :reference
   belongs_to :bibfile
@@ -220,7 +220,7 @@ class RawBibtexEntry < ActiveRecord::Base
   end
 
   def parse_authors(field, pos)
-    field.strip.split(/([ ]and[ ])|\;/).each {|entry|
+    field.strip.split(/(?:[ ]and[ ])|\;/).each {|entry|
       if ! entry.empty?
         self.authors << entry.strip
       end
@@ -241,9 +241,11 @@ class RawBibtexEntry < ActiveRecord::Base
         parse_urls(content, @interior_start + offset)
       when "author", "editor"
         self.authorship_type = key
-        parse_authors(content, @interior_start + offset)
+        parse_authors(content.gsub(/[\{\}]/, ''), @interior_start + offset)
+      when "keywords"
+        self.keyword_list.add(content, parse: true)
       else
-        self.fields[key] = content.strip
+        self.fields[key] = content.strip.gsub(/[\{\}]/, '')
       end
       if (match.begin(0) > offset + 1)
         add_error("Could not parse", @interior_start + offset  )
@@ -263,22 +265,25 @@ class RawBibtexEntry < ActiveRecord::Base
       add_error("No Entry Head", 0)
       throw :entry_parse_fail
     end
-    match = /(?: \A[\n\r\t ]*[@][[:alpha:]]+[{][ \t]*) #End ungrouped match
+    match = /(?: \A[\n\r\t ]*[@]([[:alpha:]]+)[{][ \t]*) #End ungrouped match
         ([^[:space:]\,{}]+) #actual capture...everything without comma, whitespace or {}
        (?=[ \t]*\,[\n\r])/x.match(self.content)
     if match
-      self.key = match[1]
+      self.bibtex_type = match[1]
+      self.key = match[2]
       return true
     end
-    match = /(?: \A[\n\r\t ]*[@][[:alpha:]]+[{][ \t]*) #End ungrouped match
+    match = /(?: \A[\n\r\t ]*[@]([[:alpha:]]+)[{][ \t]*) #End ungrouped match
         ([^[:space:]\,{}]+) #actual capture...everything without comma, whitespace or {}
        (?=[ \t]*[\,\n\r])/x.match(self.content)
     if match
-      self.key = match[1]
+      self.bibtex_type = match[1]
+      self.key = match[2]
       add_warning("Improperly Terminated Key", match.end(0))
       return true
     end
-    start_match = /\A[\n\r ]*[@][[:alpha:]]+[{]/xm.match(self.content)
+    start_match = /\A[\n\r ]*[@]([[:alpha:]]+)[{]/xm.match(self.content)
+    self.bibtex_type = start_match[1]
     add_error("Missing Key", start_match.end(0))
     self.key = ""
     return false
