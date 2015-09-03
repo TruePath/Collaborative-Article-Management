@@ -6,18 +6,18 @@
 					<div class="btn-group">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Show <span class="caret"></span></button>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#" id="show-errors" data-search-scope="has_errors" data-search-arg="true">Errors</a></li>
-							<li><a href="#" id="show-warnings" data-search-scope="has_warnings" data-search-arg="true">Warnings</a></li>
+							<li><a href="#" id="show-errors" data-search-submit="true" data-search-scope="has_errors" data-search-arg="true">Errors</a></li>
+							<li><a href="#" id="show-warnings" data-search-submit="true" data-search-scope="has_warnings" data-search-arg="true">Warnings</a></li>
 						</ul>
 											<div class="input-group">
 						<input type="text" class="form-control" id="raw-bibtex-content-search" placeholder="Search for...">
 						<span class="input-group-btn">
-							<button class="btn btn-default" type="button" data-search-scope="contains" data-search-input="raw-bibtex-content-search">Go!</button>
+							<button class="btn btn-default" type="button" data-search-submit="true" data-search-scope="contains" data-search-arg-ptr="raw-bibtex-content-search">Go!</button>
 						</span>
 					</div><!-- /input-group -->
-					</div>
-
 				</div>
+
+			</div>
 			<div class="col-md-4 vcenter">
 			<div class="btn-group">
 				<button type="button" data-form-remote="raw-bibtex-select-form" data-action="<%= delete_library_raw_bibtex_entries_path(@library) %>" class="btn btn-default navbar-btn" id="delete-selection">Delete</button>
@@ -44,6 +44,7 @@
 <%= render 'raw_bibtex_entries/file_upload' %>
 
 <script>
+
 
 
 var RawBibtexPage = 0;

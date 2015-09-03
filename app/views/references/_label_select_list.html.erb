@@ -1,0 +1,5 @@
+<div class="list-group">
+	<% label_enum(@library, "- ") do |label, name|  %>
+		<a href="#" class="list-group-item" data-search-submit="true" data-search-scope="label" data-search-arg="<%= label.id %>"><%= name %></a>
+	<% end %>
+</div>

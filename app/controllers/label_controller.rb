@@ -1,2 +1,0 @@
-class LabelController < ApplicationController
-end

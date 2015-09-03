@@ -1,4 +1,5 @@
 class RawBibtexEntriesController < ApplicationController
+  include Sortable
   before_action :set_raw_bibtex_entry, only: [:show, :edit, :update, :destroy]
   before_action :set_library, only: [:index, :create, :new, :upload, :delete, :import]
   before_action :set_raw_bibtex_entries, only: [:delete, :import]
@@ -7,13 +8,12 @@ class RawBibtexEntriesController < ApplicationController
   before_action :check_create_authorization, only:  [:create, :new, :upload]
   before_action :check_view_authorization, only:  [:index, :show]
 
-  helper_method :sort_by, :sort_direction, :preserve_params
 
   # GET /raw_bibtex_entries
   # GET /raw_bibtex_entries.json
   def index
     @page = params[:page] || 0
-    @raw_bibtex_entries = RawBibtexEntry.where(library: @library).order(sort_by + " " + sort_direction).filter(search_params).page @page
+    @raw_bibtex_entries = sort(RawBibtexEntry.where(library: @library)).filter(search_params).page @page
     @sort_column = sort_by
   end
 
@@ -93,14 +93,6 @@ class RawBibtexEntriesController < ApplicationController
 
   private
 
-    def sort_by
-      RawBibtexEntry.column_names.include?(params[:sort_by]) ? params[:sort_by] : "created_at"
-    end
-
-    def sort_direction
-      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
-    end
-
 
     # Use callbacks to share common setup or constraints between actions.
     def set_raw_bibtex_entry
@@ -109,20 +101,19 @@ class RawBibtexEntriesController < ApplicationController
 
     def set_library
       @library = Library.find(params[:library_id])
+      raise NotAuthorized unless @library
     end
 
     def set_raw_bibtex_entries
       if  params[:select_all].present? && params[:select_all].to_bool
         @raw_bibtex_entries = RawBibtexEntry.where(library: @library).filter(search_params)
       else
-        @raw_bibtex_entries = RawBibtexEntry.find(params[:raw_bibtex_entry_ids])
+        @raw_bibtex_entries = RawBibtexEntry.where(library: @library, id: params[:raw_bibtex_entry_ids])
       end
     end
 
     def check_multiple_edit_authorization
       raise NotAuthorized unless @library.can_edit?(current_user)
-      return if  params[:select_all].present? && params[:select_all].to_bool
-      raise NotAuthorized unless @raw_bibtex_entries.all? { |entry| entry.library == @library }
     end
 
     def check_edit_authorization
@@ -146,7 +137,7 @@ class RawBibtexEntriesController < ApplicationController
     end
 
     def preserve_params
-      return params.slice(:has_errors, :has_warnings, :converted, :contains, :sort_by, :sort_direction)
+      return super.merge(search_params)
     end
 
     def search_params

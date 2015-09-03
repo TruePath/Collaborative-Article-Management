@@ -1,0 +1,5 @@
+<li><a href="#" data-toggle="modal" data-target="#new-label">Create Label</a></li>
+<li role="separator" class="divider"></li>
+<% label_enum(@library, " -") do |label, name| %>
+	<li><a href="#" data-form-remote="references-select-form" data-action="<%= add_label_to_reference_path(@library, label)%>" ><%= name %></a></li>
+<% end %>

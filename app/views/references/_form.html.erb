@@ -1,44 +1,50 @@
       <div class="modal-header">
         <h4 class="modal-title" id="reference-form-label">
           <%  if @reference.new_record? %>
-            Create Reference
+          Create Reference
           <% else %>
-            Edit Reference
+          Edit Reference
           <% end %>
         </h4>
       </div>
 
       <%= bootstrap_nested_form_for(@library_reference, remote: true, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-7") do |f| %>
-        <div class="modal-body">
-          <div id="save_reference_error"></div>
-          <%= f.select :bibtex_type, Settings.bibtex_types, label: "Type", disabled: !@editable  %>
-          <%= f.text_field :key, label: "Bibtex Key", label: "Key", disabled: !@editable  %>
+      <div class="modal-body">
+        <div id="save_reference_error"></div>
+        <%= f.select :bibtex_type, Settings.bibtex_types, label: "Type", disabled: !@editable  %>
+        <%= f.text_field :key, label: "Bibtex Key", label: "Key", disabled: !@editable  %>
 
-          <%= f.text_field :title, disabled: !@editable %>
-          <%= f.text_field :author_names, label: "Authors", disabled: !@editable  %>
-            <%= f.number_field :year, min:0, max: 2100, disabled: !@editable  %>
-            <%= f.select :month, Date::MONTHNAMES, disabled: !@editable  %>
-          <%= f.fields_for :fields do |field_form| %>
-              <div>
-                <%= field_form.hidden_field :name %>
-                <% if @editable %>
-                  <%= field_form.text_field :value, label: field_form.object.name, label_class: "field_name_label", class: "field_value", append: field_form.link_to_remove( "Delete", class: "btn btn-default") %>
-                <% else %>
-                  <%= field_form.text_field :value, label: field_form.object.name, label_class: "field_name_label", class: "field_value", disabled: "true" %>
-                <% end %>
-              </div>
-            <% end %>
-            <% if @editable %>
-              <%= f.link_to_add "Add a Field", :fields, id: 'add-field-link', class:"btn btn-default" %>
-            <% end %>
-
+        <%= f.text_field :title, disabled: !@editable %>
+        <div>
+        <%= f.select :authorship_type, [["Authors", "author"], ["Editor", "editor"]], label: "Authorship Type", hide_label: :true, disabled: !@editable  %>
+          <%= f.fields_for :author_names, :wrapper => false do |author_form| %>
+              <%= author_form.text_field :name, label: "Author", hide_label: :true, help: "Author Name" disabled: !@editable, append: author_form.link_to_remove( '<span class="glyphicon glyphicon-align-minus" aria-hidden="true"></span>', class: "btn btn-default") %>
+          <% end %>
+          <%= f.link_to_add '<span class="glyphicon glyphicon-align-plus" aria-hidden="true"></span>', :author_names, id: 'add-author-link', class:"btn btn-default" %>
         </div>
-        <div class="modal-footer">
-        <% if @editable %>
-          <input type="submit" name="commit" value="Update" class="btn btn-default"  />
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <% else %>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <%= f.number_field :year, min:0, max: 2100, disabled: !@editable  %>
+        <%= f.select :month, Date::MONTHNAMES, disabled: !@editable  %>
+        <%= f.fields_for :fields do |field_form| %>
+        <div>
+          <%= field_form.hidden_field :name %>
+          <% if @editable %>
+          <%= field_form.text_field :value, label: field_form.object.name, label_class: "field_name_label", class: "field_value", append: field_form.link_to_remove( "Delete", class: "btn btn-default") %>
+          <% else %>
+          <%= field_form.text_field :value, label: field_form.object.name, label_class: "field_name_label", class: "field_value", disabled: "true" %>
+          <% end %>
+        </div>
         <% end %>
-        </div>
+        <% if @editable %>
+        <%= f.link_to_add "Add a Field", :fields, id: 'add-field-link', class:"btn btn-default" %>
+        <% end %>
+
+      </div>
+      <div class="modal-footer">
+        <% if @editable %>
+        <input type="submit" name="commit" value="Update" class="btn btn-default"  />
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <% else %>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <% end %>
+      </div>
       <% end %>

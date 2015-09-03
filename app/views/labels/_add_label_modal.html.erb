@@ -1,0 +1,19 @@
+<div class="modal fade" id="new-label" tabindex="-1" role="dialog" aria-labelledby="new-label-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="new-library-label">Add Label</h4>
+      </div>
+      <%= bootstrap_form_tag(url: library_labels_url(@library), remote: true) do |f| %>
+        <div class="modal-body">
+          <%= f.select :parent_id, label_select_list(@library, " -").insert(0, ["", -1]), label: "Choose Parent Label" %>
+          <%= f.text_field :name, hide_label: true, placeholder: "Label Name" %>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" name="create" value="Create" class="btn btn-default"  />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -32,3 +32,17 @@
   });
 
 }).call(this);
+
+var reference_search_template = "<li class='search-notification'>" +
+"<% switch(scope) {  " +
+"case 'label': %>" +
+"In <em><%= arg %></em>" +
+"<% break; " +
+"case 'fulltext': %>" +
+" ~ \"<%= arg %>\"" +
+"<% break; " +
+"default: %>" +
+"<%= scope %> ~ \"<%= arg %>\"" +
+"}" +
+'<button type="button" class="close search-cancel" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+"</li>";

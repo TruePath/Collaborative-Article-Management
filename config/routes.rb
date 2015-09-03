@@ -19,8 +19,15 @@ Rails.application.routes.draw do
 
 
   resources :libraries, shallow: true do
-    resources :references
-    resources :resources
+    resources :references, except: [:destroy] do
+        post :delete, action: :delete, on: :collection
+        get :refresh_labels, action: :refresh_labels, on: :collection
+    end
+    resources :resources do
+      post :delete, action: :delete, on: :collection
+      post :add_label, action: :add_label, on: :collection
+    end
+    resources :labels, only: [:create]
     resources :raw_bibtex_entries, except: [:destroy] do
         post :delete, action: :delete, on: :collection
         post :import, action: :import, on: :collection
@@ -28,6 +35,8 @@ Rails.application.routes.draw do
   end
 
   post 'libraries/:library_id/raw_bibtex_entries/upload' => 'raw_bibtex_entries#upload', as: :upload_raw_bibtex_entry
+
+  post 'libraries/:library_id/references/add_label/:label_id' => 'references#add_label', as: :add_label_to_reference
 
   # devise_for :users
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }

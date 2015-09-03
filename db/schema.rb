@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814050803) do
+ActiveRecord::Schema.define(version: 20150903204156) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 20150814050803) do
 
   add_index "aliases", ["name"], name: "index_aliases_on_name"
   add_index "aliases", ["person_id"], name: "index_aliases_on_person_id"
+
+  create_table "author_names", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "entry_id"
+    t.string   "entry_type"
+    t.integer  "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "author_names", ["entry_type", "entry_id"], name: "index_author_names_on_entry_type_and_entry_id"
 
   create_table "authorship_records", force: :cascade do |t|
     t.integer  "position"
@@ -164,6 +175,7 @@ ActiveRecord::Schema.define(version: 20150814050803) do
     t.string   "month"
     t.string   "doi"
     t.text     "authors"
+    t.text     "abstract"
   end
 
   add_index "references", ["doi"], name: "index_references_on_doi"

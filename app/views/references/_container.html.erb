@@ -1,0 +1,79 @@
+<div id="reference-container">
+
+<div id="label-select-list" style="position: fixed; left: 0px;">
+  <%= render 'references/label_select_list' %>
+</div>
+
+<div class="panel panel-default">
+      <div class="container-fluid well well-sm">
+      <div class="row">
+          <div class="form-inline">
+          <div class="col-xs-5">
+            <select id="reference-search-field-select" class="form-control">
+               <option value="key">Key</option>
+               <option value="title">Title</option>
+               <option value="type">Type</option>
+               <option value="author">Author</option>
+               <option value="year">Year</option>
+               <option value="fulltext">Full Text</option>
+            </select>
+              <input type="text"  id="reference-content-search" class="form-control" placeholder="Search for...">
+               <button class="btn btn-primary" type="button" data-search-scope="contains" data-search-input="reference-content-search">Go!</button>
+              </div>
+          <div class="col-xs-2">
+          <button type="button" class="btn btn-default form-control" data-onclick-remote="<%= new_library_reference_path(@library) %>" aria-label="New">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        </div>
+        <div class="col-xs-2">
+        <button type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Apply Label">
+          <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" id="assign-label-to-refs-dropdown">
+          <%=  render "references/add_label_to_ref_dropdown" %>
+        </ul>
+                </div>
+        <div class="col-xs-2">
+        <button type="button" data-form-remote="references-select-form" data-action="<%= delete_library_references_path(@library) %>" class="btn btn-default form-control" id="delete-selection" aria-label="Delete" title="Delete">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="reference-select-form" class="select-form" action="#">
+    <ol class="breadcrumb search-breadcrumbs" id="reference-search-notifications"></ol>
+    <div id="reference-entries-controls" class="well well-sm">
+      <div id="reference-paginator" class="vcenter col-md-9"></div><div class="col-md-3 vcenter select-container"><%= multiple_select_control %></div>
+    </div>
+      <table class="table table-hover" id="reference-table">
+      </table>
+  </form>
+</div>
+
+</div>
+
+<script>
+
+
+
+var ReferencePage = 0;
+
+var ReferenceResultsController = new ResultsController(50);
+var ReferenceSearchController = new SearchController(ReferenceResultsController, $('#reference-search-notifications'), reference_search_template, $('#reference-container') );
+var ReferenceSelectController = new SelectController($('#reference-container'), ReferenceResultsController, ReferenceSearchController);
+
+var RefreshLabels = function() {
+    $.getScript("<%= refresh_labels_library_references_url(@library)  %>");
+};
+
+
+
+
+</script>
+
+<%= render 'references/form_container' %>
+
+<div id="add_label_modal_div">
+  <%=  render "labels/add_label_modal" %>
+</div>

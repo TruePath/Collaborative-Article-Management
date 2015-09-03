@@ -39,6 +39,8 @@ gem 'rails_config'
 	# gem to use bootstrap forms
 gem 'bootstrap_form'
 
+gem 'simple_form' #may need to replace bootstrap_form
+
 #gem to manage nice nested forms
 gem 'nested_form'
 #handle ajax file uploads

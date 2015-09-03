@@ -118,11 +118,14 @@ class RawBibtexEntry < ActiveRecord::Base
   belongs_to :bibfile
   belongs_to :parent_record, :polymorphic => true
   has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
-  serialize :messages #, Messages #format array of Message
+  has_many :author_names,  -> { order 'author_names.position' }, class_name: "AuthorName", foreign_key: "entry_id", as: :author_name, :dependent => :destroy
   serialize :fields, Hash #of field values
   serialize :filenames, Array
   serialize :links, Array
-  serialize :authors, Array
+
+  accepts_nested_attributes_for :author_names, allow_destroy: true, reject_if:  proc { |attributes| attributes['name'].blank? }  serialize :messages #, Messages #format array of Message
+
+
   paginates_per 50
 
 
@@ -221,9 +224,7 @@ class RawBibtexEntry < ActiveRecord::Base
 
   def parse_authors(field, pos)
     field.strip.split(/(?:[ ]and[ ])|\;/).each {|entry|
-      if ! entry.empty?
-        self.authors << entry.strip
-      end
+      self.author_names.create(name: entry)
     }
   end
 

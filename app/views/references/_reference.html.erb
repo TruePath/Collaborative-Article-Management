@@ -1,10 +1,9 @@
 <tr class="reference-row deleteable-element deleteable-identifier">
-	<td class="column column1"><a href="<%= url_for(reference_path(reference)) %>" class="reference-edit-link deleteable-href"> <%= reference.key %></a></td>
-	<td class="column column2"><%= reference.title %></td>
-	<td class="column column3"><%= reference.bibtex_type %></td>
-	<td class="column column4"><%= reference.author_names %></td>
-  <td class="column column5"><%= reference.year %></td>
-  <td class="column column6"><%= reference.num_links %></td>
-  <td class="column column7"><%= reference.num_files %></td>
-  <td class="column delete-indicator" style="display:none"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td>
+	<td class="column column1" data-onclick-remote="<%= url_for(reference_path(reference)) %>"><%= reference.title %></td>
+	<td class="column column2" data-onclick-remote="<%= url_for(reference_path(reference)) %>"><%= reference.bibtex_type %></td>
+	<td class="column column3" data-onclick-remote="<%= url_for(reference_path(reference)) %>"><%= reference.authors %></td>
+  <td class="column column4" data-onclick-remote="<%= url_for(reference_path(reference)) %>"><%= reference.year %></td>
+  <td class="column column5" data-onclick-remote="<%= url_for(reference_path(reference)) %>"><%= reference.num_files %></td>
+  <td class="column column6"><%= reference.labels %></td>
+	<td class="column select-column"><%= check_box_tag "reference_ids[]", reference.id, false, class: "select-check-box" %></td>
 </tr>

@@ -146,8 +146,7 @@ END_STRING
   end
 
   test "parse_fields" do
-    @crossref.process_wrapper
-    @crossref.parse_fields
+    @crossref.parse
     assert_equal(5, @crossref.fields.length)
     assert_equal("We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications.",
                   @crossref.fields["abstract"])

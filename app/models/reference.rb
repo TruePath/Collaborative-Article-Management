@@ -1,4 +1,5 @@
 class Reference < ActiveRecord::Base
+	include Filterable
 	#title:string, key:string, bibtex_type:string, year:integer, authors:text, month:string, doi:string
 	acts_as_taggable # Alias for acts_as_taggable_on :tags
 	acts_as_taggable_on :subjects, :keywords
@@ -9,20 +10,22 @@ class Reference < ActiveRecord::Base
 	has_many :links, -> { order 'links.position' }, :inverse_of => :reference
 	has_many :children, class_name: "Reference", foreign_key: "parent_id"
 	has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
+  has_many :author_names,  -> { order 'author_names.position' }, class_name: "AuthorName", foreign_key: "entry_id", as: :author_name, :dependent => :destroy
 	has_one :raw_bibtex_entry, :inverse_of => :reference
 	belongs_to :parent, class_name: "Reference"
 	belongs_to :library, counter_cache: true, :inverse_of => :references
 	has_and_belongs_to_many :labels, counter_cache: true
-	serialize :authors, Array
 
-	accepts_nested_attributes_for :fields, allow_destroy: true, reject_if:  :reject_field
+	accepts_nested_attributes_for :fields, allow_destroy: true, reject_if:  proc { |attributes| attributes['name'].blank? || attributes['value'].blank? }
+	accepts_nested_attributes_for :author_names, allow_destroy: true, reject_if:  proc { |attributes| attributes['name'].blank? }
 
-	def reject_field(attributes)
-		exists = attributes['id'].present?
-		empty = (attributes['name'].blank? || attributes['value'].blank?)
-		attributes.merge!({:_destroy => 1}) if exists and empty
-  	return (!exists and empty)
-	end
+	scope :label, -> (id) { joins(:labels).where( "labels.id = ?", id) if id.present? }
+  scope :key, -> (str) {where("key LIKE ?", "%#{str.to_s}%") if str.present?}
+  scope :title, -> (str) {where("title LIKE ?", "%#{str.to_s}%") if str.present?}
+  scope :author, -> (str) {where("authors LIKE ?", "%#{str.to_s}%") if str.present?}
+  scope :year, -> (str) {where("year LIKE ?", "%#{str.to_s}%") if str.present?}
+  scope :fulltext, -> (str) {where("abstract LIKE ?", "%#{str.to_s}%") if str.present?}
+
 
 	def num_links
 		self.links_count

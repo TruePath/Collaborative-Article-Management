@@ -5,7 +5,7 @@ class Label < ActiveRecord::Base
   scope :in_library, ->(library) { where(:library => library) }
 
 def self.roots_in_library(lib)
-	Label.where({:library => lib, :parent_id => null})
+	Label.where({:library => lib, :parent_id => nil})
 end
 
 def walk_subtree(enter = Proc.new {}, exit = Proc.new {}, depth = nil, &b) #block taking name, depth
@@ -14,14 +14,14 @@ def walk_subtree(enter = Proc.new {}, exit = Proc.new {}, depth = nil, &b) #bloc
 	c =self.children
 	enter.call unless c.length == 0
 	c.each { |child|
-		child.walk_subtree
+		child.walk_subtree(enter, exit, depth + 1, &b)
 	}
 	exit.call unless c.length == 0
 end
 
 def self.walk_labels(lib, enter = Proc.new {}, exit = Proc.new {}, &b)
 	Label.roots_in_library(lib).each { |lab|
-		lab.walk_subtree(enter, exit, b)
+		lab.walk_subtree(enter, exit, 0, &b)
 	}
 end
 

@@ -1,4 +1,4 @@
-$('#reference-table-body').html('<%= escape_javascript render(@references) %>');
-$('#reference-paginator').html('<%= escape_javascript(paginate(@references, :remote => true).to_s) %>');
+$('#reference-table').html('<%= escape_javascript(render('references/reference_table')) %>');
+$('#reference-paginator').html('<%= escape_javascript(paginate(@references, params: preserve_params, :remote => true).to_s) %>');
 ReferencePage = <%= @page %>;
-ReferenceDeleteController.refresh();
+<%= update_results_controller("ReferenceResultsController", @references) %>

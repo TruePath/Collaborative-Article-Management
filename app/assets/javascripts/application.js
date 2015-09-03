@@ -45,6 +45,17 @@
     }
 })(jQuery);
 
+// Code to deal with data-onclick-remote elements
+
+$(document).on("click", "[data-onclick-remote]", function(e) {
+    e.preventDefault();
+    url = $(this).attr("data-onclick-remote");
+    $.ajax({
+      url: url,
+      dataType: "script",
+      type: "GET",
+  });
+});
 
 // Code to deal with data-form-remote elements
 // causes them to submit the form with id from data-form-remote
@@ -181,12 +192,15 @@ function SearchController(rcontrol, notification_container, template, search_act
   this.params = {};
   sc = this;
   var cont = search_action_container;
-  $(cont).on("click", "[data-search-scope]", function(e) {
-  var scope = $(this).attr("data-search-scope");
-  var arg = $(this).attr("data-search-arg");
-  if (typeof arg === undefined || (! arg)) {
-    arg = $('#' + $(this).attr("data-search-input")).val();
-  }
+  $(cont).on("click", "[data-search-submit]", function(e) {
+    var scope = $(this).attr("data-search-scope");
+    if (typeof scope === undefined || (! scope)) {
+      scope = $('#' + $(this).attr("data-search-scope-ptr")).val();
+    }
+    var arg = $(this).attr("data-search-arg");
+    if (typeof arg === undefined || (! arg)) {
+      arg = $('#' + $(this).attr("data-search-arg-ptr")).val();
+    }
   sc.search(scope,arg);
   });
 }

@@ -20,4 +20,16 @@ module ApplicationHelper
 		"#{results_controller}.base_url = '#{request.url}'; \n" +
 		"#{results_controller}.did_refresh();").html_safe
 	end
+
+	def sort_column_header(column, title = nil)
+	  title ||= column.titleize
+	  css_class = column == sort_by ? "current" : nil
+	  caret_css = column == sort_by ? "#{sort_direction}" : ""
+	  direction = column == sort_by && sort_direction == "asc" ? "desc" : "asc"
+	  p = {:sort_by => column, :direction => direction}
+	  url = yield p
+	  link_to( title, url, :class => css_class, remote: true) + "<span class='#{caret_css}'></span>".html_safe
+	end
+
+
 end
