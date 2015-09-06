@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903204156) do
+ActiveRecord::Schema.define(version: 20150903215507) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -147,7 +147,6 @@ ActiveRecord::Schema.define(version: 20150903204156) do
     t.text     "fields"
     t.text     "links"
     t.text     "filenames"
-    t.text     "authors"
     t.string   "authorship_type"
     t.string   "bibtex_type"
   end
@@ -174,7 +173,6 @@ ActiveRecord::Schema.define(version: 20150903204156) do
     t.integer  "links_count",     default: 0
     t.string   "month"
     t.string   "doi"
-    t.text     "authors"
     t.text     "abstract"
   end
 

@@ -138,7 +138,7 @@ class ReferencesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reference_params
-      params.require(:reference).permit(:key, :title, :bibtex_type, :year, :authors, :month, :tag_list => [], :subject_list => [], :keyword_list => [], fields_attributes: [:name, :value, :id, '_destroy'])
+      params.require(:reference).permit(:key, :title, :bibtex_type, :year, :authors, :month, :tag_list => [], :subject_list => [], :keyword_list => [], fields_attributes: [:name, :value, :id, '_destroy'], author_names_attributes: [:name])
     end
 
     def preserve_params

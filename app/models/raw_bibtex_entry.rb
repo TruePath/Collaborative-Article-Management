@@ -122,8 +122,10 @@ class RawBibtexEntry < ActiveRecord::Base
   serialize :fields, Hash #of field values
   serialize :filenames, Array
   serialize :links, Array
+  serialize :messages #, Messages #format array of Message
 
-  accepts_nested_attributes_for :author_names, allow_destroy: true, reject_if:  proc { |attributes| attributes['name'].blank? }  serialize :messages #, Messages #format array of Message
+  accepts_nested_attributes_for :author_names, allow_destroy: true, reject_if:  proc { |attributes| attributes['name'].blank? }
+
 
 
   paginates_per 50
