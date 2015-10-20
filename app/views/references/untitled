@@ -1,0 +1,26 @@
+%!TEX TS-program = xelatex
+\input{header.tex}
+\documentclass[options]{asl}
+\input{includes.tex}
+\usepackage{rec-thy}
+
+\title{}
+
+\author{Peter M. Gerdes}
+\revauthor{Gerdes, Peter M.}
+\email{gerdes@invariant.org}
+\address{}
+\subjclass[2010]{Primary 03D25, 03D30; Secondary (03D60)}
+\keywords{}
+\thanks{}
+
+\begin{document}
+
+\begin{abstract}
+\end{abstract}
+
+\maketitle
+
+\bibliographystyle{amsplain}
+\bibliography{logic}
+\end{documcent}

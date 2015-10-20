@@ -1,7 +1,8 @@
 require 'test_helper'
+require "#{Rails.root}/test/modules/raw_bibtex_asserts"
 
 class RawBibtexEntryTest < ActiveSupport::TestCase
-
+  include RawBibtexAsserts
   # called before every single test
   def setup
     @library = libraries(:default)
@@ -28,35 +29,24 @@ class RawBibtexEntryTest < ActiveSupport::TestCase
     @unclosed_field.reset
     @junk.reset
     @unterminated.reset
+    @bibtex_file = bibfiles(:parent_set)
+    @parent = raw_bibtex_entries(:set_crossref_parent)
+    @good_child = raw_bibtex_entries(:set_crossref_good_child)
+    @weird_child = raw_bibtex_entries(:set_crossref_weird_child)
+    @bad_child = raw_bibtex_entries(:set_crossref_bad_child)
+    @ok_child = raw_bibtex_entries(:set_crossref_ok_child)
+    @parent.reset
+    @good_child.reset
+    @weird_child.reset
+    @bad_child.reset
+    @ok_child.reset
   end
 
   # called after every single test
   def teardown
   end
 
-  def assert_num_errors(raw, num, msg = "")
-  	assert_equal(num, raw.num_errors, "Has #{num} errors" + (msg.empty? ? "" : " : " + msg))
-  	assert_equal(num, raw.messages.num_errors, "Has #{num} error messages" + (msg.empty? ? "" : " : " + msg))
-  end
 
-  def assert_num_warnings(raw, num, msg = "")
-  	assert_equal(num, raw.num_warnings, "Has #{num} warnings" + (msg.empty? ? "" : " : " + msg))
-  	assert_equal(num, raw.messages.num_warnings, "Has #{num} warning messages" + (msg.empty? ? "" : " : " + msg))
-  end
-
-  def assert_num_msgs(raw, nume=0, numw=0, msg = "")
-  	assert_num_errors(raw, nume, msg)
-  	assert_num_warnings(raw, numw, msg)
-  end
-
-  def assert_has_msg(raw, text, line = nil, char = nil, type = nil)
-  	assert(raw.messages.count {|msg| val = (msg.text == text)
-  	val &&= msg.line == line if line
-  	val &&= msg.char == char if char
-  	val &&= msg.is_a? type if type
-  	val
-  	 }, "Has appropriate message")
-  end
 
   test "reset" do
   	assert_num_msgs(@basic, 0, 0, "Num errors & warnings init to 0")
@@ -82,12 +72,12 @@ class RawBibtexEntryTest < ActiveSupport::TestCase
   	assert_equal(@nokey_with_comma.key, "", "Extract key with trailing spaces")
     assert_equal("inproceedings", @nokey_with_comma.bibtex_type)
   	assert_num_msgs(@nokey_with_comma, 1, 0)
-  	assert_has_msg(@nokey_with_comma, "Missing Key", 0)
+  	assert_has_msg(@nokey_with_comma, "Missing Key")
   	@nokey_no_comma.extract_key
   	assert_equal(@nokey_no_comma.key, "", "Extract key with trailing spaces")
     assert_equal("inproceedings", @nokey_no_comma.bibtex_type)
   	assert_num_msgs(@nokey_no_comma, 1, 0)
-  	assert_has_msg(@nokey_no_comma, "Missing Key", 0)
+  	assert_has_msg(@nokey_no_comma, "Missing Key")
   end
 
   test "parse interior" do
@@ -133,16 +123,18 @@ END_STRING
 
   test "parse_authors" do
     @basic.parse_authors("Mathiske, B and Matthes, F and Schmidt, J W", 0)
-    assert_equal(3, @basic.authors.length)
-    assert_equal("Mathiske, B", @basic.authors[0])
-    assert_equal("Matthes, F", @basic.authors[1])
-    assert_equal("Schmidt, J W", @basic.authors[2])
-    @basic.reset
+    assert_equal(3, @basic.author_names.count)
+    assert_equal("B Mathiske", @basic.author_names[0].name)
+    assert_equal("F Matthes", @basic.author_names[1].name)
+    assert_equal("J W Schmidt", @basic.author_names[2].name)
+  end
+
+  test "parse_authors_semicolon" do
     @basic.parse_authors("Mathiske, B; Matthes, F; Schmidt, J W", 0)
-    assert_equal(3, @basic.authors.length)
-    assert_equal("Mathiske, B", @basic.authors[0])
-    assert_equal("Matthes, F", @basic.authors[1])
-    assert_equal("Schmidt, J W", @basic.authors[2])
+    assert_equal(3, @basic.author_names.count)
+    assert_equal("B Mathiske", @basic.author_names[0].name)
+    assert_equal("F Matthes", @basic.author_names[1].name)
+    assert_equal("J W Schmidt", @basic.author_names[2].name)
   end
 
   test "parse_fields" do
@@ -150,10 +142,10 @@ END_STRING
     assert_equal(5, @crossref.fields.length)
     assert_equal("We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications.",
                   @crossref.fields["abstract"])
-    assert_equal(3, @crossref.authors.length)
-    assert_equal("Mathiske, B", @crossref.authors[0])
-    assert_equal("Matthes, F", @crossref.authors[1])
-    assert_equal("Schmidt, J W", @crossref.authors[2])
+    assert_equal(3, @crossref.author_names.count)
+    assert_equal("B Mathiske", @crossref.author_names[0].name)
+    assert_equal("F Matthes", @crossref.author_names[1].name)
+    assert_equal("J W Schmidt", @crossref.author_names[2].name)
     assert_equal("In Proceedings of the Fifth International Workshop on Database Programming Languages",
                   @crossref.fields["booktitle"])
     assert_equal(1, @crossref.filenames.length)
@@ -167,6 +159,36 @@ END_STRING
     assert_equal("1995", @crossref.fields["year"])
     assert_equal("ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming", @crossref.crossrefkey)
 
+  end
+
+  test "set_parent_record_good" do
+    @good_child.set_parent_record
+    assert_equal(@parent, @good_child.parent_record, "Set parent_record correctly")
+    assert_equal(nil, @good_child.crossrefkey, "Set crossrefkey to nil")
+    assert_num_msgs(@good_child)
+  end
+
+  test "set_parent_record_weird" do
+    @weird_child.set_parent_record
+    assert_equal(@parent, @weird_child.parent_record, "Set parent_record correctly")
+    assert_equal(nil, @weird_child.crossrefkey, "Set crossrefkey to nil")
+    assert_num_msgs(@weird_child)
+  end
+
+  test "set_parent_record_ok" do
+    @ok_child.set_parent_record
+    assert_equal(@parent, @ok_child.parent_record, "Set parent_record correctly")
+    assert_equal(nil, @ok_child.crossrefkey, "Set crossrefkey to nil")
+    assert_num_msgs(@ok_child, 0, 1)
+    assert_has_crossref_warning(@ok_child)
+  end
+
+  test "set_parent_record_bad" do
+    @bad_child.set_parent_record
+    assert_equal(nil, @bad_child.parent_record, "Set parent_record correctly")
+    assert_equal("nonexistant", @bad_child.crossrefkey, "Set crossrefkey to nil")
+    assert_num_msgs(@bad_child, 1, 0)
+    assert_has_crossref_error(@bad_child)
   end
 
 end

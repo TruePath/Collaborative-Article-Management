@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903215507) do
+ActiveRecord::Schema.define(version: 20151020032255) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -137,7 +137,6 @@ ActiveRecord::Schema.define(version: 20150903215507) do
     t.text     "messages"
     t.integer  "parent_record_id"
     t.string   "parent_record_type"
-    t.boolean  "crossref_failure"
     t.string   "key"
     t.string   "crossrefkey"
     t.integer  "bibfile_id"
@@ -152,7 +151,7 @@ ActiveRecord::Schema.define(version: 20150903215507) do
   end
 
   add_index "raw_bibtex_entries", ["bibfile_id"], name: "index_raw_bibtex_entries_on_bibfile_id"
-  add_index "raw_bibtex_entries", ["crossref_failure"], name: "index_raw_bibtex_entries_on_crossref_failure"
+  add_index "raw_bibtex_entries", ["bibtex_type"], name: "index_raw_bibtex_entries_on_bibtex_type"
   add_index "raw_bibtex_entries", ["digest"], name: "index_raw_bibtex_entries_on_digest"
   add_index "raw_bibtex_entries", ["key"], name: "index_raw_bibtex_entries_on_key"
   add_index "raw_bibtex_entries", ["library_id"], name: "index_raw_bibtex_entries_on_library_id"

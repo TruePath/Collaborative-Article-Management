@@ -24,154 +24,18 @@
 	"buffers":
 	[
 		{
-			"file": "app/models/raw_bibtex_entry.rb",
-			"settings":
-			{
-				"buffer_size": 8048,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "Gemfile",
 			"settings":
 			{
-				"buffer_size": 2301,
+				"buffer_size": 2450,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "bibmanage.sublime-project",
+			"file": "app/controllers/application_controller.rb",
 			"settings":
 			{
-				"buffer_size": 206,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Rakefile",
-			"settings":
-			{
-				"buffer_size": 249,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "test/models/raw_bibtex_entry_test.rb",
-			"settings":
-			{
-				"buffer_size": 5379,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "test/fixtures/raw_bibtex_entries.yml",
-			"settings":
-			{
-				"buffer_size": 17896,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "test/fixtures/authorship_records.yml",
-			"settings":
-			{
-				"buffer_size": 187,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "test/fixtures/libraries.yml",
-			"settings":
-			{
-				"buffer_size": 260,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "test/fixtures/users.yml",
-			"settings":
-			{
-				"buffer_size": 407,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/workers/bibtex_upload_worker.rb",
-			"settings":
-			{
-				"buffer_size": 706,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/helpers/application_helper.rb",
-			"settings":
-			{
-				"buffer_size": 1199,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/controllers/raw_bibtex_entries_controller.rb",
-			"settings":
-			{
-				"buffer_size": 5018,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/assets/stylesheets/raw_bibtex_entries.scss",
-			"settings":
-			{
-				"buffer_size": 310,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/raw_bibtex_entries/_container.html.erb",
-			"settings":
-			{
-				"buffer_size": 2933,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/raw_bibtex_entries/_file_upload.html.erb",
-			"settings":
-			{
-				"buffer_size": 1389,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/models/concerns/filterable.rb",
-			"settings":
-			{
-				"buffer_size": 938,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/assets/javascripts/worker.js",
-			"settings":
-			{
-				"buffer_size": 2076,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/raw_bibtex_entries/_thead.html.erb",
-			"settings":
-			{
-				"buffer_size": 339,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/models/bibfile.rb",
-			"settings":
-			{
-				"buffer_size": 173,
+				"buffer_size": 1472,
 				"line_ending": "Unix"
 			}
 		}
@@ -183,10 +47,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 207.0,
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"openres",
+				"PackageResourceViewer: Open Resource"
+			],
 			[
 				"pack",
 				"Package Control: Upgrade Package"
@@ -354,6 +222,17 @@
 	"expanded_folders":
 	[
 		"/Users/TruePath/Projects/bibmanage",
+		"/Users/TruePath/Projects/bibmanage/app",
+		"/Users/TruePath/Projects/bibmanage/app/assets",
+		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts",
+		"/Users/TruePath/Projects/bibmanage/app/assets/stylesheets",
+		"/Users/TruePath/Projects/bibmanage/app/controllers",
+		"/Users/TruePath/Projects/bibmanage/app/errors",
+		"/Users/TruePath/Projects/bibmanage/app/models",
+		"/Users/TruePath/Projects/bibmanage/app/views",
+		"/Users/TruePath/Projects/bibmanage/app/views/devise",
+		"/Users/TruePath/Projects/bibmanage/app/views/layouts",
+		"/Users/TruePath/Projects/bibmanage/config",
 		"/Users/TruePath/Projects/bibmanage/gems",
 		"/Users/TruePath/Projects/bibmanage/gems/paperclip-googledrive",
 		"/Users/TruePath/Projects/bibmanage/gems/paperclip-googledrive/lib",
@@ -363,10 +242,28 @@
 	],
 	"file_history":
 	[
+		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/TerminalProjectFolder/Default (OSX).sublime-keymap",
+		"/Users/TruePath/Projects/bibmanage/app/models/bibfile.rb",
+		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/_thead.html.erb",
+		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts/worker.js",
+		"/Users/TruePath/Projects/bibmanage/app/models/concerns/filterable.rb",
+		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/_file_upload.html.erb",
+		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/_container.html.erb",
+		"/Users/TruePath/Projects/bibmanage/app/assets/stylesheets/raw_bibtex_entries.scss",
+		"/Users/TruePath/Projects/bibmanage/app/controllers/raw_bibtex_entries_controller.rb",
+		"/Users/TruePath/Projects/bibmanage/app/helpers/application_helper.rb",
+		"/Users/TruePath/Projects/bibmanage/app/workers/bibtex_upload_worker.rb",
+		"/Users/TruePath/Projects/bibmanage/test/fixtures/users.yml",
+		"/Users/TruePath/Projects/bibmanage/test/fixtures/libraries.yml",
+		"/Users/TruePath/Projects/bibmanage/test/fixtures/authorship_records.yml",
+		"/Users/TruePath/Projects/bibmanage/test/fixtures/raw_bibtex_entries.yml",
+		"/Users/TruePath/Projects/bibmanage/test/models/raw_bibtex_entry_test.rb",
+		"/Users/TruePath/Projects/bibmanage/bibmanage.sublime-project",
+		"/Users/TruePath/Projects/bibmanage/Gemfile",
+		"/Users/TruePath/Projects/bibmanage/app/models/raw_bibtex_entry.rb",
 		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/Package Control.sublime-settings",
 		"/Users/TruePath/Projects/bibmanage/config/application.rb",
 		"/Users/TruePath/Projects/bibmanage/test/models/bibfile_test.rb",
-		"/Users/TruePath/Projects/bibmanage/app/workers/bibtex_upload_worker.rb",
 		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/upload.js.erb",
 		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts/application.js",
 		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts/raw_bibtex_entries.js",
@@ -374,16 +271,10 @@
 		"/Users/TruePath/Projects/bibmanage/app/workers/bibtex_worker.rb",
 		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/refresh.js.erb",
 		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/_raw_bibtex_entry.html.erb",
-		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/_container.html.erb",
 		"/Users/TruePath/Projects/bibmanage/app/views/libraries/index.html.erb",
 		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
-		"/Users/TruePath/Projects/bibmanage/app/helpers/application_helper.rb",
 		"/Users/TruePath/Projects/bibmanage/config/routes.rb",
-		"/Users/TruePath/Projects/bibmanage/Gemfile",
-		"/Users/TruePath/Projects/bibmanage/app/controllers/raw_bibtex_entries_controller.rb",
-		"/Users/TruePath/Projects/bibmanage/app/models/concerns/filterable.rb",
 		"/Users/TruePath/Projects/bibmanage/config/initializers/string_boolean.rb",
-		"/Users/TruePath/Projects/bibmanage/bibmanage.sublime-project",
 		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/SideBarEnhancements/Side Bar.sublime-settings",
 		"/Users/TruePath/Library/Application Support/Sublime Text 3/Packages/User/Side Bar.sublime-settings",
 		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts/home.coffee",
@@ -393,28 +284,23 @@
 		"/usr/local/bin/fmdiff",
 		"/Users/TruePath/Projects/bibmanage/app/assets/stylesheets/application.css",
 		"/Users/TruePath/Projects/bibmanage/app/helpers/raw_bibtex_entries_helper.rb",
-		"/Users/TruePath/Projects/bibmanage/app/models/raw_bibtex_entry.rb",
 		"/Users/TruePath/Google Drive/Sharon/main.tex",
 		"/Users/TruePath/Google Drive/Sharon/main.bbl",
 		"/Users/TruePath/Projects/bibmanage/db/migrate/20150618221923_remove_position_from_raw_bibtex_entries.rb",
 		"/Users/TruePath/Projects/bibmanage/app/models/library.rb",
-		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/_thead.html.erb",
 		"/Users/TruePath/Projects/bibmanage/db/migrate/20150618040502_add_warnings_and_errors_to_raw_bibtex_entries.rb",
 		"/Users/TruePath/Projects/bibmanage/app/views/worker/status.json.jbuilder",
 		"/Users/TruePath/Projects/bibmanage/app/controllers/worker_controller.rb",
 		"/Users/TruePath/Projects/bibmanage/app/views/references/_form.html.erb",
-		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts/worker.js",
 		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts/worker.coffee",
 		"/Users/TruePath/Projects/bibmanage/app/views/workers/status.json.jbuilder",
 		"/Users/TruePath/Projects/bibmanage/config/initializers/resque.rb",
 		"/Users/TruePath/Projects/bibmanage/lib/tasks/resque.rake",
 		"/Users/TruePath/Projects/bibmanage/procfile",
 		"/Users/TruePath/Confs/profile",
-		"/Users/TruePath/Projects/bibmanage/app/views/raw_bibtex_entries/_file_upload.html.erb",
 		"/Users/TruePath/Projects/bibmanage/app/views/references/_reference_table.html.erb",
 		"/Users/TruePath/Projects/bibmanage/app/assets/javascripts/raw_bibtex_entries.coffee",
 		"/Users/TruePath/Projects/bibmanage/app/models/bibtex_file.rb",
-		"/Users/TruePath/Projects/bibmanage/app/models/bibfile.rb",
 		"/Users/TruePath/Projects/bibmanage/db/migrate/20150616141517_add_attachment_to_bibfiles.rb",
 		"/Users/TruePath/Projects/bibmanage/config/sidekiq.yml",
 		"/Users/TruePath/Projects/bibmanage/db/migrate/20150612043304_add_statuses_to_raw_bibtex_entries.rb",
@@ -483,14 +369,7 @@
 		"/Users/TruePath/Projects/bibmanage/db/migrate/20150531164232_create_authorship_records.rb",
 		"/Users/TruePath/Projects/bibmanage/db/migrate/20150601080653_add_authorship_type_to_references.rb",
 		"/Users/TruePath/Projects/bibmanage/app/views/layouts/application.html.erb",
-		"/Users/TruePath/Projects/bibmanage/db/migrate/20150530200523_add_user_id_to_libraries.rb",
-		"/Users/TruePath/Projects/bibmanage/config/environments/production.rb",
-		"/Users/TruePath/Projects/bibmanage/config/environments/development.rb",
-		"/usr/local/stow/bib-scripts/bin/cleanrefs",
-		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/adult-family-fued.txt",
-		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/gameshow/no-wammie.txt",
-		"/Users/TruePath/Google Drive/Personal/Stories/active-stories/friend Screwing/amy-tied-in-friends-dorm.txt",
-		"/Users/TruePath/Google Drive/Managed Papers/Docear/cs.bib"
+		"/Users/TruePath/Projects/bibmanage/db/migrate/20150530200523_add_user_id_to_libraries.rb"
 	],
 	"find":
 	{
@@ -511,6 +390,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"f12",
+			"goto_definition",
+			"F12",
 			"Message",
 			"Messages",
 			"init",
@@ -571,47 +453,77 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/models/raw_bibtex_entry.rb",
+					"file": "Gemfile",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8048,
+						"buffer_size": 2450,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2117,
-								2117
+								1274,
+								1274
 							]
 						],
 						"settings":
 						{
-							"BracketHighlighterBusy": true,
+							"BracketHighlighterBusy": false,
 							"apply_syntax_touched": true,
 							"bh_regions":
 							[
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
 								"bh_regex",
 								"bh_regex_center",
 								"bh_regex_open",
 								"bh_regex_close",
 								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
 								"bh_double_quote_close",
 								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
@@ -621,39 +533,100 @@
 								"bh_angle_center",
 								"bh_angle_open",
 								"bh_angle_close",
-								"bh_angle_content",
+								"bh_angle_content"
+							],
+							"colorcode": true,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/controllers/application_controller.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1472,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								496,
+								496
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"apply_syntax_touched": true,
+							"bh_regions":
+							[
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
 								"bh_curly_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
 								"bh_tag",
 								"bh_tag_center",
 								"bh_tag_open",
 								"bh_tag_close",
 								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content"
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
 							],
-							"color_scheme": "Packages/User/Paraíso Black (SL) (SublimePythonIDE).tmTheme",
 							"colorcode": true,
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -667,1192 +640,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Gemfile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2301,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1787,
-								1787
-							]
-						],
-						"settings":
-						{
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"live_git_annotations": true,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 669.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "bibmanage.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 206,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								119,
-								119
-							]
-						],
-						"settings":
-						{
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "Rakefile",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 249,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Ruby/Ruby.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "test/models/raw_bibtex_entry_test.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5379,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5248,
-								5248
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": true,
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 227.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "test/fixtures/raw_bibtex_entries.yml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17896,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10506,
-								10506
-							]
-						],
-						"settings":
-						{
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/YAML/YAML.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 979.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "test/fixtures/authorship_records.yml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 187,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								95,
-								95
-							]
-						],
-						"settings":
-						{
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/YAML/YAML.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "test/fixtures/libraries.yml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 260,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								259,
-								259
-							]
-						],
-						"settings":
-						{
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/YAML/YAML.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "test/fixtures/users.yml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 407,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								377,
-								377
-							]
-						],
-						"settings":
-						{
-							"apply_syntax_touched": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/YAML/YAML.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "app/workers/bibtex_upload_worker.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 706,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								685,
-								685
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "app/helpers/application_helper.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1199,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1061,
-								1047
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"colorcode": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "app/controllers/raw_bibtex_entries_controller.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5018,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1115,
-								1115
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"colorcode": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 140.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "app/assets/stylesheets/raw_bibtex_entries.scss",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 310,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								245,
-								245
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/SCSS/SCSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "app/views/raw_bibtex_entries/_container.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2933,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1692,
-								1674
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"colorcode": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 411.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "app/views/raw_bibtex_entries/_file_upload.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1389,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								631,
-								631
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "app/models/concerns/filterable.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 938,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								938,
-								938
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"color_scheme": "Packages/User/Paraíso Black (SL) (SublimePythonIDE).tmTheme",
-							"colorcode": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 15,
-					"type": "text"
-				},
-				{
-					"buffer": 16,
-					"file": "app/assets/javascripts/worker.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2076,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1332,
-								1332
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"colorcode": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 17,
-					"file": "app/views/raw_bibtex_entries/_thead.html.erb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 339,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								109,
-								109
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"colorcode": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/HTML (Rails).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 18,
-					"type": "text"
-				},
-				{
-					"buffer": 18,
-					"file": "app/models/bibfile.rb",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 173,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								146,
-								146
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"apply_syntax_touched": true,
-							"bh_regions":
-							[
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content"
-							],
-							"colorcode": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Rails/Ruby on Rails.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
 					"type": "text"
 				}
 			]
@@ -1909,7 +696,7 @@
 	"project": "bibmanage.sublime-project",
 	"replace":
 	{
-		"height": 64.0
+		"height": 46.0
 	},
 	"save_all_on_build": true,
 	"select_file":

@@ -11,7 +11,7 @@ class AuthorName < ActiveRecord::Base
 
 	def reorder_names
 		split_names = self.name.partition(',')
-		self.name = split_names[0] + " " + split_names[2] unless (split_names[0].empty? || split_names[2].empty?)
+		self.name = split_names[2].strip + " " + split_names[0].strip unless (split_names[0].empty? || split_names[2].empty?)
 		return true
 	end
 

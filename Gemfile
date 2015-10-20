@@ -27,7 +27,7 @@ gem 'bootstrap-sass'
 #gem to handle user registration and stuff
 gem 'devise'
 #gem to use nested set model
-gem 'awesome_nested_set'
+# gem 'awesome_nested_set'
 #gem to let us view collections as a list
 gem 'acts_as_list'
 #gem to handle paginations
@@ -35,7 +35,7 @@ gem 'kaminari'
 #gem to do cookies in jquery
 gem 'jquery-cookie-rails'
 #gem to handle yaml config
-gem 'rails_config'
+gem 'rails_config', '~> 0.4.2'
 	# gem to use bootstrap forms
 gem 'bootstrap_form'
 
@@ -46,7 +46,7 @@ gem 'nested_form'
 #handle ajax file uploads
 gem 'remotipart'
 #bibtex support
-gem 'bibtex-ruby'
+# gem 'bibtex-ruby'
 #async processing
 gem 'resque'
 #status for sidekiq
@@ -56,7 +56,7 @@ gem 'activerecord-import'
 #paperclip
 gem 'paperclip'
 #delayed paperclip
-gem 'delayed_paperclip'
+# gem 'delayed_paperclip'
 #paperclip with google drive
 gem 'paperclip-googledrive', :path => "gems/paperclip-googledrive/"
 #underscore js

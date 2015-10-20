@@ -118,7 +118,7 @@ class RawBibtexEntry < ActiveRecord::Base
   belongs_to :bibfile
   belongs_to :parent_record, :polymorphic => true
   has_many :raw_children, class_name: "RawBibtexEntry", foreign_key: "parent_record_id", as: :parent_record
-  has_many :author_names,  -> { order 'author_names.position' }, class_name: "AuthorName", foreign_key: "entry_id", as: :author_name, :dependent => :destroy
+  has_many :author_names,  -> { order 'author_names.position' }, class_name: "AuthorName", foreign_key: "entry_id", :as => :entry, :dependent => :destroy
   serialize :fields, Hash #of field values
   serialize :filenames, Array
   serialize :links, Array
@@ -164,10 +164,6 @@ class RawBibtexEntry < ActiveRecord::Base
       [ \t]*[,\n\r][ \n]* /xm
 
 
-  def self.split_entries(file_contents)
-    return file_contents.split(/[\n\r]+  (?=[@]  [[:alpha:]]*?   [{])/xm).drop(1)
-  end
-
   def error?
   	return self.num_errors && self.num_errors > 0
   end
@@ -192,6 +188,34 @@ class RawBibtexEntry < ActiveRecord::Base
   def add_warning(text, pos)
     self.messages.add_warning(text, pos)
     self.num_warnings += 1
+  end
+
+  def add_crossref_type_warning
+    self.add_warning("Crossref has wrong bibtex type", 0)
+  end
+
+  def add_crossref_error
+    self.add_error("Unable to find crossref", 0)
+  end
+
+
+  def set_parent_record
+      parents = self.bibfile.raw_bibtex_entries.where(key: self.crossrefkey)
+      if (match = self.bibtex_type.match(/^(?:in)(.*)$/) )
+        parents = parents.where(bibtex_type: match[1])
+      end
+      parent = parents.take
+      if (match && ! parent)
+        parent = self.bibfile.raw_bibtex_entries.where(key: self.crossrefkey).take
+        add_crossref_type_warning if parent
+      end
+      if (parent)
+        self.parent_record = parent
+        self.update_attribute(:crossrefkey, nil)
+      else
+        add_crossref_error
+      end
+      self.save
   end
 
   def process_wrapper #We leave the final } in the interior
@@ -226,7 +250,7 @@ class RawBibtexEntry < ActiveRecord::Base
 
   def parse_authors(field, pos)
     field.strip.split(/(?:[ ]and[ ])|\;/).each {|entry|
-      self.author_names.create(name: entry)
+      self.author_names << AuthorName.new(name: entry)
     }
   end
 
@@ -315,7 +339,6 @@ class RawBibtexEntry < ActiveRecord::Base
     init_messages
     self.filenames = Array.new
     self.links = Array.new
-    self.authors = Array.new
     self.num_warnings = 0
     self.num_errors = 0
   end

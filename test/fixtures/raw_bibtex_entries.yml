@@ -169,3 +169,98 @@ junk:
           }
 
 
+set_crossref_parent:
+  library: default
+  bibfile: parent_set
+  bibtex_type: "proceedings"
+  key: "ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming"
+  crossrefkey: nil
+  content: |
+        @inproceedings{ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming,
+        abstract = {We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications. },
+        author = {Mathiske, B and Matthes, F and Schmidt, J W},
+        booktitle = {In Proceedings of the Fifth International Workshop on Database Programming Languages},
+        file = {:Users/TruePath/Google Drive/Managed Papers/Mendeley/Scaling Database Languages to Higher-Order Distributed Programming - Mathiske, Matthes, Schmidt - 1995.pdf:pdf},
+        keywords = {RPC;Remote Procedure Call;Remote Execution},
+        publisher = {Springer-Verlag},
+        title = {{Scaling Database Languages to Higher-Order Distributed Programming}},
+        year = {1995}
+        }
+
+set_crossref_good_child:
+  library: default
+  bibfile: parent_set
+  bibtex_type: "inproceedings"
+  crossrefkey: "ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming"
+  key: "good_child"
+  content: |
+      @inproceedings{good_child,
+      abstract = {We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications. },
+      author = {Mathiske, B and Matthes, F and Schmidt, J W},
+      booktitle = {In Proceedings of the Fifth International Workshop on Database Programming Languages},
+      file = {:Users/TruePath/Google Drive/Managed Papers/Mendeley/Scaling Database Languages to Higher-Order Distributed Programming - Mathiske, Matthes, Schmidt - 1995.pdf:pdf},
+      keywords = {RPC;Remote Procedure Call;Remote Execution},
+      publisher = {Springer-Verlag},
+      title = {{Scaling Database Languages to Higher-Order Distributed Programming}},
+      crossref = {ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming},
+      year = {1995}
+      }
+
+set_crossref_weird_child:
+  library: default
+  bibfile: parent_set
+  bibtex_type: "chapter"
+  crossrefkey: "ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming"
+  key: "weird_child"
+  content: |
+      @chapter{weird_child,
+      abstract = {We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications. },
+      author = {Mathiske, B and Matthes, F and Schmidt, J W},
+      booktitle = {In Proceedings of the Fifth International Workshop on Database Programming Languages},
+      file = {:Users/TruePath/Google Drive/Managed Papers/Mendeley/Scaling Database Languages to Higher-Order Distributed Programming - Mathiske, Matthes, Schmidt - 1995.pdf:pdf},
+      keywords = {RPC;Remote Procedure Call;Remote Execution},
+      publisher = {Springer-Verlag},
+      title = {{Scaling Database Languages to Higher-Order Distributed Programming}},
+      crossref = {ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming},
+      year = {1995}
+      }
+
+set_crossref_ok_child:
+  library: default
+  bibfile: parent_set
+  bibtex_type: "incollection"
+  crossrefkey: "ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming"
+  key: "ok_child"
+  content: |
+      @incollection{ok_child,
+      abstract = {We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications. },
+      author = {Mathiske, B and Matthes, F and Schmidt, J W},
+      booktitle = {In Proceedings of the Fifth International Workshop on Database Programming Languages},
+      file = {:Users/TruePath/Google Drive/Managed Papers/Mendeley/Scaling Database Languages to Higher-Order Distributed Programming - Mathiske, Matthes, Schmidt - 1995.pdf:pdf},
+      keywords = {RPC;Remote Procedure Call;Remote Execution},
+      publisher = {Springer-Verlag},
+      title = {{Scaling Database Languages to Higher-Order Distributed Programming}},
+      crossref = {ScalingDatabaseLanguagestoHigher-OrderDistributedProgramming},
+      year = {1995}
+      }
+
+set_crossref_bad_child:
+  library: default
+  bibfile: parent_set
+  bibtex_type: "inproceedings"
+  crossrefkey: "nonexistant"
+  key: "bad_child"
+  content: |
+      @inproceedings{bad_child,
+      abstract = {We describe the Tycoon approach to scale the successful notion of a uniform, type-safe persistent object store to communication-intensive applications and applications where long-term activities are allowed to span multiple autonomous network sites. Exploiting stream-based data, code and thread exchange primitives we present several distributed programming idioms in Tycoon. These programming patterns range from client-server communication based on polymorphic higher-order remote procedure calls to migrating autonomous agents that are bound dynamically to network resources present at individual network nodes. Following Tycoon's add-on approach, these idioms are not cast into built-in syntactic forms, but are expressed by characteristic programming patterns exploiting communication primitives encapsulated by library functions. Moreover, we present a novel form of binding support for ubiquitous resources which drastically reduces communication traffic for modular distributed applications. },
+      author = {Mathiske, B and Matthes, F and Schmidt, J W},
+      booktitle = {In Proceedings of the Fifth International Workshop on Database Programming Languages},
+      file = {:Users/TruePath/Google Drive/Managed Papers/Mendeley/Scaling Database Languages to Higher-Order Distributed Programming - Mathiske, Matthes, Schmidt - 1995.pdf:pdf},
+      keywords = {RPC;Remote Procedure Call;Remote Execution},
+      publisher = {Springer-Verlag},
+      title = {{Scaling Database Languages to Higher-Order Distributed Programming}},
+      crossref = {nonexistant},
+      year = {1995}
+      }
+
+

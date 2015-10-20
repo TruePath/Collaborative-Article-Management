@@ -8,40 +8,38 @@
         </h4>
       </div>
 
-      <%= bootstrap_nested_form_for(@library_reference, remote: true, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-7") do |f| %>
+      <%= simple_nested_form_for(@library_reference, remote: true,  html: { class: 'form-inline' }   ) do |f| %> <!-- label_col: "col-sm-2", control_col: "col-sm-7"  -->
       <div class="modal-body">
+        <div class="row">
         <div id="save_reference_error"></div>
-        <%= f.select :bibtex_type, Settings.bibtex_types, label: "Type", disabled: !@editable  %>
-        <%= f.text_field :key, label: "Key", disabled: !@editable  %>
-        <%= f.text_field :title, disabled: !@editable %>
+        <%= f.input :bibtex_type, collection: Settings.bibtex_types, label: "Type", disabled: !@editable  %>
+        <%= f.input :key, as: :string, label: "Key", disabled: !@editable  %>
+        <%= f.input :title,  as: :string, wrapper_html: { class: 'form-horizonta' },  disabled: !@editable %>
         <div>
-        <%= f.select :authorship_type, [["Authors", "author"], ["Editor", "editor"]], label: "Authorship Type", skip_label: :true, disabled: !@editable, layout: :horizontal  %>
-          <%= f.fields_for :author_names, :wrapper => false do |author_form| %>
-            <%= author_form.text_field :name, label: "Author", skip_label: :true, placeholder: "Author Name", disabled: !@editable, layout: :horizontal %>
-            <%= author_form.link_to_remove(class: "btn btn-default") do %>
-                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+          <%= f.input :authorship_type, collection: [["Authors", "author"], ["Editor", "editor"]], label_method: :first, value_method: :last, label: "Authorship Type", skip_label: :true, disabled: !@editable %>
+            <%= f.fields_for :author_names, :wrapper => false do |author_form| %>
+              <%= author_form.input_field :name, as: :string, label: "Author", placeholder: "Author Name", disabled: !@editable, layout: :horizontal %>
+              <%= author_form.link_to_remove(class: "btn btn-default") do %>
+              <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
             <% end %>
           <% end %>
           <%= f.link_to_add :author_names, id: 'add-author-link', class:"btn btn-default" do %>
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
           <% end %>
         </div>
-        <%= f.number_field :year, min:0, max: 2100, disabled: !@editable  %>
-        <%= f.select :month, Date::MONTHNAMES, disabled: !@editable  %>
-        <%= f.fields_for :fields do |field_form| %>
+        <%= f.input :year, as: :integer, disabled: !@editable  %>
+        <%= f.input :month, collection: Date::MONTHNAMES, disabled: !@editable  %>
         <div>
-          <%= field_form.hidden_field :name %>
-          <% if @editable %>
-          <%= field_form.text_field :value, label: field_form.object.name, label_class: "field_name_label", class: "field_value", append: field_form.link_to_remove( "Delete", class: "btn btn-default") %>
-          <% else %>
-          <%= field_form.text_field :value, label: field_form.object.name, label_class: "field_name_label", class: "field_value", disabled: "true" %>
+          <%= f.fields_for :fields do |field_form| %>
+            <%= field_form.hidden_field :name %>
+            <%= field_form.label :value, label: field_form.object.name, label_html: { class: "field_name_label"} %>
+            <%= field_form.input_field :value, as: :string, input_html: { class: "field_value"}, disabled: !@editable  %>
+            <%= f.link_to_remove( "Delete", class: "btn btn-default")  if @editable %>
           <% end %>
+          <%= f.link_to_add "Add a Field", :fields, id: 'add-field-link', class:"btn btn-default" if @editable %>
         </div>
-        <% end %>
-        <% if @editable %>
-        <%= f.link_to_add "Add a Field", :fields, id: 'add-field-link', class:"btn btn-default" %>
-        <% end %>
 
+      </div>
       </div>
       <div class="modal-footer">
         <% if @editable %>
