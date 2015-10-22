@@ -10,3 +10,4 @@ default_fields:
   techreport: [institution]
   unpublished: [note]
   misc: [howpublished]
+copy_to_parent: ["year", "month", "publisher", "volume", "isbn", "editor"]

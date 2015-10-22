@@ -24,6 +24,24 @@ class RawBibtexEntriesController < ApplicationController
    bfile.references_source = params[:bibtex_file]
    bfile.save
    @jid = BibtexUploadWorker.create(bibtex_file_id: bfile.id, library_id: @library.id)
+    # bibtex_file = bfile
+    # library = @library
+    # raw_entries = BibtexFile.split_entries(Paperclip.io_adapters.for(bibtex_file.references_source).read)
+    # total = raw_entries.length
+    # num = 0
+    # raw_entries.each { |bibtex|
+    #   # at(num, total, "At #{num} of #{total}")
+    #   num += 1
+    #   entry = RawBibtexEntry.new
+    #   entry.library = library
+    #   entry.bibfile = bibtex_file
+    #   entry.build_from_bibtex(bibtex)
+    #   if (RawBibtexEntry.exists?(digest: entry.digest))
+    #     entry.destroy
+    #   else
+    #     entry.save
+    #   end
+    #  }
   end
 
   def delete

@@ -72,9 +72,11 @@ class Messages
   end
 
   def line_and_offset(char_pos)
-    return -1, -1 if char_pos == 0
-    line = @line_breaks.find_index {|line_start| line_start >= char_pos }
-    offset = line == 0 ? char_pos : char_pos - @line_breaks[line - 1 ]
+    return -1, -1 if char_pos <= 0
+    line = @line_breaks.find_index {|line_start| (line_start) > char_pos }
+    line ||= @line_breaks.length
+    line = line - 1
+    offset = line == 0 ? char_pos : char_pos - @line_breaks[line - 1]
     return line, offset
   end
 
@@ -92,6 +94,10 @@ class Messages
 
   def warnings
     self.select {|msg|  msg.is_a?(WarningMessage) }
+  end
+
+  def messages_for_line(line)
+    self.select {|msg|  msg.line == line}
   end
 
 	def_delegators :@msg_set, :<<, :each, :add, :to_a, :[], :empty?, :size, :length, :add?
@@ -159,6 +165,7 @@ class RawBibtexEntry < ActiveRecord::Base
                         [}]   ) )*+\z /xm
   FIELD = /[\n\r \t]*(?<fieldname>[[:alpha:]]*+)[ \t]*=[ \t]*/xm
   PARSE_FIELD = /(?:(?:\A|\G)|(?<=[}][,])|(?<=[}][\n\r]))#{FIELD}[{](?<interior>#{INTERIOR_BALANCED_BRACES}|.*?)[}][\,]?(?=[ \n\r\t]*(?:[[:alpha:]]*+[ \t]*=|[}]?[\n\r\t ]*\z))/xm
+  PARSE_FIELD_UNBRACED = /(?:(?:\A|\G)|(?<=[}][,])|(?<=[}][\n\r]))#{FIELD}(?<interior>[^\,\n\r\}\{]*)[\,](?=[ \n\r\t]*(?:[[:alpha:]]*+[ \t]*=|[}]?[\n\r\t ]*\z))/xm
   ENTRY_HEAD = /\A[\n\r\t ]*[@][[:alpha:]]+[{] # @blah{ part
       [^[:space:]\,{}]* #key
       [ \t]*[,\n\r][ \n]* /xm
@@ -197,6 +204,58 @@ class RawBibtexEntry < ActiveRecord::Base
   def add_crossref_error
     self.add_error("Unable to find crossref", 0)
   end
+
+  def update_type_from_children
+    return unless (children = self.raw_children)
+    type_freq = Hash.new
+    self.bibtex_type = "article" unless self.bibtex_type
+    type_freq[self.bibtex_type] = 0
+    children.each do |child|
+      if (match = child.bibtex_type.match(/^(?:in)(.*)$/))
+        type_freq[match[1]] = 0 unless (type_freq.has_key?(match[1]))
+        type_freq[match[1]] += 1
+      end
+    end
+    best_type = self.bibtex_type
+    count = type_freq[self.bibtex_type]
+    type_freq.each_pair { |key, value|
+      if (value > count)
+        best_type = key
+        count = value
+      end
+    }
+    self.bibtex_type = best_type
+    self.save
+  end
+
+  def fix_crossref_type_mismatch
+    return unless self.parent_record
+    if (self.bibtex_type.blank?)
+      self.bibtex_type = "in" + self.parent_record.bibtex_type
+      return
+    end
+    return unless (ptype = self.bibtex_type.match(/^(?:in)(.*)$/)[1] && self.parent_record.bibtex_type != ptype )
+    self.parent_record.update_type_from_children
+    return unless (ptype = self.bibtex_type.match(/^(?:in)(.*)$/)[1] && self.parent_record.bibtex_type != ptype )
+    self.bibtex_type = "in" + self.parent_record.bibtex_type
+  end
+
+  def update_parent_from_child
+    return unless self.parent_record
+    self.fields.each_pair { |key, value|
+      if (fieldname = key.match(/^(?:book)(.*)$/)[1] || (fieldname = key && Settings.copy_to_parent.include?(fieldname) ) )
+        if ((fieldname == "author" || fieldname == "editor") && self.parent_record.author_names.empty?)
+          self.parent_record.set_field_content(fieldname, value)
+        else
+          self.parend_record.field[fieldname] = value unless self.parent_record.field.has_key?(fieldname)
+        end
+      end
+    }
+  end
+
+  # def create_parent_for_child
+  #   RawBibtexEntry.create(library: )
+  # end
 
 
   def set_parent_record
@@ -254,33 +313,56 @@ class RawBibtexEntry < ActiveRecord::Base
     }
   end
 
-  def parse_fields
-    offset = 0
-    while (match = @interior.match(PARSE_FIELD, offset) )
-      key = match[1]
-      content = match[2]
-      case key
+
+  def set_field_content(key, content, offset = 0)
+    case key
       when "crossref"
+        add_warning("Duplicate field", @interior_start + offset) if self.crossrefkey
         self.crossrefkey = content
       when "file"
         parse_files(content, @interior_start + offset)
       when "url"
         parse_urls(content, @interior_start + offset)
       when "author", "editor"
-        self.authorship_type = key
-        parse_authors(content.gsub(/[\{\}]/, ''), @interior_start + offset)
+        authorfield = content.gsub(/[\{\}]/, '')
+        if (self.authorship_type == "editor")
+          add_warning("Duplicate field", @interior_start + offset) if self.fields.has_key?('bookeditor')
+          self.fields['bookeditor'] = self.author_names.to_a.join(' and ')
+          self.author_names.destroy
+        end
+        if (self.authorship_type == "author")
+          add_warning("Duplicate field", @interior_start + offset) if key == "author"
+          self.fields['bookeditor'] = authorfield if key == "editor"
+        end
+        if (self.authorship_type != "author")
+          self.authorship_type = key
+          parse_authors(authorfield, @interior_start + offset)
+        end
       when "keywords"
         self.keyword_list.add(content, parse: true)
       else
+        add_warning("Duplicate field", @interior_start + offset) if self.fields.has_key?(key)
         self.fields[key] = content.strip.gsub(/[\{\}]/, '')
+    end
+  end
+
+  def parse_fields
+    offset = 0
+    while (match = @interior.match(PARSE_FIELD, offset) )
+      if (match.begin(0) > offset + 1)
+        altmatch = @interior.match(PARSE_FIELD_UNBRACED, offset)
+        match = altmatch if (altmatch && (altmatch.begin(0) <= (offset + 1)))
       end
+      key = match[1]
+      content = match[2]
+      set_field_content(key, content, offset)
       if (match.begin(0) > offset + 1)
         add_error("Could not parse", @interior_start + offset  )
       end
       offset = match.end(0)
     end
     if (match = @interior.match(/[^\n\r\t ,}]/, offset) )
-      add_error("Could not parse", @interior_start + match.begin(0) )
+      add_error("Could not parse", @interior_start + match.begin(0) +1 )
     elsif (! @interior.match(/[\n\r\t ]*[}][\n\r\t ]*\z/, offset) )
       add_warning("Entry Improperly Terminated", @interior_start + offset)
     end
@@ -326,6 +408,7 @@ class RawBibtexEntry < ActiveRecord::Base
   def init_messages
     sum_chars = 0
     line_starts = self.content.lines.map {|line| sum_chars += line.size }
+    line_starts.insert(0,0)
     self.messages = Messages.new(line_starts)
   end
 
@@ -341,6 +424,10 @@ class RawBibtexEntry < ActiveRecord::Base
     self.links = Array.new
     self.num_warnings = 0
     self.num_errors = 0
+    self.author_names.destroy
+    self.authorship_type = nil
+    self.keyword_list = ""
+
   end
 
   def build_from_bibtex(entry)
