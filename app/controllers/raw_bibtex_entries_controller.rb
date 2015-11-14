@@ -2,7 +2,7 @@ class RawBibtexEntriesController < ApplicationController
   include Sortable
   before_action :set_raw_bibtex_entry, only: [:show, :edit, :update, :destroy]
   before_action :set_library, only: [:index, :create, :new, :upload, :delete, :import]
-  before_action :set_raw_bibtex_entries, only: [:delete, :import]
+  before_action :set_raw_bibtex_entries, only: [:delete]
   before_action :check_edit_authorization, only:  [:edit, :update, :destroy]
   before_action :check_multiple_edit_authorization, only: [:delete, :import]
   before_action :check_create_authorization, only:  [:create, :new, :upload]
@@ -53,6 +53,28 @@ class RawBibtexEntriesController < ApplicationController
   end
 
   def import
+    @raw_bibtex_entries = RawBibtexEntry.where(library: @library)
+    if (@raw_bibtex_entries.where(num_errors > 0).exists?)
+      respond_to do |format|
+        format.js { render 'refresh', error: "Can't Import Until Errors Are Fixed"}
+      end
+    else
+      # errors = false
+      @library.transaction do
+        children = @raw_bibtex_entries.where.not(parent_record: nil)
+        children.find_each { |entry|
+          entry.update_parent_from_child
+          entry.delete_parent_fields_from_child
+        }
+        @raw_bibtex_entries.find_each do |entry|
+          entry.import
+        end
+        RawBibtexEntry.where(library: @library).where.not(reference: nil).destroy_all #delete imported entries
+      end
+      respond_to do |format|
+          format.js { render 'refresh', notice: 'Entries Successfully Imported'}
+      end
+    end
   end
 
   # GET /raw_bibtex_entries/1

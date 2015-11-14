@@ -1,3 +1,27 @@
+# require 'google/api_client'
+# require 'google/api_client/auth/installed_app'
+# require 'google/api_client/auth/storage'
+# require 'google/api_client/auth/storages/file_store'
+
+
+class GoogleStorage
+
+  def initialize(user)
+    @user=user
+  end
+
+  def load_credentials
+    @user.google_credentials
+  end
+
+  def write_credentials(credentials_hash)
+    @user.google_credentials = credentials_hash
+    @user.save
+  end
+end
+
+
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -6,7 +30,9 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:google_oauth2]
 
   has_many :libraries, :inverse_of => :user
+  has_many :file_managers, :inverse_of => :user
   serialize :google_credentials, Hash
+  delegate :drive_file_managers, to: :file_managers
 
   def self.from_omniauth(access_token)
     info = access_token.info
@@ -20,7 +46,22 @@ class User < ActiveRecord::Base
     end
     user.provider = access_token.provider
     user.uid = access_token.uid
-    user.google_credentials = user.google_credentials.merge(access_token.credentials)
+    creds = Hash.new
+    creds['access_token'] = access_token.credentials['token']
+    creds['refresh_token'] = access_token.credentials['refresh_token'] if access_token.credentials.has_key?('refresh_token')
+    creds['expires_at'] = access_token.credentials['expires_at']
+    if (access_token.credentials.has_key?('expires_at') && ! access_token.credentials.has_key?('expires_in'))
+      creds['issued_at'] = Time.now.to_i
+      creds['expires_in'] = creds['expires_at'] - creds['issued_at']
+    else
+      creds['expires_in'] = access_token.credentials['expires_in']
+      creds['issued_at'] = access_token.credentials['issued_at']
+    end
+    creds['authorization_uri'] = 'https://accounts.google.com/o/oauth2/auth'
+    creds['token_credential_uri'] = "https://accounts.google.com/o/oauth2/token"
+    creds['client_id'] = Rails.application.secrets.google_app_id
+    creds['client_secret'] = Rails.application.secrets.google_app_secret
+    user.google_credentials = user.google_credentials.merge(creds)
     user.save
     user
   end
@@ -32,5 +73,19 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def default_google_scope
+    return ["email", "profile"]
+  end
+
+  def google_scope
+    self.drive_file_managers.inject(default_google_scope) { |combine, cur|
+      (combine + cur.scope).uniq
+    }
+  end
+
+
+
+
 
 end

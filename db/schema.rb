@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151020032255) do
+ActiveRecord::Schema.define(version: 20151114170935) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -69,6 +69,19 @@ ActiveRecord::Schema.define(version: 20151020032255) do
   end
 
   add_index "fields", ["reference_id"], name: "index_fields_on_reference_id"
+
+  create_table "file_managers", force: :cascade do |t|
+    t.string   "kind"
+    t.integer  "user_id"
+    t.integer  "count",      default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "type"
+    t.text     "scope"
+    t.string   "folder"
+  end
+
+  add_index "file_managers", ["user_id"], name: "index_file_managers_on_user_id"
 
   create_table "label_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false
@@ -188,8 +201,13 @@ ActiveRecord::Schema.define(version: 20151020032255) do
     t.integer  "reference_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "filename"
+    t.string   "altfilename"
+    t.string   "full_path"
   end
 
+  add_index "resources", ["altfilename"], name: "index_resources_on_altfilename"
+  add_index "resources", ["filename"], name: "index_resources_on_filename"
   add_index "resources", ["library_id"], name: "index_resources_on_library_id"
   add_index "resources", ["reference_id"], name: "index_resources_on_reference_id"
 

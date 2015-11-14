@@ -243,8 +243,10 @@ Devise.setup do |config|
 
   config.omniauth :google_oauth2, Rails.application.secrets.google_app_id, Rails.application.secrets.google_app_secret,
     {
-      :scope => "email, profile, https://www.googleapis.com/auth/drive.readonly",
-      :prompt => "select_account consent"
+      # :scope => "email, profile, https://www.googleapis.com/auth/drive",
+      :scope => "email, profile",
+      :prompt => "select_account consent",
+      :include_granted_scopes => true
     }
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

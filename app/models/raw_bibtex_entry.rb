@@ -55,9 +55,26 @@ class Messages
 	def initialize(line_breaks) #line_breaks are the charachter positions the lines end at
     @line_breaks=line_breaks.to_a
 		@msg_set = SortedSet.new()
+    @field_locs = Hash.new()
     @num_errors = 0
     @num_warnings = 0
 	end
+
+  def set_field_loc(fieldname, pos)
+    @field_locs[fieldname] = pos
+  end
+
+  def add_field_error(fieldname, text)
+    pos = 0
+    pos = @field_locs[fieldname] if @field_locs.has_key?(fieldname)
+    add_error(text, pos)
+  end
+
+  def add_field_warning(fieldname, text)
+    pos = 0
+    pos = @field_locs[fieldname] if @field_locs.has_key?(fieldname)
+    add_warning(text, pos)
+  end
 
   def add_error(text, char_position)
     @num_errors += 1
@@ -107,7 +124,7 @@ end
 
 class RawBibtexEntry < ActiveRecord::Base
   include Filterable
-	#num_errors, num_warnings, messages:text, bibtex_type:string, content: text, crossref_failure:boolean, crossrefkey:string, key:string, converted:boolean, authorship_type:string
+	#num_errors, num_warnings, messages:text, bibtex_type:string, content: text, crossrefkey:string, key:string, authorship_type:string
   before_update :set_digest
   scope :has_errors, -> (pos) { if pos.present?
                                   where( "num_errors " + (pos.to_bool ? ">" : "=") + "0")
@@ -197,12 +214,21 @@ class RawBibtexEntry < ActiveRecord::Base
     self.num_warnings += 1
   end
 
+
   def add_crossref_type_warning
     self.add_warning("Crossref has wrong bibtex type", 0)
   end
 
   def add_crossref_error
     self.add_error("Unable to find crossref", 0)
+  end
+
+  def create_reference
+    ref_fields = self.attributes
+    ref_fields["author_names_attributes"] = self.author_names.map {|b| b.attributes }
+    ref_fields["links_attributes"] = self.links.map {|b| Hash["uri", b] }
+    main_fields = ActionController::Parameters.new(ref_fields).permit(:key, :authorship_type, :bibtex_type)
+    all_fields.permit()
   end
 
   def update_type_from_children
@@ -250,7 +276,13 @@ class RawBibtexEntry < ActiveRecord::Base
           self.parend_record.field[fieldname] = value unless self.parent_record.field.has_key?(fieldname)
         end
       end
+      self.parent_record.save
     }
+  end
+
+  def delete_parent_fields_from_child
+    self.fields.delete_if { |key, value| key.match(/^(?:book)(.*)$/) }
+    self.save
   end
 
   # def create_parent_for_child
@@ -292,7 +324,7 @@ class RawBibtexEntry < ActiveRecord::Base
       if m
         self.filenames.push(m[1])
       else
-        add_error("Failed to parse file", pos)
+        add_error("Failed to parse file field", pos)
       end
     }
   end
@@ -307,10 +339,19 @@ class RawBibtexEntry < ActiveRecord::Base
     }
   end
 
-  def parse_authors(field, pos)
-    field.strip.split(/(?:[ ]and[ ])|\;/).each {|entry|
+  def authors
+    self.author_names.to_a.join(' and ')
+  end
+
+  def authors=(val)
+    self.author_names.destroy
+    val.strip.split(/(?:[ ]and[ ])|\;/).each {|entry|
       self.author_names << AuthorName.new(name: entry)
     }
+  end
+
+  def parse_authors(field, pos)
+    self.authors = field
   end
 
 
@@ -327,8 +368,7 @@ class RawBibtexEntry < ActiveRecord::Base
         authorfield = content.gsub(/[\{\}]/, '')
         if (self.authorship_type == "editor")
           add_warning("Duplicate field", @interior_start + offset) if self.fields.has_key?('bookeditor')
-          self.fields['bookeditor'] = self.author_names.to_a.join(' and ')
-          self.author_names.destroy
+          self.fields['bookeditor'] = self.authors
         end
         if (self.authorship_type == "author")
           add_warning("Duplicate field", @interior_start + offset) if key == "author"
@@ -449,5 +489,6 @@ class RawBibtexEntry < ActiveRecord::Base
   def set_digest
     self.digest = Digest::SHA2.new(512).hexdigest(self.content)
   end
+
 
 end

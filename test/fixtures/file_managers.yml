@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kind: MyString
+  user_id: 
+  count: 1
+
+two:
+  kind: MyString
+  user_id: 
+  count: 1

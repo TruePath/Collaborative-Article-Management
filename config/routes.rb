@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   # devise_for :users
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
+  get 'users/google_oauth2' => 'users/google_api_callbacks#google_oauth2'
 
   # get 'libraries/index'
   # resources :libraries

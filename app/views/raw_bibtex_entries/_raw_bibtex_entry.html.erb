@@ -11,6 +11,7 @@
 		<div class="well well-lg" >
 		<%= markup_bibtex(raw_bibtex_entry) %>
 		</div>
+		<%= link_to('Edit', edit_resource_path(raw_bibtex_entry), :class => 'btn btn-default', remote: true, style: 'float:right;') %>
 	</td>
 </tr>
 </tbody>
