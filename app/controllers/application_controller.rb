@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include GoogleControllerApi
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
@@ -6,6 +7,7 @@ class ApplicationController < ActionController::Base
 	before_filter :configure_permitted_parameters, if: :devise_controller?
 	after_filter :flash_to_headers
   rescue_from NotAuthorized, with: :user_not_authorized
+
 
   add_flash_types :error, :success
 
@@ -24,35 +26,18 @@ class ApplicationController < ActionController::Base
       end
   end
 
-  def google_authorize
-    cred_store = GoogleStorage.new(current_user)
-    storage = Google::APIClient::Storage.new(cred_store)
-    auth = storage.authorize
-    if auth.nil? || (auth.expired? && auth.refresh_token.nil?)
-      session[:return_to] = request.original_url
-      scope = current_user.google_scope || "email, profile, https://www.googleapis.com/auth/drive"
-      auth = Signet::OAuth2::Client.new({
-        :client_id => Rails.application.secrets.google_app_id,
-        :client_secret => Rails.application.secrets.google_app_secret,
-        :scope => scope,
-        :redirect_uri => users_google_oauth2_url
-         })
-      redirect_to(auth.authorization_uri.to_s)
-      # storage.write_credentials(auth)
+  def force_redirect(url)
+    if (request.xhr?)
+      response.headers['X-Redirect'] = url
+      render status: 422
+    else
+      redirect_to url
     end
-    auth
   end
 
-  def google_client
-    return @client if @client
-    @client = Google::APIClient.new(:application_name => "Reference Manager")
-    @client.authorization = google_authorize
-    return @client
-  end
 
-  def drive_api
-    google_client.discovered_api('drive', 'v2')
-  end
+
+
 
 
   protected
@@ -64,6 +49,8 @@ class ApplicationController < ActionController::Base
 
 
   private
+
+
 
   def user_not_authorized
     flash[:error] = "You don't have access to this section."

@@ -20,6 +20,53 @@
 //= require underscore
 //= require_tree .
 
+// $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+
+//     // save the original error callback for later
+//     if (originalOptions.error)
+//         originalOptions._error = originalOptions.error;
+
+//     // overwrite *current request* error callback
+//     options.error = $.noop();
+
+//     // setup our own deferred object to also support promises that are only invoked
+//     // once all of the retry attempts have been exhausted
+//     var dfd = $.Deferred();
+//     jqXHR.done(dfd.resolve);
+
+//     // if the request fails, do something else yet still resolve
+//     jqXHR.fail(function () {
+//         var args = Array.prototype.slice.call(arguments);
+
+//         if (jqXHR.getResponseHeader('X-Oauth-Reauth')  )
+
+//         if (jqXHR.status === 503 && jqXHR.getResponseHeader('X-Ajaxretry')) {
+
+//             // retry with our modified
+//             setTimeout(
+//               function() {
+//                 $.ajax(originalOptions).then(dfd.resolve, dfd.reject);
+//               },
+//               parseInt(jqXHR.getResponseHeader('X-Ajaxretry')
+//             )
+//         } else {
+//             // add our _error callback to our promise object
+//             if (originalOptions._error)
+//                 dfd.fail(originalOptions._error);
+//             dfd.rejectWith(jqXHR, args);
+//         }
+//     });
+
+//     // NOW override the jqXHR's promise functions with our deferred
+//     return dfd.promise(jqXHR);
+// });
+
+//Adding global means of redirecting from an arbitrary XHR request
+$(document).ajaxError(function( event, jqxhr, settings, thrownError )  {
+    var url = jqxhr.getResponseHeader('X-Redirect');
+    if (url) window.location = url;
+});
+
 (function($) {
     if (!$.outerHTML) {
         $.extend({
@@ -388,6 +435,8 @@ $(document).ajaxComplete(function(event, request) {
     var type = request.getResponseHeader('X-Message-Type');
     if (msg) show_ajax_flash(msg, type); //use whatever popup, notification or whatever plugin you want
 });
+
+
 
 // Code to enable multiple modals
 $(document).ready(function() {

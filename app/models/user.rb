@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   has_many :libraries, :inverse_of => :user
   has_many :file_managers, :inverse_of => :user
   serialize :google_credentials, Hash
+  serialize :services, Set
   delegate :drive_file_managers, to: :file_managers
 
   def self.from_omniauth(access_token)
@@ -45,7 +46,7 @@ class User < ActiveRecord::Base
         )
     end
     user.provider = access_token.provider
-    user.uid = access_token.uid
+    user.google_uid = access_token.uid
     creds = Hash.new
     creds['access_token'] = access_token.credentials['token']
     creds['refresh_token'] = access_token.credentials['refresh_token'] if access_token.credentials.has_key?('refresh_token')
@@ -75,7 +76,7 @@ class User < ActiveRecord::Base
   end
 
   def default_google_scope
-    return ["email", "profile"]
+    return [ "https://www.googleapis.com/auth/drive" ]
   end
 
   def google_scope

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151114170935) do
+ActiveRecord::Schema.define(version: 20151115224139) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -247,13 +247,14 @@ ActiveRecord::Schema.define(version: 20151114170935) do
     t.string   "description"
     t.string   "name"
     t.string   "provider"
-    t.string   "uid"
+    t.string   "google_uid"
     t.text     "google_credentials"
+    t.text     "services"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["google_uid"], name: "index_users_on_google_uid"
   add_index "users", ["provider"], name: "index_users_on_provider"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["uid"], name: "index_users_on_uid"
 
 end
