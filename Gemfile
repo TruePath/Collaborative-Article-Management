@@ -13,6 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+# gem 'puma'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -54,11 +55,11 @@ gem 'resque-status'
 #do mass active record inserts
 gem 'activerecord-import'
 #paperclip
-gem 'paperclip'
+gem 'paperclip', "~> 4.3"
 #delayed paperclip
 # gem 'delayed_paperclip'
 #paperclip with google drive
-# gem 'paperclip-googledrive' #, :path => "gems/paperclip-googledrive/"
+#gem 'paperclip-googledrive', :path => "gems/paperclip-googledrive/"
 #underscore js
 gem 'underscore-rails'
 
@@ -68,6 +69,8 @@ gem "acts-as-taggable-on"
 gem "closure_tree"
 
 gem 'google-api-client', '0.9.pre3'
+
+# gem 'actioncable'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

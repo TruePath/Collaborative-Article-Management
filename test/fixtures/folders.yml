@@ -1,17 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  altname: MyString
-  library_id: 
-  file_count: 1
   file_manager_id: 
-  parent_id: 1
+  path: MyString
+  handle: MyText
 
 two:
-  name: MyString
-  altname: MyString
-  library_id: 
-  file_count: 1
   file_manager_id: 
-  parent_id: 1
+  path: MyString
+  handle: MyText

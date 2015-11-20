@@ -1,0 +1,9 @@
+Choose Type Of File Access To Add
+
+<ul class="list-group">
+	<li class="list-group-item row vcenter"><div class="col-md-3"><%= image_tag "Google-Drive-icon-32.png" %></div>
+				<div class="col-md-5">Google Drive</div>
+				<div class="col-md-4">
+			<%= link_to "Select", create_oauth2_file_manager_path("DriveFileManager"), class: 'btn btn-default', remote: true %></div>
+	</li>
+</ul>

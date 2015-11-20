@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   has_many :file_managers, :inverse_of => :user
   serialize :google_credentials, Hash
   serialize :services, Set
-  delegate :drive_file_managers, to: :file_managers
+  # delegate :drive_file_managers, to: :file_managers
 
   def self.from_omniauth(access_token)
     info = access_token.info
@@ -47,22 +47,7 @@ class User < ActiveRecord::Base
     end
     user.provider = access_token.provider
     user.google_uid = access_token.uid
-    creds = Hash.new
-    creds['access_token'] = access_token.credentials['token']
-    creds['refresh_token'] = access_token.credentials['refresh_token'] if access_token.credentials.has_key?('refresh_token')
-    creds['expires_at'] = access_token.credentials['expires_at']
-    if (access_token.credentials.has_key?('expires_at') && ! access_token.credentials.has_key?('expires_in'))
-      creds['issued_at'] = Time.now.to_i
-      creds['expires_in'] = creds['expires_at'] - creds['issued_at']
-    else
-      creds['expires_in'] = access_token.credentials['expires_in']
-      creds['issued_at'] = access_token.credentials['issued_at']
-    end
-    creds['authorization_uri'] = 'https://accounts.google.com/o/oauth2/auth'
-    creds['token_credential_uri'] = "https://accounts.google.com/o/oauth2/token"
-    creds['client_id'] = Rails.application.secrets.google_app_id
-    creds['client_secret'] = Rails.application.secrets.google_app_secret
-    user.google_credentials = user.google_credentials.merge(creds)
+    user.google_credentials = user.google_credentials.merge(access_token)
     user.save
     user
   end
@@ -73,16 +58,6 @@ class User < ActiveRecord::Base
         user.email = info["email"] if user.email.blank?
       end
     end
-  end
-
-  def default_google_scope
-    return [ "https://www.googleapis.com/auth/drive" ]
-  end
-
-  def google_scope
-    self.drive_file_managers.inject(default_google_scope) { |combine, cur|
-      (combine + cur.scope).uniq
-    }
   end
 
 

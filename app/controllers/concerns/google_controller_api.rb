@@ -1,4 +1,4 @@
-module GoogleControllerModel
+module GoogleControllerApi
   extend ActiveSupport::Concern
 
   included do

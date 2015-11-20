@@ -8,4 +8,7 @@ end
 class LocalFile < Resource
 end
 
+class GoogleDriveFile < Resource
+end
+
 

@@ -1,17 +1,9 @@
-class ParamsConstraint
-
-  def initialize(key, value)
-    @key = key
-    @value = value
-  end
-
-   def matches?(request)
-     request.query_parameters[@key] == @value
-   end
-end
-
+Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 
 Rails.application.routes.draw do
+
+  # match "/websocket", :to => ActionCable.server, via: [:get, :post]
+
   get 'worker/status'
 
 
@@ -41,7 +33,11 @@ Rails.application.routes.draw do
   # devise_for :users
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  get 'users/google_oauth2' => 'users/google_api_callbacks#google_oauth2'
+  match 'file_managers/oauth2_callback' => 'file_managers#oauth2_callback', via: [:get, :post], as: :oauth2_callback
+
+  get 'file_managers/new' => 'file_managers#new', as: :new_file_manager
+
+  get 'file_managers/create_oauth2/:type' => 'file_managers#create_oauth2_file_manager', as: :create_oauth2_file_manager
 
   # get 'libraries/index'
   # resources :libraries
