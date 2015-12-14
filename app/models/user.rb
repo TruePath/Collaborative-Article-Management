@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
 
   has_many :libraries, :inverse_of => :user
   has_many :file_managers, :inverse_of => :user
+  belongs_to :save_folder, class_name: "Folder", foreign_key: "save_folder_id"
   serialize :google_credentials, Hash
   serialize :services, Set
   # delegate :drive_file_managers, to: :file_managers

@@ -1,0 +1,41 @@
+<div class="modal" id="file_manager-type-modal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Select File Source</h4>
+        </div>
+          <table id="file-manager-table" class="table table-hover file_managers">
+          </table>
+        </div>
+        <div class="modal-footer">
+          <%= link_to "Create File Manager", new_file_manager_path, class: 'btn btn-default' %>
+          <button type="button" id="select-file-manager-cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script  type="text/javascript">
+  function selectFileManager(callback, cancel) {
+    if (typeof(cancel)!=='undefined') {
+      $('#select-file-manager-cancel').on("click", function(e) {
+        cancel();
+        });
+    }
+      $.ajax({
+        url: '<%= file_managers_path %>',
+        dataType: "script",
+        method: 'GET'
+      }); // fills the list of availible file managers
+      $('#file-manager-table').on("click", ".file_manager", function(e) {
+        var target = $(this);
+        var id = parseInt(target.attr("data-file-manager-id"));
+        var type = parseInt(target.attr("data-file-manager-type"));
+        var obj = { id: id, type: type };
+        $('#file_manager-type-modal').modal('hide');
+        callback(FileManagerFactory(obj));
+      });
+      $('#file_manager-type-modal').modal('show');
+  }
+
+</script>

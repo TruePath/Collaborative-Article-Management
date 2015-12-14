@@ -1,0 +1,24 @@
+<tbody class="file_manager" data-file-manager-id="<%= file_manager.id %>" data-file-manager-type="<%= file_manager.type %>" >
+	<tr>
+		<td class="column manager-type-column">
+			<% case file_manager.type %>
+			<% when "DriveFileManager" %>
+				<%= image_tag "Google-Drive-icon-24.png" %>
+			<% end %>
+		</td>
+		<td class="column manager-account-column">
+				<%= file_manager.account if file_manager.account  %>
+		</td>
+	</tr>
+	<tr>
+		<td class="column manager-type-column">
+			<% case file_manager.type %>
+			<% when "DriveFileManager" %>
+				Google Drive
+			<% end %>
+		</td>
+		<td class="column manager-account-column">
+				<%= file_manager.location if file_manager.location  %>
+		</td>
+	</tr>
+</tbody>

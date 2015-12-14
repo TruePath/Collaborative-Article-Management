@@ -2,20 +2,38 @@
 	/**
 	 * Initialise a Google Driver file picker
 	 */
-	var FilePicker = window.FilePicker = function(options) {
+	var FilePicker = window.FilePicker = function(view, callback) {
 		// Config
-		this.apiKey = options.apiKey;
-		this.clientId = options.clientId;
+		if ($.type(view) === "string") {
+			switch (view) {
+				case "FOLDER":
+					this.view = (google.picker.ViewId.FOLDERS);
+					break;
+				case "DOCUMENTS":
+				case "DOCS":
+					this.view = google.picker.ViewId.DOCUMENTS;
+					break;
+				case "PDF":
+					this.view = google.picker.ViewId.PDFS;
+					break;
+				case "RECENT":
+					this.view = google.picker.ViewId.RECENTLY_PICKED;
+					break;
+				case "ALL":
+					this.view = google.picker.ViewId.DOCS;
+					break;
+			}
+		} else {
+			this.view = view;
+		}
+		this.apiKey = window.GoogleApiKey;
+		this.clientId = window.GoogleClientId;
 
-		// Elements
-		this.buttonEl = options.buttonEl;
+		this.apiLoadedDfd = jQuery.Deferred();
 
 		// Events
-		this.onSelect = options.onSelect;
-		this.buttonEl.addEventListener('click', this.open.bind(this));
+		this.onSelect = callback;
 
-		// Disable the button until the API loads, as it won't work properly until then.
-		this.buttonEl.disabled = true;
 
 		// Load the drive API
 		gapi.client.setApiKey(this.apiKey);
@@ -46,7 +64,7 @@
 		_showPicker: function() {
 			var accessToken = gapi.auth.getToken().access_token;
 			this.picker = new google.picker.PickerBuilder().
-				addView(google.picker.ViewId.DOCUMENTS).
+				addView(this.view).
 				setAppId(this.clientId).
 				setOAuthToken(accessToken).
 				setCallback(this._pickerCallback.bind(this)).
@@ -69,6 +87,27 @@
 				request.execute(this._fileGetCallback.bind(this));
 			}
 		},
+
+// 		Document.ADDRESS_LINES	The address of the picked location.
+// Document.AUDIENCE	An Audience type used to convey the audience of a Picasa Web Album.
+// Document.DESCRIPTION	A user-contributed description of the picked item.
+// Document.DURATION	The duration of a picked video.
+// Document.EMBEDDABLE_URL	A URL for this item suitable for embedding in a web page.
+// Document.ICON_URL	A URL to an icon for this item.
+// Document.ID	The id for the picked item.
+// Document.IS_NEW	Returns true if the picked item was just uploaded.
+// Document.LAST_EDITED_UTC	The timestamp describing when this item was last edited.
+// Document.LATITUDE	The latitude of the picked location.
+// Document.LONGITUDE	The longitude of the picked location.
+// Document.MIME_TYPE	The MIME type of this item.
+// Document.NAME	The name of this item.
+// Document.NUM_CHILDREN	The number of children contained in this item. For example, the number of photos in a selected album.
+// Document.PARENT_ID	The parent id of this item. For example, the album which contains this photo.
+// Document.PHONE_NUMBERS	The phone number of the picked location.
+// Document.SERVICE_ID	A ServiceId describing the service this item was picked from.
+// Document.THUMBNAILS	An array of Thumbnails which describe the attributes of a photo or video. Thumbnails will not be returned if the picked items belong to Google Drive.
+// Document.TYPE	The Type of the picked item.
+// Document.URL	A URL to this item.
 		/**
 		 * Called when file details have been retrieved from Google Drive.
 		 * @private
@@ -84,7 +123,7 @@
 		 * @private
 		 */
 		_pickerApiLoaded: function() {
-			this.buttonEl.disabled = false;
+			this.apiLoadedDfd.resolve();
 		},
 
 		/**
@@ -93,6 +132,7 @@
 		 */
 		_driveApiLoaded: function() {
 			this._doAuth(true);
+			this.apiLoadedDfd.done(this.open.bind(this));
 		},
 
 		/**

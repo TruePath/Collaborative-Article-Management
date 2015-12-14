@@ -58,8 +58,6 @@ gem 'activerecord-import'
 gem 'paperclip', "~> 4.3"
 #delayed paperclip
 # gem 'delayed_paperclip'
-#paperclip with google drive
-#gem 'paperclip-googledrive', :path => "gems/paperclip-googledrive/"
 #underscore js
 gem 'underscore-rails'
 
@@ -69,6 +67,10 @@ gem "acts-as-taggable-on"
 gem "closure_tree"
 
 gem 'google-api-client', '0.9.pre3'
+
+gem "js-routes" #lets me figure out the routes in js
+
+gem 'active_model_serializers'
 
 # gem 'actioncable'
 

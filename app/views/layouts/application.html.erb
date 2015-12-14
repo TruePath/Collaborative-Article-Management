@@ -2,10 +2,23 @@
 <html>
 <head>
   <title>Bibmanage</title>
+  <script>
+  	window.GoogleClientId = "<%= Rails.application.secrets.google_app_id %>";
+  	window.GoogleApiKey = "<%= Rails.application.secrets.google_browser_api_key %>";
+  	GoogleClientReady = jQuery.Deferred();
+
+		function OnGoogleClientLoad() {
+		  GoogleClientReady.resolve();
+		}
+
+		function WaitOnGoogleClient(callback) {
+		  GoogleClientReady.done(callback);
+		}
+  </script>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag "https://www.google.com/jsapi?key=#{Rails.application.secrets.google_browser_api_key}", extname: false %>
-  <%= javascript_include_tag "https://apis.google.com/js/client.js" %>
+  <%= javascript_include_tag( ('https://www.google.com/jsapi?key=' + Rails.application.secrets.google_browser_api_key), extname: false) %>
+  <%= javascript_include_tag "https://apis.google.com/js/client.js?onload=OnGoogleClientLoad" %>
   <%= csrf_meta_tags %>
 </head>
 <body>

@@ -26,6 +26,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :file_managers, shallow: true do
+    resources :file_handles
+  end
+
   post 'libraries/:library_id/raw_bibtex_entries/upload' => 'raw_bibtex_entries#upload', as: :upload_raw_bibtex_entry
 
   post 'libraries/:library_id/references/add_label/:label_id' => 'references#add_label', as: :add_label_to_reference
@@ -34,8 +38,6 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   match 'file_managers/oauth2_callback' => 'file_managers#oauth2_callback', via: [:get, :post], as: :oauth2_callback
-
-  get 'file_managers/new' => 'file_managers#new', as: :new_file_manager
 
   get 'file_managers/create_oauth2/:type' => 'file_managers#create_oauth2_file_manager', as: :create_oauth2_file_manager
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120040037) do
+ActiveRecord::Schema.define(version: 20151214034129) do
 
   create_table "aliases", force: :cascade do |t|
     t.string   "name"
@@ -70,6 +70,24 @@ ActiveRecord::Schema.define(version: 20151120040037) do
 
   add_index "fields", ["reference_id"], name: "index_fields_on_reference_id"
 
+  create_table "file_handles", force: :cascade do |t|
+    t.integer  "file_manager_id"
+    t.string   "path"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "type"
+    t.string   "fileid"
+    t.text     "metadata"
+    t.string   "name"
+    t.string   "file_hash"
+    t.integer  "size",            limit: 8
+  end
+
+  add_index "file_handles", ["file_hash"], name: "index_file_handles_on_file_hash"
+  add_index "file_handles", ["file_manager_id"], name: "index_file_handles_on_file_manager_id"
+  add_index "file_handles", ["fileid"], name: "index_file_handles_on_fileid", unique: true
+  add_index "file_handles", ["name"], name: "index_file_handles_on_name"
+
   create_table "file_managers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "count",      default: 0
@@ -80,19 +98,10 @@ ActiveRecord::Schema.define(version: 20151120040037) do
     t.text     "auth_data"
     t.string   "account"
     t.string   "state"
+    t.string   "location"
   end
 
   add_index "file_managers", ["user_id"], name: "index_file_managers_on_user_id"
-
-  create_table "folders", force: :cascade do |t|
-    t.integer  "file_manager_id"
-    t.string   "path"
-    t.text     "handle"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "folders", ["file_manager_id"], name: "index_folders_on_file_manager_id"
 
   create_table "label_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id",   null: false

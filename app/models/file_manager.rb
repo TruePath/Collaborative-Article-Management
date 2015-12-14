@@ -6,8 +6,9 @@ require 'google/apis/drive_v2'
 
 
 class FileManager < ActiveRecord::Base
-	#kind:string user:references count:integer
+	#type:string scope:text auth_data:text state:string account:string location:string count:inteeger
   belongs_to :user, :inverse_of => :file_managers
+  has_many :file_handles, :inverse_of => :file_manager
   serialize :scope, Array
   serialize :auth_data, Hash
   scope :drive_file_managers, -> { where(type: 'DriveFileManager') }
@@ -20,6 +21,10 @@ class FileManager < ActiveRecord::Base
  			self.destroy
   	end
   end
+
+  def can_edit?(user)
+		return (user == self.user)
+	end
 
 
 end
@@ -66,6 +71,7 @@ class DriveFileManager < FileManager
 
 	def accept_callback(code, request_state)
 		raise "State Parameter Not Preserved" unless request_state == self.state
+		self.update_attribute(:state, nil)
 		client = self.auth_client
 		client.code = code
 		client.fetch_access_token!

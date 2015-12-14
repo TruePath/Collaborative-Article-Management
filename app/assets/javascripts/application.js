@@ -18,6 +18,7 @@
 //= require bootstrap
 //= require jquery_nested_form
 //= require underscore
+//= require js-routes
 //= require_tree .
 
 // $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
@@ -60,6 +61,9 @@
 //     // NOW override the jqXHR's promise functions with our deferred
 //     return dfd.promise(jqXHR);
 // });
+
+
+
 
 //Adding global means of redirecting from an arbitrary XHR request
 $(document).ajaxError(function( event, jqxhr, settings, thrownError )  {

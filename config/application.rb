@@ -23,6 +23,7 @@ module Bibmanage
 
     config.before_initialize do |app|
         app.config.paths.add 'app/models', :eager_load => true
+        app.config.paths.add 'app/serializers', :eager_load => true
     end
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
